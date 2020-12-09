@@ -3,13 +3,15 @@ package com.aris.booklibraries.demoBookLibraries.models
 import javax.persistence.*
 
 @Entity
-class Book(
+data class Book(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        var id: Long?,
+        @Column(name="book_id")
+        var bookId: Long?,
         var title: String?,
-        @ManyToOne
-        @JoinColumn(name="id", nullable=false,insertable = false,updatable = false)
+        @ManyToOne(targetEntity = Author::class, cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+        @JoinColumn(name="author_id")
         var author: Author?
-
         )
+
+

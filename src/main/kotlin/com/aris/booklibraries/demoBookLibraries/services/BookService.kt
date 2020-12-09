@@ -12,9 +12,19 @@ import org.springframework.transaction.annotation.Transactional
 class BookService {
     @Autowired
     var bookRepository: BookRepository? = null
+    @Autowired
+    var authorRepository: AuthorRepository? = null
 
     @Transactional
-    fun  save(entity: Book): Book? {
+    fun addBook(entity: Book, author: Author): Book? {
+
+        val matchedAuthor = if ( author.authorId == null) {
+            authorRepository?.save(author)
+        } else {
+            authorRepository?.findById( author.authorId!! )?.orElse(null)
+        } ?: return null
+
+        entity.author = matchedAuthor
         return bookRepository?.save(entity)
     }
 }

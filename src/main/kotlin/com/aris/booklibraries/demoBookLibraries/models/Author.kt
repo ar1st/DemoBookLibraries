@@ -6,10 +6,11 @@ import javax.persistence.*
 data class Author (
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        var id: Long?,
+        @Column(name = "author_id")
+        var authorId: Long?,
         var email: String,
         var firstName: String?,
-        var lastName: String?,
-        @OneToMany(mappedBy="author")
-        var books: MutableSet<Book>?
+        var lastName: String?
+      //  @OneToMany(mappedBy="author_id")
+      //  var books: MutableList<Book>?
 )

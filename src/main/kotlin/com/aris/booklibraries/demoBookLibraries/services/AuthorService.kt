@@ -7,6 +7,7 @@ import com.aris.booklibraries.demoBookLibraries.repositories.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.*
 
 @Service
 class AuthorService {
@@ -15,9 +16,12 @@ class AuthorService {
 
     @Transactional
     fun  save(entity: Author): Author? {
-
-
         return authorRepository?.save(entity)
+    }
+
+    @Transactional
+    fun findById(id: Long): Author? {
+        return authorRepository?.findById(id)?.orElse(null)
     }
 
 }

@@ -18,13 +18,12 @@ class UserService {
         return userRepository?.save(entity)
     }
 
-    fun findById(id: Long): Optional<User>? {
-        return userRepository?.findById(id)
+    fun findById(id: Long): User? {
+        return userRepository?.findById(id)?.orElse(null)
     }
 
     fun findByFirstName(firstName: String): User? {
         return userRepository?.findByFirstName(firstName)
     }
-
 
 }
