@@ -15,6 +15,18 @@ class BookService {
     @Autowired
     var authorRepository: AuthorRepository? = null
 
+
+    @Transactional
+    fun findAll(): List<Book> {
+        return bookRepository?.findAll() ?: emptyList()
+    }
+
+
+    @Transactional
+    fun findById(id: Long): Book? {
+        return bookRepository?.findById(id)?.orElse(null)
+    }
+
     @Transactional
     fun addBook(entity: Book, author: Author): Book? {
 

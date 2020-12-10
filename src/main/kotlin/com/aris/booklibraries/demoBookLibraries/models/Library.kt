@@ -3,6 +3,7 @@ package com.aris.booklibraries.demoBookLibraries.models
 import javax.persistence.*
 
 @Entity
+@Table(name="library")
 data class Library (
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)

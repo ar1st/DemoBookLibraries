@@ -1,9 +1,6 @@
 package com.aris.booklibraries.demoBookLibraries.models
 
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
+import javax.persistence.*
 
 @Entity
 data class User(@Id
@@ -11,5 +8,8 @@ data class User(@Id
                 var id: Long?,
                 var email: String,
                 var firstName: String?,
-                var lastName: String?
-                )
+                var lastName: String?,
+                @OneToOne(targetEntity = Address::class,cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+           //     @JoinColumn(name = "address_id")
+                var address: Address?
+)

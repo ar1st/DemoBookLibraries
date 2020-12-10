@@ -9,8 +9,13 @@ import org.springframework.transaction.annotation.Transactional
 
 @Repository
 interface LibraryRepository : JpaRepository<Library,Long> {
-    @Modifying
-    @Query(value = "delete  from library inner join city on library.city_id = city.city_id where city.name = :name")
+//    @Modifying
+//    @Query(value = "delete from Library where city_id = :cityId")
     @Transactional
-    fun deleteByCityName(name: String)
+    fun deleteByCityCityId(cityId: Long)
+
+    @Modifying
+    @Query(value="delete l from library l inner join city c on l.city_id = c.city_id where c.name = :cityName",nativeQuery = true)
+    @Transactional
+    fun deleteByCityName(cityName: String)
 }

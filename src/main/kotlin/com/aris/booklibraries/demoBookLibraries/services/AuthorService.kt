@@ -21,7 +21,12 @@ class AuthorService {
 
     @Transactional
     fun findById(id: Long): Author? {
-        return authorRepository?.findById(id)?.orElse(null)
+        return authorRepository?.findById(id)?.orElse(Author(-2,"notFound","not","found"))
+    }
+
+    @Transactional
+    fun findAll(): List<Author> {
+        return authorRepository?.findAll() ?: emptyList()
     }
 
 }
