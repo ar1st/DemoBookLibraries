@@ -23,7 +23,10 @@ class TestService {
 
     @PostConstruct
     fun postConstruct() {
-       // init()
+//        init()
+//
+//        println(authorService.authorRepository?.findByEmail("petros@gmail.com"))
+//        println(authorService.authorRepository?.findByEmail("petros@gmail.codwadm"))
     }
 
     fun init() {
@@ -42,29 +45,34 @@ class TestService {
         authorService.save(Author(authorId= null, email = "nikoleta@gmail.com", firstName = "nikoleta", lastName = "nikoletou") )
         authorService.save(Author(authorId= null, email = "bunny@gmail.com", firstName = "bunny", lastName = "funny") )
 
-        bookService.addBook(Book(null,"avatar",null),authorService.findById(1)!!)
-        bookService.addBook(Book(null,"star wars",null),authorService.findById(1)!!)
-        bookService.addBook(Book(null,"star wars 2",null),authorService.findById(1)!!)
-        bookService.addBook(Book(null,"harry potter",null),authorService.findById(2)!!)
-        bookService.addBook(Book(null,"harry potter 2",null),authorService.findById(2)!!)
-        bookService.addBook(Book(null,"harry potter 3",null),authorService.findById(2)!!)
-        bookService.addBook(Book(null,"harry potter 4",null),authorService.findById(2)!!)
+        val book1 = bookService.addBook(Book(null,"avatar",null),authorService.findById(1)!!)
+        val book2 = bookService.addBook(Book(null,"star wars",null),authorService.findById(1)!!)
+        val book3 = bookService.addBook(Book(null,"star wars 2",null),authorService.findById(1)!!)
+        val book4 = bookService.addBook(Book(null,"harry potter",null),authorService.findById(2)!!)
+        val book5 = bookService.addBook(Book(null,"harry potter 2",null),authorService.findById(2)!!)
+        val book6 = bookService.addBook(Book(null,"harry potter 3",null),authorService.findById(2)!!)
+        val book7 = bookService.addBook(Book(null,"harry potter 4",null),authorService.findById(2)!!)
 
         cityService.cityRepository?.save(City(null,"Thessaloniki"))
         cityService.cityRepository?.save(City(null,"Athens"))
         cityService.cityRepository?.save(City(null,"Larissa"))
 
-        initLibrary()
+        libraryService.addLibrary(Library(null,"Anagnostirio Apth",null, listOf(book1,book2) as List<Book>),cityService.cityRepository?.findById(1)!!.orElse(null))
+        libraryService.addLibrary(Library(null,"Dimosia Vivliothiki",null, listOf(book3,book4) as List<Book>),cityService.cityRepository?.findById(1)!!.orElse(null))
+        libraryService.addLibrary(Library(null,"Vivliothiki Athinas",null, listOf(book5,book6) as List<Book>),cityService.cityRepository?.findById(2)!!.orElse(null))
+        libraryService.addLibrary(Library(null,"Idiotiki Vivliothiki Athinas",null, listOf(book7) as List<Book>),cityService.cityRepository?.findById(2)!!.orElse(null))
+        libraryService.addLibrary(Library(null,"Vivliothiki Larisas",null, listOf(book1) as List<Book>),cityService.cityRepository?.findById(3)!!.orElse(null))
+        //initLibrary()
 
         }
 
-     private fun initLibrary() {
-        libraryService.addLibrary(Library(null,"Anagnostirio Apth",null),cityService.cityRepository?.findById(1)!!.orElse(null))
-        libraryService.addLibrary(Library(null,"Dimosia Vivliothiki",null),cityService.cityRepository?.findById(1)!!.orElse(null))
-        libraryService.addLibrary(Library(null,"Vivliothiki Athinas",null),cityService.cityRepository?.findById(2)!!.orElse(null))
-        libraryService.addLibrary(Library(null,"Idiotiki Vivliothiki Athinas",null),cityService.cityRepository?.findById(2)!!.orElse(null))
-        libraryService.addLibrary(Library(null,"Vivliothiki Larisas",null),cityService.cityRepository?.findById(3)!!.orElse(null))
-    }
+//    private fun initLibrary() {
+//        libraryService.addLibrary(Library(null,"Anagnostirio Apth",null,listOf()),cityService.cityRepository?.findById(1)!!.orElse(null))
+//        libraryService.addLibrary(Library(null,"Dimosia Vivliothiki",null,listOf()),cityService.cityRepository?.findById(1)!!.orElse(null))
+//        libraryService.addLibrary(Library(null,"Vivliothiki Athinas",null,listOf()),cityService.cityRepository?.findById(2)!!.orElse(null))
+//        libraryService.addLibrary(Library(null,"Idiotiki Vivliothiki Athinas",null,listOf()),cityService.cityRepository?.findById(2)!!.orElse(null))
+//        libraryService.addLibrary(Library(null,"Vivliothiki Larisas",null,listOf()),cityService.cityRepository?.findById(3)!!.orElse(null))
+//    }
 
 
 }

@@ -11,5 +11,6 @@ interface AuthorRepository : JpaRepository<Author, Long> {
     @Transactional
     fun deleteByFirstName(name: String)
 
-
+    @Transactional
+    fun findByEmail(email:String): Author?
 }

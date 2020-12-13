@@ -18,4 +18,6 @@ interface LibraryRepository : JpaRepository<Library,Long> {
     @Query(value="delete l from library l inner join city c on l.city_id = c.city_id where c.name = :cityName",nativeQuery = true)
     @Transactional
     fun deleteByCityName(cityName: String)
+
+
 }

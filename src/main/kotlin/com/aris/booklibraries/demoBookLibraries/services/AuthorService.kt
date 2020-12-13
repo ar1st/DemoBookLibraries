@@ -29,4 +29,9 @@ class AuthorService {
         return authorRepository?.findAll() ?: emptyList()
     }
 
+    @Transactional
+    fun findByEmail(email: String): Author? {
+        return authorRepository?.findByEmail(email)
+    }
+
 }

@@ -3,7 +3,7 @@ package com.aris.booklibraries.demoBookLibraries.models
 import javax.persistence.*
 
 @Entity
-@Table(name="library")
+//@Table(name="library")
 data class Library (
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,5 +12,9 @@ data class Library (
         var name: String?,
         @ManyToOne(targetEntity = City::class, cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         @JoinColumn(name="city_id")
-        var city: City?
+        var city: City?,
+        @OneToMany
+        @JoinColumn(name="library_id")
+        var books: List<Book>
         )
+
