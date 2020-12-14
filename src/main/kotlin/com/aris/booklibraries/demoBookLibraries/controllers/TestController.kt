@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse
 
 
 @RestController
-@RequestMapping(value = ["/books"])
+@RequestMapping(value = ["/bookstest"])
 class TestController {
 
     @Autowired

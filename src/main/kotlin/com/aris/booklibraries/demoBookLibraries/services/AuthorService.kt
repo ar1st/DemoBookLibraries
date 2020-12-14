@@ -21,7 +21,7 @@ class AuthorService {
 
     @Transactional
     fun findById(id: Long): Author? {
-        return authorRepository?.findById(id)?.orElse(Author(-2,"notFound","not","found"))
+        return authorRepository?.findById(id)?.orElse(null)
     }
 
     @Transactional

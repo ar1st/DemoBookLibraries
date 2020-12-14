@@ -13,8 +13,12 @@ data class Library (
         @ManyToOne(targetEntity = City::class, cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         @JoinColumn(name="city_id")
         var city: City?,
-        @OneToMany
-        @JoinColumn(name="library_id")
-        var books: List<Book>
+        @ManyToMany
+        @JoinTable(
+                name = "has_books",
+                joinColumns = [JoinColumn(name = "library_id")],
+                inverseJoinColumns = [JoinColumn(name = "book_id")]
+        )
+        var books: MutableList<Book>
         )
 

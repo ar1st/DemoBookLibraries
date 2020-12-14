@@ -1,7 +1,9 @@
 package com.aris.booklibraries.demoBookLibraries.services
 
+import com.aris.booklibraries.demoBookLibraries.models.Book
 import com.aris.booklibraries.demoBookLibraries.models.City
 import com.aris.booklibraries.demoBookLibraries.models.Library
+import com.aris.booklibraries.demoBookLibraries.repositories.BookRepository
 import com.aris.booklibraries.demoBookLibraries.repositories.CityRepository
 import com.aris.booklibraries.demoBookLibraries.repositories.LibraryRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,6 +16,13 @@ class LibraryService {
     var libraryRepository: LibraryRepository? = null
     @Autowired
     var cityRepository: CityRepository? = null
+    @Autowired
+    var bookRepository: BookRepository? = null
+
+    @Transactional
+    fun findById(libraryId : Long) : Library? {
+        return libraryRepository?.findById(libraryId)?.orElse(null)
+    }
 
     @Transactional
     fun addLibrary(entity: Library, city: City): Library? {
@@ -25,5 +34,19 @@ class LibraryService {
 
         entity.city = matchedCity
         return libraryRepository?.save(entity)
+    }
+
+    @Transactional
+    fun addBook(library: Library, book: Book) {
+        val matchedBook = if ( book.bookId == null) {
+            bookRepository?.save(book)
+        } else {
+            bookRepository?.findById(book.bookId!!)?.orElse(null)
+        }
+
+        val matchedLibrary = libraryRepository?.findById(library.libraryId!!)?.orElse(null)
+
+        matchedLibrary?.books?.add(element = matchedBook!! )
+
     }
 }

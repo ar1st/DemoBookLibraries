@@ -4,7 +4,6 @@ import com.aris.booklibraries.demoBookLibraries.models.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import javax.annotation.PostConstruct
-import javax.transaction.Transactional
 
 @Service
 class TestService {
@@ -23,10 +22,10 @@ class TestService {
 
     @PostConstruct
     fun postConstruct() {
-//        init()
-//
-//        println(authorService.authorRepository?.findByEmail("petros@gmail.com"))
-//        println(authorService.authorRepository?.findByEmail("petros@gmail.codwadm"))
+        //init()
+        //val book5 = bookService.addBook(Book(null,"olympus",null),authorService.findById(2)!!)
+      //  val library = libraryService.findById(1) ?: Library(null,"dkwa",null, emptyList<Book>() as MutableList<Book>)
+            //libraryService.addBook( library, book5!!)
     }
 
     fun init() {
@@ -57,22 +56,22 @@ class TestService {
         cityService.cityRepository?.save(City(null,"Athens"))
         cityService.cityRepository?.save(City(null,"Larissa"))
 
-        libraryService.addLibrary(Library(null,"Anagnostirio Apth",null, listOf(book1,book2) as List<Book>),cityService.cityRepository?.findById(1)!!.orElse(null))
-        libraryService.addLibrary(Library(null,"Dimosia Vivliothiki",null, listOf(book3,book4) as List<Book>),cityService.cityRepository?.findById(1)!!.orElse(null))
-        libraryService.addLibrary(Library(null,"Vivliothiki Athinas",null, listOf(book5,book6) as List<Book>),cityService.cityRepository?.findById(2)!!.orElse(null))
-        libraryService.addLibrary(Library(null,"Idiotiki Vivliothiki Athinas",null, listOf(book7) as List<Book>),cityService.cityRepository?.findById(2)!!.orElse(null))
-        libraryService.addLibrary(Library(null,"Vivliothiki Larisas",null, listOf(book1) as List<Book>),cityService.cityRepository?.findById(3)!!.orElse(null))
+        libraryService.addLibrary(Library(null,"Anagnostirio Apth",null,
+            (listOf( book1,book2) as List<Book>).toMutableList()
+        ),cityService.cityRepository?.findById(1)!!.orElse(null))
+        libraryService.addLibrary(Library(null,"Dimosia Vivliothiki",null,
+            (listOf(book3,book4) as List<Book>).toMutableList()
+        ),cityService.cityRepository?.findById(1)!!.orElse(null))
+        libraryService.addLibrary(Library(null,"Vivliothiki Athinas",null,
+            (listOf(book5,book6) as List<Book>).toMutableList()
+        ),cityService.cityRepository?.findById(2)!!.orElse(null))
+        libraryService.addLibrary(Library(null,"Idiotiki Vivliothiki Athinas",null,
+            (listOf(book7) as List<Book>).toMutableList()
+        ),cityService.cityRepository?.findById(2)!!.orElse(null))
+        libraryService.addLibrary(Library(null,"Vivliothiki Larisas",null,
+            (listOf(book1) as List<Book>).toMutableList()
+        ),cityService.cityRepository?.findById(3)!!.orElse(null))
         //initLibrary()
 
         }
-
-//    private fun initLibrary() {
-//        libraryService.addLibrary(Library(null,"Anagnostirio Apth",null,listOf()),cityService.cityRepository?.findById(1)!!.orElse(null))
-//        libraryService.addLibrary(Library(null,"Dimosia Vivliothiki",null,listOf()),cityService.cityRepository?.findById(1)!!.orElse(null))
-//        libraryService.addLibrary(Library(null,"Vivliothiki Athinas",null,listOf()),cityService.cityRepository?.findById(2)!!.orElse(null))
-//        libraryService.addLibrary(Library(null,"Idiotiki Vivliothiki Athinas",null,listOf()),cityService.cityRepository?.findById(2)!!.orElse(null))
-//        libraryService.addLibrary(Library(null,"Vivliothiki Larisas",null,listOf()),cityService.cityRepository?.findById(3)!!.orElse(null))
-//    }
-
-
 }

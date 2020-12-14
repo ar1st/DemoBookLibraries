@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface AddressRepository: JpaRepository<Address,Long> {
+    //fun findAll() : List<Address>
 }
