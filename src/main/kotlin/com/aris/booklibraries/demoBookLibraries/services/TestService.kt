@@ -23,9 +23,9 @@ class TestService {
     @PostConstruct
     fun postConstruct() {
         //init()
-        //val book5 = bookService.addBook(Book(null,"olympus",null),authorService.findById(2)!!)
-      //  val library = libraryService.findById(1) ?: Library(null,"dkwa",null, emptyList<Book>() as MutableList<Book>)
-            //libraryService.addBook( library, book5!!)
+//        val library = libraryService.findById(1)
+//        val toPrint = libraryService.findAllBooks(library!!)
+//        println("here $toPrint")
     }
 
     fun init() {

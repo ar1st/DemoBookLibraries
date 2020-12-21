@@ -20,6 +20,11 @@ class LibraryService {
     var bookRepository: BookRepository? = null
 
     @Transactional
+    fun findAll(): List<Library> {
+        return libraryRepository?.findAll()?: emptyList()
+    }
+
+    @Transactional
     fun findById(libraryId : Long) : Library? {
         return libraryRepository?.findById(libraryId)?.orElse(null)
     }
@@ -47,6 +52,29 @@ class LibraryService {
         val matchedLibrary = libraryRepository?.findById(library.libraryId!!)?.orElse(null)
 
         matchedLibrary?.books?.add(element = matchedBook!! )
-
     }
+
+//    @Transactional
+//    fun findAllBooks(library: Library): List<Book> {
+//        val matchedLibrary = libraryRepository?.findById(library.libraryId!!)?.orElse(null)
+//
+//        if ( matchedLibrary != null) {
+//            println("hereeeeeeeee  no books")
+//            val books =  libraryRepository?.findAllBooks(matchedLibrary.libraryId!!)
+//            println("hereeeeeeeee  $books")
+//            return books as List<Book>
+//        } else {
+//            return emptyList()
+//        }
+//    }
+        @Transactional
+        fun findAllBooks(library: Library): List<Book> {
+            val matchedLibrary = findById( library.libraryId!! )
+
+            if ( matchedLibrary != null) {
+                return libraryRepository?.findAllBooks(matchedLibrary.libraryId!!) ?: emptyList()
+            }
+
+            return emptyList()
+        }
 }
