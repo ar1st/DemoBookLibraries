@@ -6,18 +6,13 @@ import com.aris.booklibraries.demoBookLibraries.services.AuthorService
 import com.aris.booklibraries.demoBookLibraries.services.CityService
 import com.aris.booklibraries.demoBookLibraries.services.LibraryService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping(value = ["/libraries"])
 class LibraryController {
     @Autowired
     lateinit var libraryService: LibraryService
-    @Autowired
-    lateinit var cityService: CityService
 
     @GetMapping("")
     fun getAllLibraries(): List<Library> {
@@ -38,6 +33,23 @@ class LibraryController {
         }
 
         return emptyList()
+    }
+
+    //@DeleteMapping("/{ID}/books")
+    @RequestMapping(
+        value = ["/{ID}/books"],
+        produces = ["application/json"],
+        method = [RequestMethod.DELETE])
+    fun deleteAllBooks(@PathVariable("ID", required = true) libraryId: Long) {
+        val matchedLibrary = libraryService.findById( libraryId)
+        if (matchedLibrary != null ) {
+            libraryService?.deleteAllBooks(matchedLibrary)
+        }
+    }
+
+    @DeleteMapping("/deletebook/{ID}")
+    fun deleteBookById(@PathVariable("ID", required = true) bookId: Long) {
+        libraryService.deleteBookById(bookId = bookId)
     }
 
 

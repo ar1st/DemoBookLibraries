@@ -23,9 +23,6 @@ class TestService {
     @PostConstruct
     fun postConstruct() {
         //init()
-//        val library = libraryService.findById(1)
-//        val toPrint = libraryService.findAllBooks(library!!)
-//        println("here $toPrint")
     }
 
     fun init() {

@@ -13,7 +13,7 @@ data class Library (
         @ManyToOne(targetEntity = City::class, cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         @JoinColumn(name="city_id")
         var city: City?,
-        @ManyToMany
+        @ManyToMany(cascade = [CascadeType.DETACH])
         @JoinTable(
                 name = "has_books",
                 joinColumns = [JoinColumn(name = "library_id")],

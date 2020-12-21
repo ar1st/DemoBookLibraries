@@ -1,52 +1,41 @@
 package com.aris.booklibraries.demoBookLibraries.controllers
 
-import com.aris.booklibraries.demoBookLibraries.models.Author
+import com.aris.booklibraries.demoBookLibraries.executors.BookExecutor
 import com.aris.booklibraries.demoBookLibraries.models.Book
-import com.aris.booklibraries.demoBookLibraries.services.BookService
+import com.aris.booklibraries.demoBookLibraries.models.response.ApiResponse
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
-import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 @RestController
 @RequestMapping(value = ["/books"])
 class BookController {
     @Autowired
-    lateinit var bookService: BookService
+    lateinit var bookMiddleMan: BookExecutor
 
     @GetMapping("")
-    fun getAllBooks(): List<Book> {
-        return bookService.findAll()
+    fun getAllBooks(): ApiResponse<List<Book>, String> {
+        return bookMiddleMan.getAllBooks()
     }
 
     @GetMapping("/{ID}")
-    fun getBookById (@PathVariable("ID",required = true) bookId: Long): Book {
-        return bookService.findById(bookId) ?: Book(bookId = -1,title = "Not Found", author = null)
+    fun getBookById (@PathVariable("ID",required = true) bookId: Long, response: HttpServletResponse): ApiResponse<Book, String> {
+        return bookMiddleMan.getBookById(bookId,response)
     }
 
     @PostMapping("")
-    fun createBook(request: HttpServletRequest, response: HttpServletResponse,
-                     @RequestBody data: Book): Book {
-        var createdBook: Book?
-        if ( data.title == null) {
-            response.status = HttpStatus.BAD_REQUEST.value()
-            println("no title !!!!!")
-            return Book(bookId = -1,title = "ADD EMAIL", author = null)
-        }
-        var bookData = Book(bookId = null, title = data.title,author = null)
+    fun createBook( response: HttpServletResponse,
+                     @RequestBody data: Book): ApiResponse<Book, String> {
+        return bookMiddleMan.createBook(data,response)
+    }
 
-        if ( data.author != null) {
-            createdBook = bookService.addBook(bookData, data.author!!)
-            println("Book added successfully")
-            response.status = HttpStatus.ACCEPTED.value()
-            return createdBook ?: Book(bookId = -1, "Sth is wrong",author = null)
+    @DeleteMapping("/{ID}")
+    fun deleteByID(@PathVariable(value = "ID", required = true) bookId:Long, respose:HttpServletResponse) {
+        bookMiddleMan.deleteById(bookId)
+    }
 
-        } else {
-            println("no author!!!!")
-            response.status = HttpStatus.BAD_REQUEST.value()
-            return Book(bookId = -1,title = "ADD AUTHOR", author = null)
-        }
-
+    @DeleteMapping("/deletefromauthor/{ID}")
+    fun deleteByAuthor(@PathVariable(value="ID",required = true) authorId: Long) {
+        bookMiddleMan.deleteByAuthor(authorId)
     }
 }

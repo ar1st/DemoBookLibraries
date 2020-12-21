@@ -1,4 +1,4 @@
-package com.aris.booklibraries.demoBookLibraries.middleman
+package com.aris.booklibraries.demoBookLibraries.executors
 
 import com.aris.booklibraries.demoBookLibraries.models.Author
 import com.aris.booklibraries.demoBookLibraries.models.response.ApiResponse
@@ -6,14 +6,11 @@ import com.aris.booklibraries.demoBookLibraries.services.AuthorService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestBody
 import java.util.HashMap
-import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 @Component
-class AuthorMiddleMan {
+class AuthorExecutor {
     @Autowired
     lateinit var authorService: AuthorService
 
@@ -22,7 +19,7 @@ class AuthorMiddleMan {
         return if ( allAuthors!= null) {
             ApiResponse(data = allAuthors)
         } else {
-            ApiResponse(data = null, error = "Sth went wrong")
+            ApiResponse(data = null, message = "Sth went wrong")
         }
     }
 
@@ -33,7 +30,7 @@ class AuthorMiddleMan {
             ApiResponse(data=authorToReturn)
         } else {
             response.status = HttpStatus.BAD_REQUEST.value()
-            ApiResponse(data = null, error = "No author with such id.")
+            ApiResponse(data = null, message = "No author with such id.")
         }
     }
 
@@ -41,7 +38,7 @@ class AuthorMiddleMan {
         var createdAuthor =  data
         if ( createdAuthor.email == null) {
            // response.status = HttpStatus.BAD_REQUEST.value()
-            return ApiResponse(data=null,error="Insert an email.")
+            return ApiResponse(data=null,message="Insert an email.")
         }
 
         response.status = HttpStatus.ACCEPTED.value()
@@ -52,13 +49,13 @@ class AuthorMiddleMan {
                       data: Author, ID: Long):  ApiResponse<Author,String> {
         if (ID != data.authorId ) {
             response.status = HttpStatus.BAD_REQUEST.value()
-            return ApiResponse(data= null, error = "Author id does not match Path id.")
+            return ApiResponse(data= null, message = "Author id does not match Path id.")
         }
 
         val authorToUpdate = authorService.findById(data.authorId ?: -1)
         if (  authorToUpdate == null) {
             response.status = HttpStatus.BAD_REQUEST.value()
-            return ApiResponse(data= null, error = "No author with such id found.")
+            return ApiResponse(data= null, message = "No author with such id found.")
         }
 
         response.status = HttpStatus.ACCEPTED.value()
@@ -71,13 +68,13 @@ class AuthorMiddleMan {
 
         if ( ID != authorId ) {
             response.status = HttpStatus.BAD_REQUEST.value()
-            return ApiResponse(data=null,error="Author id does not match Path id.")
+            return ApiResponse(data=null,message="Author id does not match Path id.")
         }
 
         val authorToPartiallyUpdate = authorService.findById(authorId ?: -1)
         if (  authorToPartiallyUpdate == null) {
             response.status = HttpStatus.BAD_REQUEST.value()
-            return ApiResponse(data = null, error = "No author with such id found.")
+            return ApiResponse(data = null, message = "No author with such id found.")
         }
 
         authorToPartiallyUpdate.patch(hMap)

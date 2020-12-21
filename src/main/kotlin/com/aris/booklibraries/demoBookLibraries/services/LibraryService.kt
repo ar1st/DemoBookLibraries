@@ -54,27 +54,29 @@ class LibraryService {
         matchedLibrary?.books?.add(element = matchedBook!! )
     }
 
-//    @Transactional
-//    fun findAllBooks(library: Library): List<Book> {
-//        val matchedLibrary = libraryRepository?.findById(library.libraryId!!)?.orElse(null)
-//
-//        if ( matchedLibrary != null) {
-//            println("hereeeeeeeee  no books")
-//            val books =  libraryRepository?.findAllBooks(matchedLibrary.libraryId!!)
-//            println("hereeeeeeeee  $books")
-//            return books as List<Book>
-//        } else {
-//            return emptyList()
-//        }
-//    }
-        @Transactional
-        fun findAllBooks(library: Library): List<Book> {
-            val matchedLibrary = findById( library.libraryId!! )
+    @Transactional
+    fun findAllBooks(library: Library): List<Book> {
+        val matchedLibrary = findById( library.libraryId!! )
 
-            if ( matchedLibrary != null) {
-                return libraryRepository?.findAllBooks(matchedLibrary.libraryId!!) ?: emptyList()
-            }
+        if ( matchedLibrary != null) {
+            val a = bookRepository?.findAllBooks(matchedLibrary.libraryId!!) ?: emptyList()
 
-            return emptyList()
+            print("")
         }
+
+        return emptyList()
+    }
+
+    @Transactional
+    fun deleteAllBooks(library: Library) {
+        val matchedLibrary = findById( library.libraryId!!)
+        if (matchedLibrary != null ) {
+            libraryRepository?.deleteAllBooks(matchedLibrary.libraryId!!)
+        }
+    }
+
+    @Transactional
+    fun deleteBookById(bookId: Long) {
+        libraryRepository?.deleteBookById(bookId)
+    }
 }

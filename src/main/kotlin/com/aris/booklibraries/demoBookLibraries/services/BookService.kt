@@ -14,6 +14,8 @@ class BookService {
     var bookRepository: BookRepository? = null
     @Autowired
     var authorRepository: AuthorRepository? = null
+    @Autowired
+    var libraryService: LibraryService? = null
 
 
     @Transactional
@@ -34,9 +36,25 @@ class BookService {
             authorRepository?.save(author)
         } else {
             authorRepository?.findById( author.authorId!! )?.orElse(null)
+
         } ?: return null
 
         entity.author = matchedAuthor
         return bookRepository?.save(entity)
+    }
+
+    @Transactional
+    fun deleteById(bookId: Long) {
+        bookRepository?.deleteById(bookId)
+    }
+
+    @Transactional
+    fun deleteByAuthor(authorId: Long) {
+        val booksToDelete = bookRepository?.findByAuthorAuthorId(authorId) ?: emptyList()
+
+        for ( book in booksToDelete) {
+            libraryService?.deleteBookById(book.bookId!!)
+        }
+        bookRepository?.deleteByAuthorAuthorId(authorId)
     }
 }
