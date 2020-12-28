@@ -12,7 +12,7 @@ data class Author(
         @Column(name = "author_id")
         var authorId: Long?,
         //@NotBlank(message = "Email is mandatory.")
-        var email: String,
+        var email: String?,
         //@NotNull(message = "Name is null.")
         @get:NotBlank(message = "Name is mandatory.")
         var firstName: String?,

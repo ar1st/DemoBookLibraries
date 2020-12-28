@@ -22,7 +22,7 @@ class TestService {
 
     @PostConstruct
     fun postConstruct() {
-        //init()
+        init()
     }
 
     fun init() {
@@ -30,12 +30,9 @@ class TestService {
         addressService.addressRepository?.save(Address(null,"Agiou Dimitriou","55",555,"Greece"))
         addressService.addressRepository?.save(Address(null,"Kassandrou","10",555,"Greece"))
 
-
         userService.addUser(User(id= null, email = "giannis@gmail.com", firstName = "giannis", lastName = "kostopoulos",null),addressService.findById(1)!! )
         userService.addUser(User(id= null, email = "nikos@gmail.com", firstName = "nikos", lastName = "papadopoulos",null), addressService.findById(2)!! )
         userService.addUser(User(id= null, email = "elina@gmail.com", firstName = "elina", lastName = "oikonomou",null), addressService.findById(3)!! )
-
-
 
         authorService.save(Author(authorId= null, email = "petros@gmail.com", firstName = "petros", lastName = "petrou") )
         authorService.save(Author(authorId= null, email = "nikoleta@gmail.com", firstName = "nikoleta", lastName = "nikoletou") )
@@ -69,6 +66,5 @@ class TestService {
             (listOf(book1) as List<Book>).toMutableList()
         ),cityService.cityRepository?.findById(3)!!.orElse(null))
         //initLibrary()
-
         }
 }

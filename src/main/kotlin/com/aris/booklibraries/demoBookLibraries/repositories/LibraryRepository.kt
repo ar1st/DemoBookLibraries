@@ -10,6 +10,9 @@ import org.springframework.transaction.annotation.Transactional
 @Repository
 interface LibraryRepository : JpaRepository<Library,Long> {
     @Transactional
+    fun findByCityCityId(cityId: Long): List<Library>
+
+    @Transactional
     fun deleteByCityCityId(cityId: Long)
 
     @Modifying
@@ -20,10 +23,10 @@ interface LibraryRepository : JpaRepository<Library,Long> {
     @Modifying
     @Query(value = "delete from has_books where has_books.library_id = :libraryId", nativeQuery = true)
     @Transactional
-    fun deleteAllBooks(libraryId: Long)
+    fun deleteAllBooksFromLibrary(libraryId: Long)
 
     @Modifying
     @Query(value = "delete from has_books where has_books.book_id = :bookId", nativeQuery = true)
     @Transactional
-    fun deleteBookById(bookId: Long)
+    fun removeBookFromLibraries(bookId: Long)
 }

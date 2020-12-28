@@ -10,6 +10,5 @@ data class User(@Id
                 var firstName: String?,
                 var lastName: String?,
                 @OneToOne(targetEntity = Address::class,cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-           //     @JoinColumn(name = "address_id")
                 var address: Address?
 )

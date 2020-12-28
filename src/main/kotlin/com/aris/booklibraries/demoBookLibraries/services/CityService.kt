@@ -26,4 +26,6 @@ class CityService {
         return cityRepository?.save(entity)
     }
 
+//    @Transactional
+//    fun deleteById
 }

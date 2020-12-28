@@ -12,6 +12,4 @@ data class Address (
         var roadNumber: String?,
         var tk: Long?,
         var country: String?,
-//        @OneToOne(mappedBy = "address")
-//        var user: User?
 )

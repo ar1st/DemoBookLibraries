@@ -11,31 +11,27 @@ import javax.servlet.http.HttpServletResponse
 @RequestMapping(value = ["/books"])
 class BookController {
     @Autowired
-    lateinit var bookMiddleMan: BookExecutor
+    lateinit var bookExecutor: BookExecutor
 
     @GetMapping("")
     fun getAllBooks(): ApiResponse<List<Book>, String> {
-        return bookMiddleMan.getAllBooks()
+        return bookExecutor.getAllBooks()
     }
 
     @GetMapping("/{ID}")
     fun getBookById (@PathVariable("ID",required = true) bookId: Long, response: HttpServletResponse): ApiResponse<Book, String> {
-        return bookMiddleMan.getBookById(bookId,response)
+        return bookExecutor.getBookById(bookId,response)
     }
 
     @PostMapping("")
     fun createBook( response: HttpServletResponse,
                      @RequestBody data: Book): ApiResponse<Book, String> {
-        return bookMiddleMan.createBook(data,response)
+        return bookExecutor.createBook(data,response)
     }
 
     @DeleteMapping("/{ID}")
-    fun deleteByID(@PathVariable(value = "ID", required = true) bookId:Long, respose:HttpServletResponse) {
-        bookMiddleMan.deleteById(bookId)
-    }
-
-    @DeleteMapping("/deletefromauthor/{ID}")
-    fun deleteByAuthor(@PathVariable(value="ID",required = true) authorId: Long) {
-        bookMiddleMan.deleteByAuthor(authorId)
+    fun deleteByID(@PathVariable(value = "ID", required = true) bookId:Long,
+                   response:HttpServletResponse): ApiResponse<String,String> {
+        return bookExecutor.deleteById(bookId,response)
     }
 }

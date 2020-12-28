@@ -31,4 +31,9 @@ class AuthorService {
         return authorRepository?.findByEmail(email)
     }
 
+    @Transactional
+    fun deleteById(authorId: Long) {
+        authorRepository?.deleteById(authorId)
+    }
+
 }

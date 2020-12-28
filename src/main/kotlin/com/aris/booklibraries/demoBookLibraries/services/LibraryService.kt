@@ -25,6 +25,11 @@ class LibraryService {
     }
 
     @Transactional
+    fun findAllLibrariesByCity(cityId: Long): List<Library> {
+        return  libraryRepository?.findByCityCityId(cityId) ?: emptyList()
+    }
+
+    @Transactional
     fun findById(libraryId : Long) : Library? {
         return libraryRepository?.findById(libraryId)?.orElse(null)
     }
@@ -55,28 +60,40 @@ class LibraryService {
     }
 
     @Transactional
-    fun findAllBooks(library: Library): List<Book> {
-        val matchedLibrary = findById( library.libraryId!! )
+    fun findAllBooks(libraryId: Long): List<Book> {
+        val matchedLibrary = findById( libraryId )
 
         if ( matchedLibrary != null) {
-            val a = bookRepository?.findAllBooks(matchedLibrary.libraryId!!) ?: emptyList()
-
-            print("")
+            return  bookRepository?.findAllBooks(matchedLibrary.libraryId!!) ?: emptyList()
         }
-
         return emptyList()
     }
 
     @Transactional
-    fun deleteAllBooks(library: Library) {
-        val matchedLibrary = findById( library.libraryId!!)
+    fun deleteById(libraryId: Long) {
+        libraryRepository?.deleteById(libraryId)
+    }
+
+    @Transactional
+    fun deleteAllBooks(libraryId: Long) {
+        val matchedLibrary = findById( libraryId)
         if (matchedLibrary != null ) {
-            libraryRepository?.deleteAllBooks(matchedLibrary.libraryId!!)
+            libraryRepository?.deleteAllBooksFromLibrary(matchedLibrary.libraryId!!)
         }
     }
 
     @Transactional
-    fun deleteBookById(bookId: Long) {
-        libraryRepository?.deleteBookById(bookId)
+    fun removeBookFromLibraries(bookId: Long) {
+        libraryRepository?.removeBookFromLibraries(bookId)
+    }
+
+    @Transactional
+    fun deleteByCity(cityId: Long) {
+        val librariesToDelete = libraryRepository?.findByCityCityId(cityId) ?: emptyList()
+
+        for ( library in librariesToDelete) {
+            libraryRepository?.deleteAllBooksFromLibrary(library.libraryId!!)
+            deleteById(library.libraryId!!)
+        }
     }
 }
