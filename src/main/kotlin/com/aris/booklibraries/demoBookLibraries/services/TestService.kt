@@ -26,13 +26,13 @@ class TestService {
     }
 
     fun init() {
-        addressService.addressRepository?.save(Address(null,"Egnatia","3",555,"Greece"))
-        addressService.addressRepository?.save(Address(null,"Agiou Dimitriou","55",555,"Greece"))
-        addressService.addressRepository?.save(Address(null,"Kassandrou","10",555,"Greece"))
+//        addressService.addressRepository?.save(Address(null,"Egnatia","3",555,"Greece"))
+//        addressService.addressRepository?.save(Address(null,"Agiou Dimitriou","55",555,"Greece"))
+//        addressService.addressRepository?.save(Address(null,"Kassandrou","10",555,"Greece"))
 
-        userService.addUser(User(id= null, email = "giannis@gmail.com", firstName = "giannis", lastName = "kostopoulos",null),addressService.findById(1)!! )
-        userService.addUser(User(id= null, email = "nikos@gmail.com", firstName = "nikos", lastName = "papadopoulos",null), addressService.findById(2)!! )
-        userService.addUser(User(id= null, email = "elina@gmail.com", firstName = "elina", lastName = "oikonomou",null), addressService.findById(3)!! )
+        userService.save(User(userId= null, email = "giannis@gmail.com", firstName = "giannis", lastName = "kostopoulos"))
+        userService.save(User(userId= null, email = "nikos@gmail.com", firstName = "nikos", lastName = "papadopoulos"))
+        userService.save(User(userId= null, email = "elina@gmail.com", firstName = "elina", lastName = "oikonomou"))
 
         authorService.save(Author(authorId= null, email = "petros@gmail.com", firstName = "petros", lastName = "petrou") )
         authorService.save(Author(authorId= null, email = "nikoleta@gmail.com", firstName = "nikoleta", lastName = "nikoletou") )
@@ -50,20 +50,19 @@ class TestService {
         cityService.cityRepository?.save(City(null,"Athens"))
         cityService.cityRepository?.save(City(null,"Larissa"))
 
-        libraryService.addLibrary(Library(null,"Anagnostirio Apth",null,
-            (listOf( book1,book2) as List<Book>).toMutableList()
+        libraryService.addLibrary(Library(null,"Anagnostirio Apth",null, mutableSetOf(book1!!,book2!!)
         ),cityService.cityRepository?.findById(1)!!.orElse(null))
         libraryService.addLibrary(Library(null,"Dimosia Vivliothiki",null,
-            (listOf(book3,book4) as List<Book>).toMutableList()
+            mutableSetOf(book3!!,book4!!)
         ),cityService.cityRepository?.findById(1)!!.orElse(null))
         libraryService.addLibrary(Library(null,"Vivliothiki Athinas",null,
-            (listOf(book5,book6) as List<Book>).toMutableList()
+            mutableSetOf(book6!!,book5!!)
         ),cityService.cityRepository?.findById(2)!!.orElse(null))
         libraryService.addLibrary(Library(null,"Idiotiki Vivliothiki Athinas",null,
-            (listOf(book7) as List<Book>).toMutableList()
+            mutableSetOf(book7!!)
         ),cityService.cityRepository?.findById(2)!!.orElse(null))
         libraryService.addLibrary(Library(null,"Vivliothiki Larisas",null,
-            (listOf(book1) as List<Book>).toMutableList()
+            mutableSetOf(book1)
         ),cityService.cityRepository?.findById(3)!!.orElse(null))
         //initLibrary()
         }

@@ -16,26 +16,31 @@ import java.util.*
 class UserService {
     @Autowired
     var userRepository: UserRepository? = null
-    @Autowired
-    var addressRepository: AddressRepository? = null
 
+    @Transactional
+    fun findAll(): List<User> {
+        return userRepository?.findAll() ?: emptyList()
+    }
+
+    @Transactional
     fun findById(id: Long): User? {
         return userRepository?.findById(id)?.orElse(null)
     }
 
+    @Transactional
     fun findByFirstName(firstName: String): User? {
         return userRepository?.findByFirstName(firstName)
     }
 
     @Transactional
-    fun addUser(entity: User, address: Address): User? {
-        val matchedAddress = if ( address.addressId == null) {
-            addressRepository?.save(address)
-        } else {
-            addressRepository?.findById( address.addressId!! )?.orElse(null)
-        } ?: return null
-
-        entity.address = matchedAddress
+    fun save(entity: User): User? {
         return userRepository?.save(entity)
     }
+
+    @Transactional
+    fun deleteById(userId: Long) {
+        userRepository?.deleteById(userId)
+    }
+
+
 }
