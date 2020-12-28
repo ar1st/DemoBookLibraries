@@ -1,5 +1,7 @@
 package com.aris.booklibraries.demoBookLibraries.models
 
+import com.aris.booklibraries.demoBookLibraries.converters.Converter
+import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -18,6 +20,33 @@ data class Library (
                 joinColumns = [JoinColumn(name = "library_id")],
                 inverseJoinColumns = [JoinColumn(name = "book_id")]
         )
-        var books: MutableList<Book>
-        )
+        var books: MutableSet<Book>)
+{
+        fun patch(patch: HashMap<String, Any>) {
+                val klass: Class<out Library> = this::class.java
+                for (method in klass.methods) {
+                        if (!method.name.startsWith("set"))
+                                continue
+
+                        if (method.parameterCount != 1)
+                                continue
+
+                        if (method.returnType.canonicalName !in listOf("java.lang.Void", "void"))
+                                continue
+
+                        val name = method.name.replace("set", "").mapIndexed { i, c ->
+                                if (i == 0)
+                                        c.toLowerCase()
+                                else
+                                        c
+                        }.joinToString("")
+
+                        val patchValue = patch[name] ?: continue
+                        val fieldType = method.parameterTypes[0]
+                        val convertedPatchValue = Converter.convert(patchValue, fieldType) ?: continue
+
+                        method.invoke(this, convertedPatchValue)
+                }
+        }
+}
 

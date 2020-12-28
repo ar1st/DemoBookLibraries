@@ -20,11 +20,7 @@ class AuthorExecutor {
 
     fun getAllAuthors(): ApiResponse<List<Author>, String> {
         val allAuthors = authorService.findAll()
-        return if ( allAuthors!= null) {
-            ApiResponse(data = allAuthors, message = "OK")
-        } else {
-            ApiResponse(data = null, message = "Error: Sth went wrong")
-        }
+        return ApiResponse(data = allAuthors, message = "OK")
     }
 
     fun getAuthorById(authorId: Long,response: HttpServletResponse): ApiResponse<Author,String> {

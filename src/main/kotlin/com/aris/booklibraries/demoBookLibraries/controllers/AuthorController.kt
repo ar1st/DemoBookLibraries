@@ -7,13 +7,12 @@ import com.aris.booklibraries.demoBookLibraries.models.Book
 import com.aris.booklibraries.demoBookLibraries.models.response.ApiResponse
 import org.springframework.beans.factory.annotation.Autowired
 import java.util.*
-import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import javax.validation.Valid
 
 @RestController
 @RequestMapping(value = ["/authors"])
-class AuthorController: BaseController() {
+class AuthorController{
     @Autowired
     lateinit var authorExecutor: AuthorExecutor
 
@@ -34,8 +33,8 @@ class AuthorController: BaseController() {
     }
 
     @PostMapping("")
-    fun createAuthor(request: HttpServletRequest, response: HttpServletResponse,
-              @Valid @RequestBody data: Author): ApiResponse<Author,String> {
+    fun createAuthor(@Valid @RequestBody data: Author,
+                     response: HttpServletResponse): ApiResponse<Author,String> {
         return authorExecutor.createAuthor(response,data)
     }
 

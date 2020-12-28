@@ -8,6 +8,7 @@ import com.aris.booklibraries.demoBookLibraries.services.LibraryService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
+import java.util.*
 import javax.servlet.http.HttpServletResponse
 
 @Component
@@ -37,7 +38,6 @@ class LibraryExecutor {
         }
     }
 
-
     fun getBooksByLibrary(libraryId: Long, response: HttpServletResponse) : ApiResponse<List<Book>,String> {
         val matchedLibrary = libraryService.findById(libraryId)
 
@@ -50,10 +50,77 @@ class LibraryExecutor {
         }
     }
 
-    fun deleteAllBooksFromLibrary(libraryId: Long, response: HttpServletResponse) : ApiResponse<String,String> {
+    fun createLibrary(data: Library, response: HttpServletResponse): ApiResponse<Library, String> {
+        if (data.name == null) {
+            // response.status = HttpStatus.BAD_REQUEST.value()
+            return ApiResponse(data = null, message = "City name required!")
+        }
+
+        val libraryData = Library(null,data.name,null, mutableSetOf<Book>() )
+        return if (data.city != null) {
+            val createdLibrary = libraryService.addLibrary(libraryData, data.city!!)
+            response.status = HttpStatus.ACCEPTED.value()
+            ApiResponse(data = createdLibrary, message = "OK")
+        } else {
+            // response.status = HttpStatus.BAD_REQUEST.value()
+            ApiResponse(data = null, message = "No city found")
+        }
+    }
+
+    fun partiallyUpdateLibrary(response: HttpServletResponse,
+                               hMap: HashMap<String, Any>, ID: Long): ApiResponse<Library, String> {
+        val libraryId =  hMap["libraryId"].toString().toLong()
+
+        if ( ID != libraryId ) {
+            response.status = HttpStatus.BAD_REQUEST.value()
+            return ApiResponse(data=null,message="Error: Library id does not match Path id.")
+        }
+
+        val libraryToPartiallyUpdate = libraryService.findById(libraryId)
+        if (  libraryToPartiallyUpdate == null) {
+            response.status = HttpStatus.BAD_REQUEST.value()
+            return ApiResponse(data = null, message = "Error: No library with such id found.")
+        }
+
+        libraryToPartiallyUpdate.patch(hMap)
+        response.status = HttpStatus.ACCEPTED.value()
+        return ApiResponse(data = libraryService.save(libraryToPartiallyUpdate), message = "OK")
+    }
+
+    fun addBookToSpecificLibrary(libraryId: Long, data: Book, response: HttpServletResponse): ApiResponse<Book, String> {
+        val libraryToAddBook = libraryService.findById(libraryId)
+            ?: return ApiResponse(data = null, "Error: No library with such id")
+
+        if ( data.bookId != null) {
+            bookService.findById(data.bookId!!) ?: return ApiResponse(data = null, "Error: No book with such id")
+        }
+
+        if ( data.bookId == null) {
+            //we want to create the book
+            if ( data.title == null ) {
+                return ApiResponse(data = null, "Error: Add title to the book")
+            }
+
+            if ( data.author == null ) {
+                return  ApiResponse(data = null, "Error: Add author to book")
+            } else {
+
+            }
+
+            val book = bookService.addBook( Book(null,data.title,null), data.author!!)
+            libraryService.addBook( libraryToAddBook, book!!)
+            return ApiResponse(data = null, "Both the book and the library exists.")
+        }
+
+        libraryService.addBook( libraryToAddBook, data)
+        return ApiResponse(data = null, "Both the book and the library exists.")
+    }
+
+
+    fun deleteAllBooksFromSpecificLibrary(libraryId: Long, response: HttpServletResponse) : ApiResponse<String,String> {
         val matchedLibrary = libraryService.findById( libraryId)
         if (matchedLibrary != null ) {
-            libraryService.deleteAllBooks(matchedLibrary.libraryId!!)
+            libraryService.deleteAllBooksFromSpecificLibrary(matchedLibrary.libraryId!!)
             return ApiResponse(data = null, message = "OK")
         }
         response.status = HttpStatus.BAD_REQUEST.value()
@@ -64,7 +131,7 @@ class LibraryExecutor {
         val matchedBook = bookService.findById(bookId)
 
         if ( matchedBook != null) {
-            libraryService.removeBookFromLibraries(bookId)
+            libraryService.removeBookFromAllLibraries(bookId)
             return ApiResponse(data = null, message = "OK")
         }
 
@@ -76,10 +143,23 @@ class LibraryExecutor {
         val libraryToDelete = libraryService.findById(libraryId)
 
         if ( libraryToDelete != null) {
-            libraryService.deleteAllBooks(libraryId)
+            libraryService.deleteAllBooksFromSpecificLibrary(libraryId)
             libraryService.deleteById(libraryId)
         }
 
         return ApiResponse(data = null, message = "OK")
+    }
+
+    fun deleteBookFromSpecificLibrary(libraryId: Long, bookId: Long, response: HttpServletResponse): ApiResponse<String, String> {
+        libraryService.findById(libraryId) ?: return ApiResponse(data = null, "No such library.")
+
+        bookService.findById(bookId) ?: return ApiResponse(data = null, "No such book.")
+
+        val allBooksFromLibrary = libraryService.findAllBooks(libraryId)
+        val book: Book? = allBooksFromLibrary.firstOrNull { it.bookId == bookId }
+            ?: return ApiResponse(data = null, "The book isn't in this library")
+
+        libraryService.removeBookFromSpecificLibrary(libraryId,bookId)
+        return ApiResponse(data = null, "OK")
     }
 }

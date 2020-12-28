@@ -23,10 +23,16 @@ interface LibraryRepository : JpaRepository<Library,Long> {
     @Modifying
     @Query(value = "delete from has_books where has_books.library_id = :libraryId", nativeQuery = true)
     @Transactional
-    fun deleteAllBooksFromLibrary(libraryId: Long)
+    fun deleteAllBooksFromSpecificLibrary(libraryId: Long)
 
     @Modifying
     @Query(value = "delete from has_books where has_books.book_id = :bookId", nativeQuery = true)
     @Transactional
-    fun removeBookFromLibraries(bookId: Long)
+    fun removeBookFromAllLibraries(bookId: Long)
+
+    @Modifying
+    @Query(value = " delete from has_books where has_books.book_id = :bookId AND has_books.library_id = :libraryId",
+        nativeQuery = true)
+    @Transactional
+    fun removeBookFromSpecificLibrary(libraryId: Long, bookId: Long)
 }

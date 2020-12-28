@@ -11,17 +11,15 @@ data class Author(
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "author_id")
         var authorId: Long?,
-        //@NotBlank(message = "Email is mandatory.")
+        @get:NotBlank(message = "Email is mandatory.")
         var email: String?,
-        //@NotNull(message = "Name is null.")
-        @get:NotBlank(message = "Name is mandatory.")
+       //@get:NotBlank(message = "Name is mandatory.")
         var firstName: String?,
         var lastName: String?
 ) {
         fun patch(patch: HashMap<String,Any>) {
                 val klass: Class<out Author> = this::class.java
                 for (method in klass.methods) {
-
                         if (!method.name.startsWith("set"))
                                 continue
 

@@ -12,7 +12,6 @@ data class Book(
         var title: String?,
         @ManyToOne(targetEntity = Author::class, cascade = [CascadeType.DETACH], fetch = FetchType.EAGER)
         @JoinColumn(name="author_id")
-        //@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
         var author: Author?
         )
 

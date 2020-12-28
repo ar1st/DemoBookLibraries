@@ -26,6 +26,8 @@ class CityService {
         return cityRepository?.save(entity)
     }
 
-//    @Transactional
-//    fun deleteById
+    @Transactional
+    fun deleteById( libraryId: Long) {
+        cityRepository?.deleteById(libraryId)
+    }
 }

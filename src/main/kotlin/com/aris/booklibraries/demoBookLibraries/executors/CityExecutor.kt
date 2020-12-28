@@ -52,7 +52,7 @@ class CityExecutor {
 
         if ( cityToDelete != null ) {
             libraryService.deleteByCity(cityToDelete.cityId!!)
-           // cityService.dele
+            cityService.deleteById(cityToDelete.cityId!!)
         }
 
         return ApiResponse(data = null, message = "OK")

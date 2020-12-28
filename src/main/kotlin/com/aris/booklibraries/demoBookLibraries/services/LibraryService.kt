@@ -18,6 +18,8 @@ class LibraryService {
     var cityRepository: CityRepository? = null
     @Autowired
     var bookRepository: BookRepository? = null
+    @Autowired
+    var bookService: BookService? = null
 
     @Transactional
     fun findAll(): List<Library> {
@@ -35,6 +37,11 @@ class LibraryService {
     }
 
     @Transactional
+    fun save(libraryToPartiallyUpdate: Library): Library? {
+        return libraryRepository?.save(libraryToPartiallyUpdate)
+    }
+
+    @Transactional
     fun addLibrary(entity: Library, city: City): Library? {
         val matchedCity = if ( city.cityId == null) {
             cityRepository?.save(city)
@@ -49,14 +56,15 @@ class LibraryService {
     @Transactional
     fun addBook(library: Library, book: Book) {
         val matchedBook = if ( book.bookId == null) {
-            bookRepository?.save(book)
+            val bookToCreate = Book(null,book.title, null)
+            bookService?.addBook(bookToCreate, book.author!!)
         } else {
             bookRepository?.findById(book.bookId!!)?.orElse(null)
         }
 
         val matchedLibrary = libraryRepository?.findById(library.libraryId!!)?.orElse(null)
 
-        matchedLibrary?.books?.add(element = matchedBook!! )
+        matchedLibrary?.books?.   add(element = matchedBook!! )
     }
 
     @Transactional
@@ -75,16 +83,21 @@ class LibraryService {
     }
 
     @Transactional
-    fun deleteAllBooks(libraryId: Long) {
+    fun deleteAllBooksFromSpecificLibrary(libraryId: Long) {
         val matchedLibrary = findById( libraryId)
         if (matchedLibrary != null ) {
-            libraryRepository?.deleteAllBooksFromLibrary(matchedLibrary.libraryId!!)
+            libraryRepository?.deleteAllBooksFromSpecificLibrary(matchedLibrary.libraryId!!)
         }
     }
 
     @Transactional
-    fun removeBookFromLibraries(bookId: Long) {
-        libraryRepository?.removeBookFromLibraries(bookId)
+    fun removeBookFromAllLibraries(bookId: Long) {
+        libraryRepository?.removeBookFromAllLibraries(bookId)
+    }
+
+    @Transactional
+    fun removeBookFromSpecificLibrary(libraryId: Long, bookId: Long) {
+        libraryRepository?.removeBookFromSpecificLibrary(libraryId,bookId)
     }
 
     @Transactional
@@ -92,8 +105,10 @@ class LibraryService {
         val librariesToDelete = libraryRepository?.findByCityCityId(cityId) ?: emptyList()
 
         for ( library in librariesToDelete) {
-            libraryRepository?.deleteAllBooksFromLibrary(library.libraryId!!)
+            libraryRepository?.deleteAllBooksFromSpecificLibrary(library.libraryId!!)
             deleteById(library.libraryId!!)
         }
     }
+
+
 }

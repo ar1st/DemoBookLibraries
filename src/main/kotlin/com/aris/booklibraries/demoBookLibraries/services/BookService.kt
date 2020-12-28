@@ -50,7 +50,7 @@ class BookService {
 
     @Transactional
     fun deleteById(bookId: Long) {
-        libraryService?.removeBookFromLibraries(bookId)
+        libraryService?.removeBookFromAllLibraries(bookId)
         bookRepository?.deleteById(bookId)
     }
 
