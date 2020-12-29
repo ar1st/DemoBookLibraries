@@ -1,6 +1,7 @@
 package com.aris.booklibraries.demoBookLibraries.executors
 
 import com.aris.booklibraries.demoBookLibraries.models.Book
+import com.aris.booklibraries.demoBookLibraries.models.Library
 import com.aris.booklibraries.demoBookLibraries.models.response.ApiResponse
 import com.aris.booklibraries.demoBookLibraries.services.BookService
 import org.springframework.beans.factory.annotation.Autowired
@@ -23,6 +24,18 @@ class BookExecutor {
 
         return if ( bookToReturn != null ) {
             ApiResponse(data=bookToReturn, message = "OK")
+        } else {
+            response.status = HttpStatus.BAD_REQUEST.value()
+            ApiResponse(data = null, message = "Error: No book with such id.")
+        }
+    }
+
+    fun getLibrariesByBook(bookId: Long, response: HttpServletResponse): ApiResponse<List<Library>, String> {
+        val matchedBook = bookService.findById(bookId)
+
+        return if ( matchedBook != null) {
+            val allBooksFromLibrary = bookService.findAllBooks(matchedBook.bookId!!)
+            ApiResponse(data = allBooksFromLibrary, message = "OK")
         } else {
             response.status = HttpStatus.BAD_REQUEST.value()
             ApiResponse(data = null, message = "Error: No book with such id.")
@@ -58,4 +71,6 @@ class BookExecutor {
         }
         return ApiResponse(data = null, message = "OK")
     }
+
+
 }

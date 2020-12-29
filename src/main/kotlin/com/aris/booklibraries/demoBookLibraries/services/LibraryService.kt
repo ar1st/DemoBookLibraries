@@ -19,7 +19,6 @@ class LibraryService {
     @Autowired
     var bookRepository: BookRepository? = null
     @Autowired
-    var bookService: BookService? = null
 
     @Transactional
     fun findAll(): List<Library> {
@@ -37,8 +36,8 @@ class LibraryService {
     }
 
     @Transactional
-    fun save(libraryToPartiallyUpdate: Library): Library? {
-        return libraryRepository?.save(libraryToPartiallyUpdate)
+    fun save(library: Library): Library? {
+        return libraryRepository?.save(library)
     }
 
     @Transactional
@@ -51,20 +50,6 @@ class LibraryService {
 
         entity.city = matchedCity
         return libraryRepository?.save(entity)
-    }
-
-    @Transactional
-    fun addBook(library: Library, book: Book) {
-        val matchedBook = if ( book.bookId == null) {
-            val bookToCreate = Book(null,book.title, null)
-            bookService?.addBook(bookToCreate, book.author!!)
-        } else {
-            bookRepository?.findById(book.bookId!!)?.orElse(null)
-        }
-
-        val matchedLibrary = libraryRepository?.findById(library.libraryId!!)?.orElse(null)
-
-        matchedLibrary?.books?.   add(element = matchedBook!! )
     }
 
     @Transactional

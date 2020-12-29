@@ -2,8 +2,10 @@ package com.aris.booklibraries.demoBookLibraries.services
 
 import com.aris.booklibraries.demoBookLibraries.models.Author
 import com.aris.booklibraries.demoBookLibraries.models.Book
+import com.aris.booklibraries.demoBookLibraries.models.Library
 import com.aris.booklibraries.demoBookLibraries.repositories.AuthorRepository
 import com.aris.booklibraries.demoBookLibraries.repositories.BookRepository
+import com.aris.booklibraries.demoBookLibraries.repositories.LibraryRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -16,6 +18,8 @@ class BookService {
     var authorRepository: AuthorRepository? = null
     @Autowired
     var libraryService: LibraryService? = null
+    @Autowired
+    var libraryRepository: LibraryRepository? = null
 
 
     @Transactional
@@ -32,6 +36,15 @@ class BookService {
     @Transactional
     fun findAllBooksByAuthor(authorId: Long): List<Book> {
         return  bookRepository?.findByAuthorAuthorId(authorId) ?: emptyList()
+    }
+
+    fun findAllBooks(bookId: Long): List<Library> {
+        val matchedBook = findById( bookId )
+
+        if ( matchedBook != null) {
+            return  libraryRepository?.findAllLibraries(bookId) ?: emptyList()
+        }
+        return emptyList()
     }
 
     @Transactional

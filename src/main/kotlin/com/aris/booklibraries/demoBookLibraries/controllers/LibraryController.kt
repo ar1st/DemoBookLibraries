@@ -3,6 +3,7 @@ package com.aris.booklibraries.demoBookLibraries.controllers
 import com.aris.booklibraries.demoBookLibraries.executors.LibraryExecutor
 import com.aris.booklibraries.demoBookLibraries.models.Author
 import com.aris.booklibraries.demoBookLibraries.models.Book
+import com.aris.booklibraries.demoBookLibraries.models.HasBook
 import com.aris.booklibraries.demoBookLibraries.models.Library
 import com.aris.booklibraries.demoBookLibraries.models.response.ApiResponse
 import com.aris.booklibraries.demoBookLibraries.services.LibraryService
@@ -33,7 +34,6 @@ class LibraryController {
     @GetMapping(value=["/{ID}/books"])
     fun getBooksByLibrary(@PathVariable("ID",required = true) libraryId: Long,
                 response: HttpServletResponse) : ApiResponse<List<Book>, String> {
-
         return libraryExecutor.getBooksByLibrary(libraryId,response)
     }
 
@@ -41,13 +41,12 @@ class LibraryController {
     @PostMapping("")
     fun createLibrary(@RequestBody data: Library,
                       response: HttpServletResponse): ApiResponse<Library,String> {
-        println("")
         return libraryExecutor.createLibrary(data, response)
     }
 
     @PostMapping("/{ID}/books")
     fun addBookToSpecificLibrary(@PathVariable("ID",required = true) libraryId: Long,
-                                 @RequestBody data: Book, response: HttpServletResponse) : ApiResponse<Book,String> {
+                                 @RequestBody data: HasBook, response: HttpServletResponse) : ApiResponse<Book,String> {
         return libraryExecutor.addBookToSpecificLibrary(libraryId, data, response)
     }
 

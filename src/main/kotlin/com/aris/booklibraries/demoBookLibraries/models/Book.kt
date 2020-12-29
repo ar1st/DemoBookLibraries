@@ -1,6 +1,5 @@
 package com.aris.booklibraries.demoBookLibraries.models
 
-import org.hibernate.annotations.Cascade
 import javax.persistence.*
 
 @Entity
@@ -12,7 +11,9 @@ data class Book(
         var title: String?,
         @ManyToOne(targetEntity = Author::class, cascade = [CascadeType.DETACH], fetch = FetchType.EAGER)
         @JoinColumn(name="author_id")
-        var author: Author?
+        var author: Author?,
+//        @OneToMany(mappedBy = "book")
+//        var hasBook: MutableSet<HasBook>
         )
 
 

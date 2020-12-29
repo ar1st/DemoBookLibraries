@@ -14,13 +14,17 @@ data class Library (
         @ManyToOne(targetEntity = City::class, cascade = [CascadeType.DETACH], fetch = FetchType.EAGER)
         @JoinColumn(name="city_id")
         var city: City?,
-        @ManyToMany(cascade = [CascadeType.DETACH])
-        @JoinTable(
-                name = "has_books",
-                joinColumns = [JoinColumn(name = "library_id")],
-                inverseJoinColumns = [JoinColumn(name = "book_id")]
+//        @ManyToMany(cascade = [CascadeType.DETACH])
+//        @JoinTable(
+//                name = "has_books",
+//                joinColumns = [JoinColumn(name = "library_id")],
+//                inverseJoinColumns = [JoinColumn(name = "book_id")]
+//        )
+//        var books: MutableSet<Book>)
+
+//        @OneToMany(mappedBy = "library")
+//        var hasBook: MutableSet<HasBook>
         )
-        var books: MutableSet<Book>)
 {
         fun patch(patch: HashMap<String, Any>) {
                 val klass: Class<out Library> = this::class.java
