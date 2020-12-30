@@ -32,6 +32,8 @@ class UserController {
         return userExecutor.createUser(data, response)
     }
 
+    @PostMapping("/{ID}/books/{BOOKID}")
+
     @PutMapping("/{ID}")
     fun updateAuthor( @RequestBody data: User,
                       response: HttpServletResponse, @PathVariable ID: Long):  ApiResponse<User,String> {

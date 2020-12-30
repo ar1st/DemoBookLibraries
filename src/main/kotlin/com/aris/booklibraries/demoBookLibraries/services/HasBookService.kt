@@ -20,4 +20,9 @@ class HasBookService {
     fun isBookInSpecificLibrary(libraryId: Long, bookId: Long): HasBook? {
         return hasBookRepository?.isBookInSpecificLibrary(libraryId, bookId)
     }
+
+    @Transactional
+    fun getQuantity(libraryId: Long, bookId: Long): Int {
+        return hasBookRepository?.getQuantity(libraryId, bookId) ?: 0
+    }
 }

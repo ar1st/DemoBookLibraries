@@ -13,13 +13,13 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class BookService {
     @Autowired
-    var bookRepository: BookRepository? = null
+    lateinit var bookRepository: BookRepository
     @Autowired
-    var authorRepository: AuthorRepository? = null
+    lateinit var authorRepository: AuthorRepository
     @Autowired
-    var libraryService: LibraryService? = null
+    lateinit var libraryService: LibraryService
     @Autowired
-    var libraryRepository: LibraryRepository? = null
+    lateinit var libraryRepository: LibraryRepository
 
 
     @Transactional
