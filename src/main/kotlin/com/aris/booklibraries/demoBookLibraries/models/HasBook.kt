@@ -7,7 +7,7 @@ class HasBook (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="has_book_id")
-    var hasBookId: Long,
+    var hasBookId: Long?,
 
     @ManyToOne
   //  @MapsId("libraryId")

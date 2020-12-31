@@ -22,4 +22,18 @@ interface HasBookRepository: JpaRepository<HasBook, Long> {
         nativeQuery = true)
     @Transactional
     fun getQuantity(libraryId: Long, bookId: Long): Int
+
+    @Modifying
+    @Query(value = "update has_book set has_book.quantity = has_book.quantity - 1 " +
+            " where has_book.library_id = :libraryId AND has_book.book_id = :bookId",
+        nativeQuery = true)
+    @Transactional
+    fun subtractQuantityByOne(libraryId: Long, bookId: Long)
+
+    @Modifying
+    @Query(value = "update has_book set has_book.quantity = has_book.quantity + 1 " +
+            " where has_book.library_id = :libraryId AND has_book.book_id = :bookId",
+        nativeQuery = true)
+    @Transactional
+    fun addQuantityByOne(libraryId: Long, bookId: Long)
 }

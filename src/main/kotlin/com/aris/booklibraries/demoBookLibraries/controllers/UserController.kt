@@ -2,6 +2,8 @@ package com.aris.booklibraries.demoBookLibraries.controllers
 
 import com.aris.booklibraries.demoBookLibraries.executors.UserExecutor
 import com.aris.booklibraries.demoBookLibraries.models.Author
+import com.aris.booklibraries.demoBookLibraries.models.Borrows
+import com.aris.booklibraries.demoBookLibraries.models.HasBook
 import com.aris.booklibraries.demoBookLibraries.models.User
 import com.aris.booklibraries.demoBookLibraries.models.response.ApiResponse
 import org.springframework.beans.factory.annotation.Autowired
@@ -32,7 +34,17 @@ class UserController {
         return userExecutor.createUser(data, response)
     }
 
-    @PostMapping("/{ID}/books/{BOOKID}")
+    @PostMapping("/{ID}/books")
+    fun borrowBook(@RequestBody data: HasBook,
+                        response: HttpServletResponse, @PathVariable ID: Long): ApiResponse<Borrows,String>{
+        return userExecutor.borrowBook(data,response,ID)
+    }
+
+    @DeleteMapping("/{ID}/books")
+    fun returnBook(@RequestBody data: HasBook,
+                   response: HttpServletResponse, @PathVariable ID: Long): ApiResponse<String,String>{
+        return userExecutor.returnBook(data,response,ID)
+    }
 
     @PutMapping("/{ID}")
     fun updateAuthor( @RequestBody data: User,

@@ -1,17 +1,28 @@
 package com.aris.booklibraries.demoBookLibraries.executors
 
+import com.aris.booklibraries.demoBookLibraries.models.Borrows
+import com.aris.booklibraries.demoBookLibraries.models.HasBook
 import com.aris.booklibraries.demoBookLibraries.models.User
 import com.aris.booklibraries.demoBookLibraries.models.response.ApiResponse
-import com.aris.booklibraries.demoBookLibraries.services.UserService
+import com.aris.booklibraries.demoBookLibraries.services.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
+import java.time.LocalDate
 import javax.servlet.http.HttpServletResponse
 
 @Component
 class UserExecutor {
     @Autowired
     lateinit var userService: UserService
+    @Autowired
+    lateinit var bookService: BookService
+    @Autowired
+    lateinit var libraryService: LibraryService
+    @Autowired
+    lateinit var hasBookService: HasBookService
+    @Autowired
+    lateinit var borrowsService: BorrowsService
 
     fun getAllUsers(): ApiResponse<List<User>, String> {
         val allUsers = userService.findAll()
@@ -63,4 +74,46 @@ class UserExecutor {
         return ApiResponse( data = null, message = "OK")
     }
 
+    fun borrowBook(data: HasBook, response: HttpServletResponse, ID: Long): ApiResponse<Borrows, String> {
+        val userToBorrow =userService.findById(ID)
+            ?: return ApiResponse(data = null, message = "Error: No user with such id.")
+
+        val bookToAdd = bookService.findById(data.book.bookId?:-1)
+            ?: return ApiResponse(data = null, message = "Error: No book with such id.")
+
+        val libraryToBorrowFrom = libraryService.findById(data.library.libraryId?:-1)
+            ?: return ApiResponse(data = null, message = "Error: No library with such id.")
+
+        val bookExistsInLibrary = hasBookService
+             .isBookInSpecificLibrary( libraryToBorrowFrom.libraryId!!, bookToAdd.bookId!!)
+            ?: return ApiResponse(data = null, message = "Error: The book isn't in this library.")
+
+        val oke = borrowsService.isBorrowed(userToBorrow.userId!!,bookExistsInLibrary.hasBookId!!)
+
+        if ( oke == null ) {
+            val quantity = hasBookService.getQuantity(libraryToBorrowFrom.libraryId!!, bookToAdd.bookId!!)
+            if ( quantity <= 0 ) return ApiResponse(data = null, message = "Error: No available copies of this book.")
+
+            hasBookService.subtractQuantityByOne(libraryToBorrowFrom.libraryId!!, bookToAdd.bookId!!)
+
+            val borrows = Borrows (null,userToBorrow, bookExistsInLibrary, LocalDate.now(),null)
+            val saved = borrowsService.save(borrows)
+            return ApiResponse(data = saved, message = "OK")
+        }
+        return ApiResponse(data = null, message = "The book is already borrowed by this user.")
+    }
+
+    fun returnBook(data: HasBook,
+                   response: HttpServletResponse, ID: Long): ApiResponse<String, String> {
+        val bookExistsInLibrary = hasBookService
+            .isBookInSpecificLibrary( data.library.libraryId?:-1, data.book.bookId?:-1)
+            ?: return ApiResponse(data = null, message = "Error: The book isn't in this library.")
+
+        val borrows = borrowsService.isBorrowed(ID,bookExistsInLibrary.hasBookId?:-1)
+            ?: return ApiResponse(data = null, message = "Error: The user doesn't have this book in this library")
+
+        borrowsService.returnBook(borrows.borrowsId!!,LocalDate.of(2020,2,2))
+        hasBookService.addQuantityByOne(data.library.libraryId!!,data.book.bookId!!)
+        return ApiResponse(data = null, message = "OK")
+    }
 }

@@ -9,20 +9,30 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class HasBookService {
     @Autowired
-    var hasBookRepository: HasBookRepository? = null
+    lateinit var hasBookRepository: HasBookRepository
 
     @Transactional
     fun addBook(libraryId: Long, bookId: Long, quantity: Long) {
-        hasBookRepository?.addBookToSpecificLibrary(libraryId, bookId, quantity)
+        hasBookRepository.addBookToSpecificLibrary(libraryId, bookId, quantity)
     }
 
     @Transactional
     fun isBookInSpecificLibrary(libraryId: Long, bookId: Long): HasBook? {
-        return hasBookRepository?.isBookInSpecificLibrary(libraryId, bookId)
+        return hasBookRepository.isBookInSpecificLibrary(libraryId, bookId)
     }
 
     @Transactional
     fun getQuantity(libraryId: Long, bookId: Long): Int {
-        return hasBookRepository?.getQuantity(libraryId, bookId) ?: 0
+        return hasBookRepository.getQuantity(libraryId, bookId) ?: 0
+    }
+
+    @Transactional
+    fun subtractQuantityByOne(libraryId: Long, bookId: Long){
+        hasBookRepository.subtractQuantityByOne(libraryId,bookId)
+    }
+
+    @Transactional
+    fun addQuantityByOne(libraryId: Long, bookId: Long){
+        hasBookRepository.addQuantityByOne(libraryId,bookId)
     }
 }

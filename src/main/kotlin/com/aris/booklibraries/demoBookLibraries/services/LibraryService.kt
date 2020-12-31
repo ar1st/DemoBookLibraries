@@ -94,6 +94,4 @@ class LibraryService {
             deleteById(library.libraryId!!)
         }
     }
-
-
 }

@@ -8,7 +8,7 @@ class Borrows(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="borrows_id")
-    var borrowsId: Long,
+    var borrowsId: Long?,
 
     @ManyToOne
     // @MapsId("bookId")
@@ -20,5 +20,6 @@ class Borrows(
     @JoinColumn(name = "has_book_id")
     var hasBook: HasBook,
 
-    var date: LocalDate
+    var borrowingDate: LocalDate?,
+    var returnedDate: LocalDate?
 )
