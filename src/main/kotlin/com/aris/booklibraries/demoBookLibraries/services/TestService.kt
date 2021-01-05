@@ -22,7 +22,7 @@ class TestService {
 
     @PostConstruct
     fun postConstruct() {
-        init()
+       // init()
         //println( hasBookService.getQuantity(1,2))
     }
 
