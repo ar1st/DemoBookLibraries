@@ -1,4 +1,4 @@
-package com.aris.booklibraries.demoBookLibraries.controllers
+package com.aris.booklibraries.demoBookLibraries.controllers.restcontrollers
 
 import com.aris.booklibraries.demoBookLibraries.executors.AuthorExecutor
 import org.springframework.web.bind.annotation.*
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse
 import javax.validation.Valid
 
 @RestController
-@RequestMapping(value = ["/authors"])
+@RequestMapping(value = ["/authorsrest"])
 class AuthorController{
     @Autowired
     lateinit var authorExecutor: AuthorExecutor

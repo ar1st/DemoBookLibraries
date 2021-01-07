@@ -24,12 +24,14 @@ class TestService {
     fun postConstruct() {
        // init()
         //println( hasBookService.getQuantity(1,2))
+
     }
 
     fun init() {
-        userService.save(User(userId= null, email = "giannis@gmail.com", firstName = "giannis", lastName = "kostopoulos"))
-        userService.save(User(userId= null, email = "nikos@gmail.com", firstName = "nikos", lastName = "papadopoulos"))
-        userService.save(User(userId= null, email = "elina@gmail.com", firstName = "elina", lastName = "oikonomou"))
+        userService.save(User(userId= null, email = "giannis@gmail.com",null, firstName = "giannis", lastName = "kostopoulos"))
+        userService.save(User(userId= null, email = "nikos@gmail.com",null, firstName = "nikos", lastName = "papadopoulos"))
+        userService.save(User(userId= null, email = "elina@gmail.com",null, firstName = "elina", lastName = "oikonomou"))
+        userService.save(User(userId= null, email = "aris", "123", firstName = "aris", lastName = "tsach"))
 
         authorService.save(Author(authorId= null, email = "petros@gmail.com", firstName = "petros", lastName = "petrou") )
         authorService.save(Author(authorId= null, email = "nikoleta@gmail.com", firstName = "nikoleta", lastName = "nikoletou") )

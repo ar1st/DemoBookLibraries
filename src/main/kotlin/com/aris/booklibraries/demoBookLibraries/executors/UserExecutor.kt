@@ -29,25 +29,36 @@ class UserExecutor {
         return ApiResponse(data = allUsers, message = "OK")
     }
 
-    fun getUserById(userId: Long, response: HttpServletResponse): ApiResponse<User, String> {
+    fun getUserById(userId: Long, response: HttpServletResponse?): ApiResponse<User, String> {
         val userToReturn = userService.findById(userId)
 
         return if ( userToReturn != null ) {
             ApiResponse(data=userToReturn, message = "OK")
         } else {
-            response.status = HttpStatus.BAD_REQUEST.value()
+            response?.status = HttpStatus.BAD_REQUEST.value()
             ApiResponse(data = null, message = "Error: No user with such id.")
         }
     }
 
-    fun createUser(data: User, response: HttpServletResponse): ApiResponse<User, String> {
+    fun createUser(data: User, response: HttpServletResponse?): ApiResponse<User, String> {
         if (data.email == null) {
-            response.status = HttpStatus.BAD_REQUEST.value()
+            response?.status = HttpStatus.BAD_REQUEST.value()
             return ApiResponse(data=null,message="Error: Insert an email.")
         }
 
-        response.status = HttpStatus.ACCEPTED.value()
+        response?.status = HttpStatus.ACCEPTED.value()
         return ApiResponse( data = userService.save(data), message = "OK" )
+    }
+
+    fun logIn(email: String,password: String): ApiResponse<User,String>{
+        if ( email.isEmpty() || password.isEmpty()) {
+            return ApiResponse(data = null, message = "Error")
+        }
+
+        val userToLogin = userService.logIn(email,password)
+            ?: return ApiResponse(data = null, message = "Wrong username or pass")
+
+        return ApiResponse(data = userToLogin, message = "OK")
     }
 
     fun updateUser(data: User, response: HttpServletResponse, ID: Long): ApiResponse<User, String> {
@@ -74,7 +85,7 @@ class UserExecutor {
         return ApiResponse( data = null, message = "OK")
     }
 
-    fun borrowBook(data: HasBook, response: HttpServletResponse, ID: Long): ApiResponse<Borrows, String> {
+    fun borrowBook(data: HasBook, ID: Long, response: HttpServletResponse?): ApiResponse<Borrows, String> {
         val userToBorrow =userService.findById(ID)
             ?: return ApiResponse(data = null, message = "Error: No user with such id.")
 

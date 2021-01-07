@@ -1,4 +1,4 @@
-package com.aris.booklibraries.demoBookLibraries.controllers
+package com.aris.booklibraries.demoBookLibraries.controllers.restcontrollers
 
 import com.aris.booklibraries.demoBookLibraries.executors.BookExecutor
 import com.aris.booklibraries.demoBookLibraries.models.Book
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*
 import javax.servlet.http.HttpServletResponse
 
 @RestController
-@RequestMapping(value = ["/books"])
+@RequestMapping(value = ["/booksrest"])
 class BookController {
     @Autowired
     lateinit var bookExecutor: BookExecutor

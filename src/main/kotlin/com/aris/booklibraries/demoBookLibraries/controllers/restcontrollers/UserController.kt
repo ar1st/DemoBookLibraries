@@ -1,4 +1,4 @@
-package com.aris.booklibraries.demoBookLibraries.controllers
+package com.aris.booklibraries.demoBookLibraries.controllers.restcontrollers
 
 import com.aris.booklibraries.demoBookLibraries.executors.UserExecutor
 import com.aris.booklibraries.demoBookLibraries.models.Author
@@ -7,12 +7,13 @@ import com.aris.booklibraries.demoBookLibraries.models.HasBook
 import com.aris.booklibraries.demoBookLibraries.models.User
 import com.aris.booklibraries.demoBookLibraries.models.response.ApiResponse
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 import javax.servlet.http.HttpServletResponse
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/usersrest")
 class UserController {
     @Autowired
     lateinit var userExecutor: UserExecutor
@@ -37,7 +38,7 @@ class UserController {
     @PostMapping("/{ID}/books")
     fun borrowBook(@RequestBody data: HasBook,
                         response: HttpServletResponse, @PathVariable ID: Long): ApiResponse<Borrows,String>{
-        return userExecutor.borrowBook(data,response,ID)
+        return userExecutor.borrowBook(data,ID,response,)
     }
 
     @DeleteMapping("/{ID}/books")

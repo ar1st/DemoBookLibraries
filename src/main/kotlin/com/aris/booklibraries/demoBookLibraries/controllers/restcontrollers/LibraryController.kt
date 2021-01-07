@@ -1,4 +1,4 @@
-package com.aris.booklibraries.demoBookLibraries.controllers
+package com.aris.booklibraries.demoBookLibraries.controllers.restcontrollers
 
 import com.aris.booklibraries.demoBookLibraries.executors.LibraryExecutor
 import com.aris.booklibraries.demoBookLibraries.models.Author
@@ -13,7 +13,7 @@ import java.util.*
 import javax.servlet.http.HttpServletResponse
 
 @RestController
-@RequestMapping(value = ["/libraries"])
+@RequestMapping(value = ["/librariesrest"])
 class LibraryController {
     @Autowired
     lateinit var libraryService: LibraryService

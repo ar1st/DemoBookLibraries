@@ -7,6 +7,7 @@ data class User(@Id
                 @GeneratedValue(strategy = GenerationType.IDENTITY)
                 var userId: Long?,
                 var email: String?,
+                var password: String?,
                 var firstName: String?,
                 var lastName: String?,
 

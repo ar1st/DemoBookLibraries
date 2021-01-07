@@ -19,13 +19,13 @@ class BookExecutor {
         return ApiResponse(data = allBooks, message = "OK")
     }
 
-    fun getBookById(bookId: Long,response: HttpServletResponse): ApiResponse<Book,String> {
+    fun getBookById(bookId: Long,response: HttpServletResponse?): ApiResponse<Book,String> {
         val bookToReturn = bookService.findById(bookId)
 
         return if ( bookToReturn != null ) {
             ApiResponse(data=bookToReturn, message = "OK")
         } else {
-            response.status = HttpStatus.BAD_REQUEST.value()
+            response?.status = HttpStatus.BAD_REQUEST.value()
             ApiResponse(data = null, message = "Error: No book with such id.")
         }
     }

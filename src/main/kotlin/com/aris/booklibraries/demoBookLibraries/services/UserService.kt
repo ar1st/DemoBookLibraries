@@ -15,31 +15,41 @@ import java.util.*
 @Service
 class UserService {
     @Autowired
-    var userRepository: UserRepository? = null
+    lateinit var userRepository: UserRepository
 
     @Transactional
     fun findAll(): List<User> {
-        return userRepository?.findAll() ?: emptyList()
+        return userRepository.findAll() ?: emptyList()
     }
 
     @Transactional
     fun findById(id: Long): User? {
-        return userRepository?.findById(id)?.orElse(null)
+        return userRepository.findById(id).orElse(null)
     }
 
     @Transactional
     fun findByFirstName(firstName: String): User? {
-        return userRepository?.findByFirstName(firstName)
+        return userRepository.findByFirstName(firstName)
+    }
+
+    @Transactional
+    fun findByEmail(email:String) : User?{
+        return userRepository.findByEmail(email)
+    }
+
+    @Transactional
+    fun logIn(email:String,password: String) : User?{
+        return userRepository.logIn(email,password)
     }
 
     @Transactional
     fun save(entity: User): User? {
-        return userRepository?.save(entity)
+        return userRepository.save(entity)
     }
 
     @Transactional
     fun deleteById(userId: Long) {
-        userRepository?.deleteById(userId)
+        userRepository.deleteById(userId)
     }
 
 

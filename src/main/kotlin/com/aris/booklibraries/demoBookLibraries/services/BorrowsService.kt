@@ -27,4 +27,10 @@ class BorrowsService {
         borrowsRepository.returnBook(borrowsId, returnDate)
     }
 
+    @Transactional
+    fun getBorrowsDetails(userId: Long) : List<String> {
+        return borrowsRepository.getBorrowsDetails(userId)
+    }
+
+
 }

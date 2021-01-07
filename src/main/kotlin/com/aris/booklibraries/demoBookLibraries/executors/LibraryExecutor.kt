@@ -31,25 +31,25 @@ class LibraryExecutor {
         }
     }
 
-    fun getLibraryById(libraryId: Long,response: HttpServletResponse): ApiResponse<Library,String> {
+    fun getLibraryById(libraryId: Long,response: HttpServletResponse?): ApiResponse<Library,String> {
         val libraryToReturn = libraryService.findById(libraryId)
 
         return if ( libraryToReturn != null ) {
             ApiResponse(data=libraryToReturn,message = "OK")
         } else {
-            response.status = HttpStatus.BAD_REQUEST.value()
+            response?.status = HttpStatus.BAD_REQUEST.value()
             ApiResponse(data = null, message = "Error: No library with such id.")
         }
     }
 
-    fun getBooksByLibrary(libraryId: Long, response: HttpServletResponse) : ApiResponse<List<Book>,String> {
+    fun getBooksByLibrary(libraryId: Long, response: HttpServletResponse?) : ApiResponse<List<Book>,String> {
         val matchedLibrary = libraryService.findById(libraryId)
 
         return if ( matchedLibrary != null) {
             val allBooksFromLibrary = libraryService.findAllBooks(matchedLibrary.libraryId!!)
             ApiResponse(data = allBooksFromLibrary, message = "OK")
         } else {
-            response.status = HttpStatus.BAD_REQUEST.value()
+            response?.status = HttpStatus.BAD_REQUEST.value()
             ApiResponse(data = null, message = "Error: No library with such id.")
         }
     }

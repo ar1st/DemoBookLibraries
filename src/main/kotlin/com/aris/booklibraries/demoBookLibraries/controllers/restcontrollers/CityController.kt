@@ -1,4 +1,4 @@
-package com.aris.booklibraries.demoBookLibraries.controllers
+package com.aris.booklibraries.demoBookLibraries.controllers.restcontrollers
 
 import com.aris.booklibraries.demoBookLibraries.executors.CityExecutor
 import com.aris.booklibraries.demoBookLibraries.models.City
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 @RestController
-@RequestMapping(value = ["/cities"])
+@RequestMapping(value = ["/citiesrest"])
 class CityController {
     @Autowired
     lateinit var cityService: CityService
