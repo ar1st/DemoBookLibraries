@@ -115,13 +115,13 @@ class UserExecutor {
     }
 
     fun returnBook(data: HasBook,
-                   response: HttpServletResponse, ID: Long): ApiResponse<String, String> {
+                   response: HttpServletResponse?, ID: Long): ApiResponse<String, String> {
         val bookExistsInLibrary = hasBookService
             .isBookInSpecificLibrary( data.library.libraryId?:-1, data.book.bookId?:-1)
             ?: return ApiResponse(data = null, message = "Error: The book isn't in this library.")
 
         val borrows = borrowsService.isBorrowed(ID,bookExistsInLibrary.hasBookId?:-1)
-            ?: return ApiResponse(data = null, message = "Error: The user doesn't have this book in this library")
+            ?: return ApiResponse(data = null, message = "Error: This book was already returned.")
 
         borrowsService.returnBook(borrows.borrowsId!!,LocalDate.of(2020,2,2))
         hasBookService.addQuantityByOne(data.library.libraryId!!,data.book.bookId!!)

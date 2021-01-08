@@ -25,11 +25,11 @@ interface BorrowsRepository: JpaRepository<Borrows, Long> {
 //    @Transactional
 //    fun getBorrowsDetails(userId: Long): List<Borrows>
 
-    @Query(value = "select book.title,library.name,borrows.borrowing_date,borrows.returned_date" +
+    @Query(value = "select book.title,library.name,borrows.borrowing_date,borrows.returned_date,has_book.has_book_id" +
             " from borrows inner join has_book on borrows.has_book_id = has_book.has_book_id " +
             "inner join book on book.book_id = has_book.book_id " +
             "inner join library on library.library_id = has_book.library_id" +
-            " where borrows.user_id =  :userId", nativeQuery = true)
+            " where borrows.user_id =  :userId AND borrows.returned_date is null", nativeQuery = true)
     @Transactional
     fun getBorrowsDetails(userId: Long): List<String>
 }

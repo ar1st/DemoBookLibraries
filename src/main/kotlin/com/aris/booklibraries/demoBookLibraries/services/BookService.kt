@@ -24,25 +24,25 @@ class BookService {
 
     @Transactional
     fun findAll(): List<Book> {
-        return bookRepository?.findAll() ?: emptyList()
+        return bookRepository.findAll() ?: emptyList()
     }
 
 
     @Transactional
     fun findById(id: Long): Book? {
-        return bookRepository?.findById(id)?.orElse(null)
+        return bookRepository.findById(id).orElse(null)
     }
 
     @Transactional
     fun findAllBooksByAuthor(authorId: Long): List<Book> {
-        return  bookRepository?.findByAuthorAuthorId(authorId) ?: emptyList()
+        return  bookRepository.findByAuthorAuthorId(authorId) ?: emptyList()
     }
 
     fun findAllBooks(bookId: Long): List<Library> {
         val matchedBook = findById( bookId )
 
         if ( matchedBook != null) {
-            return  libraryRepository?.findAllLibraries(bookId) ?: emptyList()
+            return  libraryRepository.findAllLibraries(bookId) ?: emptyList()
         }
         return emptyList()
     }
@@ -51,25 +51,25 @@ class BookService {
     fun addBook(entity: Book, author: Author): Book? {
 
         val matchedAuthor = if ( author.authorId == null) {
-            authorRepository?.save(author)
+            authorRepository.save(author)
         } else {
-            authorRepository?.findById( author.authorId!! )?.orElse(null)
+            authorRepository.findById( author.authorId!! ).orElse(null)
 
         } ?: return null
 
         entity.author = matchedAuthor
-        return bookRepository?.save(entity)
+        return bookRepository.save(entity)
     }
 
     @Transactional
     fun deleteById(bookId: Long) {
-        libraryService?.removeBookFromAllLibraries(bookId)
-        bookRepository?.deleteById(bookId)
+        libraryService.removeBookFromAllLibraries(bookId)
+        bookRepository.deleteById(bookId)
     }
 
     @Transactional
     fun deleteByAuthor(authorId: Long) {
-        val booksToDelete = bookRepository?.findByAuthorAuthorId(authorId) ?: emptyList()
+        val booksToDelete = bookRepository.findByAuthorAuthorId(authorId) ?: emptyList()
 
         for ( book in booksToDelete) {
             deleteById(book.bookId!!)

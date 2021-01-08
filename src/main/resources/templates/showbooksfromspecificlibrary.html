@@ -21,10 +21,13 @@
             <td th:text="${book.title}"></td>
             <td th:text="${book.author.lastName}"></td>
             <td th:text="${book.author.firstName}"></td>
-<!--            <td ><a th:href="@{/users/{userid}/{libraryid}/{bookid}(userid= ${session.loggedUser.userId})(libraryid= ${library.libraryId})(bookid= ${book.bookId})}">Borrow</a></td>-->
-<!--            <td ><a th:href="@{/users/{userid}/{bookid}(userid= ${session.loggedUser.userId})(bookid=${book.bookId}})}">Borrow</a></td>-->
-            <td ><a th:href="@{/borrows/{userId}/{bookId}/{libraryId}(userId = ${session.loggedUser.userId}, bookId = ${book.bookId}, libraryId = ${libraryId} )}">Borrow</a></td>
+            <td>
+                <a th:href="@{/borrows/users/{userId}/books/{bookId}/libraries/{libraryId}
+            (userId = ${session.loggedUser.userId}, bookId = ${book.bookId}, libraryId = ${libraryId} )}">
+                Borrow</a>
+            </td>
         </tr>
+        <div th:if="${message} != null" th:text="${message}"> </div>
         </tbody>
     </table>
     <a th:href="@{/}" class="btn btn-primary">Back</a>
