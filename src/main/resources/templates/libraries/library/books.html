@@ -22,8 +22,8 @@
             <td th:text="${book.author.lastName}"></td>
             <td th:text="${book.author.firstName}"></td>
             <td>
-                <a th:href="@{/borrows/users/{userId}/books/{bookId}/libraries/{libraryId}
-            (userId = ${session.loggedUser.userId}, bookId = ${book.bookId}, libraryId = ${libraryId} )}">
+                <a class="btn btn-primary" th:href="@{/loggedUser/{userId}/books/{bookId}/libraries/{libraryId}
+                    (userId = ${session.loggedUser.userId}, bookId = ${book.bookId}, libraryId = ${libraryId} )}">
                 Borrow</a>
             </td>
         </tr>

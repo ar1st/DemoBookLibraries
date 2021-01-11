@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse
 
 @RestController
 @RequestMapping(value = ["/librariesrest"])
-class LibraryController {
+class LibraryControllerRest {
     @Autowired
     lateinit var libraryService: LibraryService
     @Autowired

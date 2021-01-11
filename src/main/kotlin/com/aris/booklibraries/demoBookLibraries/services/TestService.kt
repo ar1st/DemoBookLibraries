@@ -8,23 +8,23 @@ import javax.annotation.PostConstruct
 @Service
 class TestService {
     @Autowired
-    var userService = UserService()
+    lateinit var userService: UserService
     @Autowired
-    var authorService = AuthorService()
+    lateinit var authorService :AuthorService
     @Autowired
-    var bookService = BookService()
+    lateinit var bookService: BookService
     @Autowired
-    var cityService = CityService()
+    lateinit var cityService: CityService
     @Autowired
-    var libraryService = LibraryService()
+    lateinit var libraryService: LibraryService
     @Autowired
-    var hasBookService = HasBookService()
+    lateinit var hasBookService: HasBookService
+    @Autowired
+    lateinit var librarianService: LibrarianService
 
     @PostConstruct
     fun postConstruct() {
        // init()
-        //println( hasBookService.getQuantity(1,2))
-
     }
 
     fun init() {
@@ -57,8 +57,6 @@ class TestService {
         ),cityService.cityRepository?.findById(2)!!.orElse(null))
         libraryService.addLibrary(Library(null,"Idiotiki Vivliothiki Athinas",null,
         ),cityService.cityRepository?.findById(2)!!.orElse(null))
-        libraryService.addLibrary(Library(null,"Vivliothiki Larisas",null,
-        ),cityService.cityRepository?.findById(3)!!.orElse(null))
 
         hasBookService.addBook(1,1,10)
         hasBookService.addBook(1,2,5)
@@ -68,5 +66,12 @@ class TestService {
         hasBookService.addBook(3,6,10)
         hasBookService.addBook(4,7,10)
         hasBookService.addBook(4,1,10)
+
+        librarianService.save(Librarian(null,"lib1","123","lib","1",libraryService.findById(1)))
+        librarianService.save(Librarian(null,"lib2","123","lib","2",libraryService.findById(2)))
+        librarianService.save(Librarian(null,"lib3","123","lib","3",libraryService.findById(3)))
+        librarianService.save(Librarian(null,"lib4","123","lib","4",libraryService.findById(4)))
+
+
     }
 }

@@ -12,7 +12,7 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping(value = ["/authorsrest"])
-class AuthorController{
+class AuthorControllerRest{
     @Autowired
     lateinit var authorExecutor: AuthorExecutor
 
@@ -35,7 +35,7 @@ class AuthorController{
     @PostMapping("")
     fun createAuthor(@Valid @RequestBody data: Author,
                      response: HttpServletResponse): ApiResponse<Author,String> {
-        return authorExecutor.createAuthor(response,data)
+        return authorExecutor.createAuthor(data, response)
     }
 
     @RequestMapping(

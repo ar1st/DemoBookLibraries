@@ -15,6 +15,7 @@ class HasBookService {
     fun getById(hasBookId: Long): HasBook? {
         return hasBookRepository.findById(hasBookId).orElse(null)
     }
+
     @Transactional
     fun addBook(libraryId: Long, bookId: Long, quantity: Long) {
         hasBookRepository.addBookToSpecificLibrary(libraryId, bookId, quantity)

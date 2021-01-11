@@ -38,6 +38,7 @@ class BookService {
         return  bookRepository.findByAuthorAuthorId(authorId) ?: emptyList()
     }
 
+    @Transactional
     fun findAllBooks(bookId: Long): List<Library> {
         val matchedBook = findById( bookId )
 
@@ -46,6 +47,12 @@ class BookService {
         }
         return emptyList()
     }
+
+    @Transactional
+    fun findAllBooksNotInSpecificLibrary(libraryId: Long): List<Book> {
+        return bookRepository.findAllBooksNotInSpecificLibrary(libraryId)
+    }
+
 
     @Transactional
     fun addBook(entity: Book, author: Author): Book? {

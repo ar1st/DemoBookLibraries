@@ -31,5 +31,12 @@ interface BookRepository : JpaRepository<Book,Long> {
     @Transactional
     fun findAllBooks(libraryId: Long): List<Book>
 
-
+    @Query(value="SELECT book.* " +
+            "FROM library inner join has_book  " +
+            "on library.library_id = has_book.library_id " +
+            "inner join book on book.book_id=has_book.book_id " +
+            "where NOT library.library_id = :libraryId"
+        ,nativeQuery=true)
+    @Transactional
+    fun findAllBooksNotInSpecificLibrary(libraryId: Long): List<Book>
 }

@@ -2,25 +2,29 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>All libraries</title>
+    <title>All authors</title>
     <script type="text/javascript" th:src = "@{/js/actions.js}"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <body>
 <div class="container">
+    <div>Who wrote it</div>
     <table class="table table-striped table-responsive-md">
         <thead>
         <tr>
-            <th scope="col">Name</th>
-            <th scope="col">City</th>
-            <th scope="col">From here</th>
+            <th scope="col">Email</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Choose</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="library : ${libraries.data}">
-            <td th:text="${library.name}"></td>
-            <td th:text="${library.city.name}"></td>
-            <td ><a th:href="@{/libraries/{id}(id= ${library.libraryId})}">Choose</a></td>
+        <tr th:each="author : ${authors.data}">
+            <td th:text="${author.email}"></td>
+            <td th:text="${author.firstName}"></td>
+            <td th:text="${author.lastName}"></td>
+            <td ><a class="btn btn-primary" th:href="@{/books/add/writtenBy/{authorId}
+            (authorId= ${author.authorId})}">Choose</a></td>
         </tr>
         </tbody>
     </table>

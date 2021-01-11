@@ -1,4 +1,4 @@
-package com.aris.booklibraries.demoBookLibraries.controllers
+package com.aris.booklibraries.demoBookLibraries.controllers.juststuff
 
 import org.springframework.http.HttpHeaders
 import org.springframework.web.bind.annotation.ControllerAdvice

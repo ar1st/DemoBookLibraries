@@ -14,7 +14,7 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping("/usersrest")
-class UserController {
+class UserControllerRest {
     @Autowired
     lateinit var userExecutor: UserExecutor
 

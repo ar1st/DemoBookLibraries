@@ -5,6 +5,5 @@ data class BorrowDetails(
     var libraryName: String?,
     var cityName: String?,
     var borrowDate: String?,
-    var returnDate: String?,
     var hasBookId: String
 )

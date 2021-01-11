@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse
 
 @RestController
 @RequestMapping(value = ["/booksrest"])
-class BookController {
+class BookControllerRest {
     @Autowired
     lateinit var bookExecutor: BookExecutor
 

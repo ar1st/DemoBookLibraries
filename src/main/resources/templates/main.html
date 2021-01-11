@@ -8,11 +8,14 @@
 <body>
     <div class="container my-2">
         <div class="container my-2">
-            <a th:if="${session.loggedUser} != null" th:href="@{/mybooks}" class="btn btn-primary">My Books</a>
-            <a th:if="${session.loggedUser} != null" th:href="@{/libraries}" class="btn btn-primary">Borrow Book</a>
-            <a th:if="${session.loggedUser} != null" th:href="@{/logout}" class="btn btn-primary">Logout</a>
-            <a th:if="${session.loggedUser} == null" th:href="@{/signup}" class="btn btn-primary">Sign Up</a>
-            <a th:if="${session.loggedUser} == null" th:href="@{/login}" class="btn btn-primary">Login</a>
+            <a th:if="${session.loggedUser} != null" th:href="@{/loggedUser/books}" class="btn btn-primary">My Books</a>
+            <a th:if="${session.loggedUser} != null" th:href="@{/libraries/librariesToBorrowFrom}" class="btn btn-primary">Borrow Book</a>
+
+            <a th:if="${session.loggedLibrarian} != null" th:href="@{/books/booksToAddToLibrary/libraries/{id}(id= ${session.loggedLibrarian.library.libraryId})}" class="btn btn-primary">Add Book To Library</a>
+            <a th:if="${session.loggedLibrarian} != null" th:href="@{/users}" class="btn btn-primary">Show all users</a>
+            <a th:if="${session.role} != null" th:href="@{/logout}" class="btn btn-primary">Logout</a>
+            <a th:if="${session.role} == null" th:href="@{/signup}" class="btn btn-primary">Sign Up</a>
+            <a th:if="${session.role} == null" th:href="@{/login}" class="btn btn-primary">Login</a>
         </div>
         <div class="p-3 mb-2 bg-secondary text-white" th:if="${message} != null">
             <p  th:text="${message}"  ></p>
@@ -20,8 +23,9 @@
     </div>
 
     <div class="panel panel-default" style="position: absolute;bottom: 20px;right:5px;">
-        <a th:if="${session.loggedUser} != null" th:href="@{/users}" class="btn btn-primary">Show all users</a>
-        <a th:if="${session.loggedUser} != null" th:href="@{/books}" class="btn btn-primary">Show all books</a>
+        <a th:if="${session.loggedLibrarian} != null" th:href="@{/authors/add}" class="btn btn-primary">Add Author</a>
+        <a th:if="${session.loggedLibrarian} != null" th:href="@{/authors/authorsToWriteBook}" class="btn btn-primary">Add Book</a>
+        <a th:href="@{/books}" class="btn btn-primary">Show all books</a>
     </div>
 </body>
 </html>

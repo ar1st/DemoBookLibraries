@@ -23,13 +23,13 @@ class AuthorExecutor {
         return ApiResponse(data = allAuthors, message = "OK")
     }
 
-    fun getAuthorById(authorId: Long,response: HttpServletResponse): ApiResponse<Author,String> {
+    fun getAuthorById(authorId: Long,response: HttpServletResponse?): ApiResponse<Author,String> {
         val authorToReturn = authorService.findById(authorId)
 
         return if ( authorToReturn != null ) {
             ApiResponse(data=authorToReturn, message = "OK")
         } else {
-            response.status = HttpStatus.BAD_REQUEST.value()
+            response?.status = HttpStatus.BAD_REQUEST.value()
             ApiResponse(data = null, message = "Error: No author with such id.")
         }
     }
@@ -45,13 +45,13 @@ class AuthorExecutor {
         return ApiResponse(data = null, message = "Error: No author with such id.")
     }
 
-    fun createAuthor( response: HttpServletResponse, data: Author): ApiResponse<Author,String> {
+    fun createAuthor(data: Author, response: HttpServletResponse?): ApiResponse<Author,String> {
         if (data.email == null) {
-            response.status = HttpStatus.BAD_REQUEST.value()
+            response?.status = HttpStatus.BAD_REQUEST.value()
             return ApiResponse(data=null,message="Error: Insert an email.")
         }
 
-        response.status = HttpStatus.ACCEPTED.value()
+        response?.status = HttpStatus.ACCEPTED.value()
         return ApiResponse( data = authorService.save(data), message = "OK" )
     }
 

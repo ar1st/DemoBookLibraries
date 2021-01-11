@@ -1,4 +1,4 @@
-package com.aris.booklibraries.demoBookLibraries.controllers
+package com.aris.booklibraries.demoBookLibraries.controllers.juststuff
 
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
