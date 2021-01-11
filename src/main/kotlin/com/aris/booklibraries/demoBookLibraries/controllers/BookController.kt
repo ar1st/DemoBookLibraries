@@ -2,9 +2,8 @@ package com.aris.booklibraries.demoBookLibraries.controllers
 
 import com.aris.booklibraries.demoBookLibraries.executors.AuthorExecutor
 import com.aris.booklibraries.demoBookLibraries.executors.BookExecutor
-import com.aris.booklibraries.demoBookLibraries.models.Author
+import com.aris.booklibraries.demoBookLibraries.executors.LibraryExecutor
 import com.aris.booklibraries.demoBookLibraries.models.Book
-import com.aris.booklibraries.demoBookLibraries.models.User
 import com.aris.booklibraries.demoBookLibraries.services.HasBookService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -22,6 +21,8 @@ class BookController {
     lateinit var bookExecutor: BookExecutor
     @Autowired
     lateinit var hasBookService: HasBookService
+    @Autowired
+    lateinit var libraryExecutor: LibraryExecutor
 
 
     @GetMapping("/books/add/writtenBy/{authorId}")
@@ -46,14 +47,32 @@ class BookController {
         return "books/booksToAddToLibrary"
     }
 
+
+
     @GetMapping("/books/{bookId}/addingToLibrary/libraries/{libraryId}")
     fun addingBookToLibrary(@PathVariable("bookId",required = true) bookId: Long,
                             @PathVariable("libraryId",required = true) libraryId: Long,
                             model: Model): String{
-//        val user = userExecutor.getUserById( userId.toLong(),null)
-//        val hasBook = hasBookService.getById( hasBookId.toLong() )
-        val p = hasBookService.addBook(libraryId.toLong(),bookId.toLong(),10)
+        hasBookService.addBook(libraryId, bookId,10)
         model.addAttribute("message","Book added.")
+        return "main"
+    }
+
+    @GetMapping("/books/booksToRemoveFromLibrary/libraries/{ID}")
+    fun showAllBookToRemoveFromLibrary(model: Model, @PathVariable("ID") libraryId: Long): String {
+        val books = libraryExecutor.getBooksByLibrary(libraryId,null)
+        model.addAttribute("books", books)
+        return "books/booksToRemoveFromLibrary"
+    }
+
+    @GetMapping("/books/{bookId}/removingFromLibrary/libraries/{libraryId}")
+    fun removingBookFromLibrary(@PathVariable("bookId",required = true) bookId: Long,
+                            @PathVariable("libraryId",required = true) libraryId: Long,
+                            model: Model): String{
+
+
+        libraryExecutor.deleteBookFromSpecificLibrary(libraryId,bookId,null)
+        model.addAttribute("message","Book removed.")
         return "main"
     }
 

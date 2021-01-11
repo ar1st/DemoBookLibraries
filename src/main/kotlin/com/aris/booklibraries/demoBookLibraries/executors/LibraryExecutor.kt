@@ -165,7 +165,7 @@ class LibraryExecutor {
     }
 
     fun deleteBookFromSpecificLibrary(libraryId: Long, bookId: Long,
-                                      response: HttpServletResponse): ApiResponse<String, String> {
+                                      response: HttpServletResponse?): ApiResponse<String, String> {
         libraryService.findById(libraryId) ?: return ApiResponse(data = null, "No such library.")
 
         bookService.findById(bookId) ?: return ApiResponse(data = null, "No such book.")

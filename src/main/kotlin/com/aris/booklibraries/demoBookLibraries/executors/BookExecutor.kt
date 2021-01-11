@@ -41,6 +41,15 @@ class BookExecutor {
         return ApiResponse(books,"OK")
     }
 
+//    fun getAllBooksInSpecificLibrary(libraryId: Long): ApiResponse<List<Book>,String> {
+//        val matchedLibrary = libraryExecutor.getLibraryById(libraryId,null)
+//
+//        if (matchedLibrary.data == null) return ApiResponse(null,"Error: No such library")
+//
+//        val books = bookService.findAllBooksInSpecificLibrary(matchedLibrary.data!!.libraryId!!)
+//        return ApiResponse(books,"OK")
+//    }
+
     fun getLibrariesByBook(bookId: Long, response: HttpServletResponse): ApiResponse<List<Library>, String> {
         val matchedBook = bookService.findById(bookId)
 

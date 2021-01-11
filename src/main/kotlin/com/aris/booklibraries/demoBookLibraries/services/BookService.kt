@@ -53,6 +53,11 @@ class BookService {
         return bookRepository.findAllBooksNotInSpecificLibrary(libraryId)
     }
 
+//    @Transactional
+//    fun findAllBooksInSpecificLibrary(libraryId: Long): List<Book> {
+//        return bookRepository.findAllBooksNotInSpecificLibrary(libraryId)
+//    }
+
 
     @Transactional
     fun addBook(entity: Book, author: Author): Book? {

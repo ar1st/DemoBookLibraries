@@ -14,7 +14,7 @@
             <th scope="col">Title</th>
             <th scope="col">Last Name</th>
             <th scope="col">First Name</th>
-            <th scope="col">Add</th>
+            <th scope="col">Remove</th>
         </tr>
         </thead>
         <tbody>
@@ -22,7 +22,7 @@
             <td th:text="${book.title}"></td>
             <td th:text="${book.author.lastName}"></td>
             <td th:text="${book.author.firstName}"></td>
-            <td ><a class="btn btn-primary" th:href="@{/books/{bookId}/addingToLibrary/libraries/{libraryId}
+            <td ><a class="btn btn-primary" th:href="@{/books/{bookId}/removingFromLibrary/libraries/{libraryId}
             (bookId = ${book.bookId}, libraryId= ${session.loggedLibrarian.library.libraryId})}">Yes</a></td>
         </tr>
         </tbody>

@@ -12,6 +12,7 @@
             <a th:if="${session.loggedUser} != null" th:href="@{/libraries/librariesToBorrowFrom}" class="btn btn-primary">Borrow Book</a>
 
             <a th:if="${session.loggedLibrarian} != null" th:href="@{/books/booksToAddToLibrary/libraries/{id}(id= ${session.loggedLibrarian.library.libraryId})}" class="btn btn-primary">Add Book To Library</a>
+            <a th:if="${session.loggedLibrarian} != null" th:href="@{/books/booksToRemoveFromLibrary/libraries/{id}(id= ${session.loggedLibrarian.library.libraryId})}" class="btn btn-primary">Remove Book From Library</a>
             <a th:if="${session.loggedLibrarian} != null" th:href="@{/users}" class="btn btn-primary">Show all users</a>
             <a th:if="${session.role} != null" th:href="@{/logout}" class="btn btn-primary">Logout</a>
             <a th:if="${session.role} == null" th:href="@{/signup}" class="btn btn-primary">Sign Up</a>
