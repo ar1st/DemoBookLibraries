@@ -10,13 +10,10 @@ import org.springframework.transaction.annotation.Transactional
 @Repository
 interface BookRepository : JpaRepository<Book,Long> {
 
-    //doesn't run without modifying and query
-//    @Modifying
-//    @Query(value = "delete from Book where title = :title")
+
     @Transactional
     fun deleteByTitle (title: String)
 
-    //@Query(value = "select * from book where author_id = :authorId", nativeQuery = true)
     fun findByAuthorAuthorId (authorId: Long): List<Book>
 
     @Transactional
@@ -31,11 +28,11 @@ interface BookRepository : JpaRepository<Book,Long> {
     @Transactional
     fun findAllBooks(libraryId: Long): List<Book>
 
-    @Query(value="SELECT book.* " +
-            "FROM library inner join has_book  " +
-            "on library.library_id = has_book.library_id " +
-            "inner join book on book.book_id=has_book.book_id " +
-            "where NOT library.library_id = :libraryId"
+    @Query(value="select b2.* from book b2  " +
+            "where b2.book_id not in(  " +
+            "SELECT book.book_id FROM book inner join has_book on book.book_id = has_book.book_id " +
+            "inner join library on library.library_id = has_book.library_id " +
+            "where library.library_id = :libraryId) "
         ,nativeQuery=true)
     @Transactional
     fun findAllBooksNotInSpecificLibrary(libraryId: Long): List<Book>

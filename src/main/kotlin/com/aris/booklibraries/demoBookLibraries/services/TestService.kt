@@ -24,13 +24,13 @@ class TestService {
 
     @PostConstruct
     fun postConstruct() {
-       // init()
+        init()
     }
 
     fun init() {
-        userService.save(User(userId= null, email = "giannis@gmail.com",null, firstName = "giannis", lastName = "kostopoulos"))
-        userService.save(User(userId= null, email = "nikos@gmail.com",null, firstName = "nikos", lastName = "papadopoulos"))
-        userService.save(User(userId= null, email = "elina@gmail.com",null, firstName = "elina", lastName = "oikonomou"))
+        userService.save(User(userId= null, email = "giannis@gmail.com","123", firstName = "giannis", lastName = "kostopoulos"))
+        userService.save(User(userId= null, email = "nikos@gmail.com","123", firstName = "nikos", lastName = "papadopoulos"))
+        userService.save(User(userId= null, email = "elina@gmail.com","123", firstName = "elina", lastName = "oikonomou"))
         userService.save(User(userId= null, email = "aris", "123", firstName = "aris", lastName = "tsach"))
 
         authorService.save(Author(authorId= null, email = "petros@gmail.com", firstName = "petros", lastName = "petrou") )

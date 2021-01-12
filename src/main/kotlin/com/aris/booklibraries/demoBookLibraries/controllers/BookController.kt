@@ -4,6 +4,7 @@ import com.aris.booklibraries.demoBookLibraries.executors.AuthorExecutor
 import com.aris.booklibraries.demoBookLibraries.executors.BookExecutor
 import com.aris.booklibraries.demoBookLibraries.executors.LibraryExecutor
 import com.aris.booklibraries.demoBookLibraries.models.Book
+import com.aris.booklibraries.demoBookLibraries.services.BorrowsService
 import com.aris.booklibraries.demoBookLibraries.services.HasBookService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -23,6 +24,8 @@ class BookController {
     lateinit var hasBookService: HasBookService
     @Autowired
     lateinit var libraryExecutor: LibraryExecutor
+    @Autowired
+    lateinit var borrowsService: BorrowsService
 
 
     @GetMapping("/books/add/writtenBy/{authorId}")
@@ -47,22 +50,26 @@ class BookController {
         return "books/booksToAddToLibrary"
     }
 
-
-
     @GetMapping("/books/{bookId}/addingToLibrary/libraries/{libraryId}")
     fun addingBookToLibrary(@PathVariable("bookId",required = true) bookId: Long,
                             @PathVariable("libraryId",required = true) libraryId: Long,
                             model: Model): String{
-        hasBookService.addBook(libraryId, bookId,10)
-        model.addAttribute("message","Book added.")
+        val isInLibrary = hasBookService.isBookInSpecificLibrary(libraryId, bookId)
+        if ( isInLibrary == null) {
+            hasBookService.addBook(libraryId, bookId,10)
+            model.addAttribute("message","Book added.")
+        } else {
+            model.addAttribute("message","Book already in library.")
+        }
+
         return "main"
     }
 
-    @GetMapping("/books/booksToRemoveFromLibrary/libraries/{ID}")
+    @GetMapping("/books/showBooksInLibrary/libraries/{ID}")
     fun showAllBookToRemoveFromLibrary(model: Model, @PathVariable("ID") libraryId: Long): String {
         val books = libraryExecutor.getBooksByLibrary(libraryId,null)
         model.addAttribute("books", books)
-        return "books/booksToRemoveFromLibrary"
+        return "books/showBooksInLibrary"
     }
 
     @GetMapping("/books/{bookId}/removingFromLibrary/libraries/{libraryId}")
@@ -70,13 +77,13 @@ class BookController {
                             @PathVariable("libraryId",required = true) libraryId: Long,
                             model: Model): String{
 
-
-        libraryExecutor.deleteBookFromSpecificLibrary(libraryId,bookId,null)
-        model.addAttribute("message","Book removed.")
+        val isBorrowed = borrowsService.isBookBorrowed(bookId)
+        if ( isBorrowed.intValueExact() == 0 ) {
+            libraryExecutor.deleteBookFromSpecificLibrary(libraryId, bookId, null)
+            model.addAttribute("message", "Book removed.")
+        } else {
+            model.addAttribute("message", "Book can't be removed. Is borrowed.")
+        }
         return "main"
     }
-
-
-
-
 }

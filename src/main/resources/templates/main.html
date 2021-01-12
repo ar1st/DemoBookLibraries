@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>My Library App</title>
+    <link th:href = "@{/css/main.css}" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <body>
@@ -10,10 +11,17 @@
         <div class="container my-2">
             <a th:if="${session.loggedUser} != null" th:href="@{/loggedUser/books}" class="btn btn-primary">My Books</a>
             <a th:if="${session.loggedUser} != null" th:href="@{/libraries/librariesToBorrowFrom}" class="btn btn-primary">Borrow Book</a>
-
-            <a th:if="${session.loggedLibrarian} != null" th:href="@{/books/booksToAddToLibrary/libraries/{id}(id= ${session.loggedLibrarian.library.libraryId})}" class="btn btn-primary">Add Book To Library</a>
-            <a th:if="${session.loggedLibrarian} != null" th:href="@{/books/booksToRemoveFromLibrary/libraries/{id}(id= ${session.loggedLibrarian.library.libraryId})}" class="btn btn-primary">Remove Book From Library</a>
-            <a th:if="${session.loggedLibrarian} != null" th:href="@{/users}" class="btn btn-primary">Show all users</a>
+        </div>
+        <div class="container my-2" th:if="${session.loggedLibrarian} != null " >
+            <div class="welcomeLabel">
+                <p th:text=" 'Welcome ' + ${session.loggedLibrarian.firstName} + ${session.loggedLibrarian.lastName} + '. You work at ' + ${session.loggedLibrarian.library.name} + '.'"></p>
+<!--                <p th:text=" 'You work at ' + ${session.loggedLibrarian.library.name} "></p>-->
+            </div>
+            <a th:href="@{/books/booksToAddToLibrary/libraries/{id}(id= ${session.loggedLibrarian.library.libraryId})}" class="btn btn-primary">Add Book To Library</a>
+            <a th:href="@{/books/showBooksInLibrary/libraries/{id}(id= ${session.loggedLibrarian.library.libraryId})}" class="btn btn-primary">Show Books In Library</a>
+            <a th:href="@{/users}" class="btn btn-primary">Show all users</a>
+        </div>
+        <div class="container my-2">
             <a th:if="${session.role} != null" th:href="@{/logout}" class="btn btn-primary">Logout</a>
             <a th:if="${session.role} == null" th:href="@{/signup}" class="btn btn-primary">Sign Up</a>
             <a th:if="${session.role} == null" th:href="@{/login}" class="btn btn-primary">Login</a>
@@ -26,7 +34,7 @@
     <div class="panel panel-default" style="position: absolute;bottom: 20px;right:5px;">
         <a th:if="${session.loggedLibrarian} != null" th:href="@{/authors/add}" class="btn btn-primary">Add Author</a>
         <a th:if="${session.loggedLibrarian} != null" th:href="@{/authors/authorsToWriteBook}" class="btn btn-primary">Add Book</a>
-        <a th:href="@{/books}" class="btn btn-primary">Show all books</a>
+        <a th:if="${session.role} != null" th:href="@{/books}" class="btn btn-primary">Show all books</a>
     </div>
 </body>
 </html>

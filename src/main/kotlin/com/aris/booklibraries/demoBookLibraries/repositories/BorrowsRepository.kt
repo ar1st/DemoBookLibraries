@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
+import java.math.BigInteger
 import java.time.LocalDate
 
 @Repository
@@ -29,4 +30,9 @@ interface BorrowsRepository: JpaRepository<Borrows, Long> {
             "where borrows.user_id =  :userId AND borrows.returned_date is null", nativeQuery = true)
     @Transactional
     fun getBorrowsDetails(userId: Long): List<String>
+
+    @Query(value = "select exists (select borrows.* from borrows inner join has_book on borrows.has_book_id = has_book.has_book_id " +
+            "where has_book.has_book_id = :bookId)", nativeQuery = true)
+    @Transactional
+    fun isBookBorrowed(bookId: Long): BigInteger
 }
