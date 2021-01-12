@@ -67,6 +67,4 @@ class UserController {
         model.addAttribute("message",p.message)
         return "main"
     }
-
-
 }

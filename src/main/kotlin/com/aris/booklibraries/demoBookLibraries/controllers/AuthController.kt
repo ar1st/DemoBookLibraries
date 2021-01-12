@@ -41,7 +41,6 @@ class AuthController {
 
     @PostMapping("/loginUser")
     fun checkLoginUser(@ModelAttribute("user") user: User?, model: Model, session: HttpSession): String {
-//        while (true){
         val tryToLog = userExecutor.logIn(user?.email!!, user.password!!)
         if (tryToLog.data != null) {
             session.setAttribute("loggedUser", tryToLog.data)
@@ -50,7 +49,7 @@ class AuthController {
         }
         model.addAttribute("message", tryToLog.message)
         return "redirect:/login"
-    //}
+
     }
 
     @PostMapping("/loginLibrarian")
