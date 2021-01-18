@@ -1,7 +1,6 @@
 package com.aris.booklibraries.demoBookLibraries.services
 
 import com.aris.booklibraries.demoBookLibraries.models.Librarian
-import com.aris.booklibraries.demoBookLibraries.models.User
 import com.aris.booklibraries.demoBookLibraries.repositories.LibrarianRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service

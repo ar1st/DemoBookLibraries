@@ -24,11 +24,7 @@ class LibraryExecutor {
 
     fun getAllLibraries(): ApiResponse<List<Library>,String> {
         val allLibraries = libraryService.findAll()
-        return if ( allLibraries != null) {
-            ApiResponse(data = allLibraries, message = "OK")
-        } else {
-            return ApiResponse(data = null, message = "Error: Sth went wrong.")
-        }
+        return ApiResponse(data = allLibraries, message = "OK")
     }
 
     fun getLibraryById(libraryId: Long,response: HttpServletResponse?): ApiResponse<Library,String> {
@@ -171,7 +167,7 @@ class LibraryExecutor {
         bookService.findById(bookId) ?: return ApiResponse(data = null, "No such book.")
 
         val allBooksFromLibrary = libraryService.findAllBooks(libraryId)
-        val book: Book = allBooksFromLibrary.firstOrNull { it.bookId == bookId }
+        allBooksFromLibrary.firstOrNull { it.bookId == bookId }
             ?: return ApiResponse(data = null, "The book isn't in this library")
 
         libraryService.removeBookFromSpecificLibrary(libraryId,bookId)

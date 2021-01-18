@@ -1,7 +1,6 @@
 package com.aris.booklibraries.demoBookLibraries.services
 
 import com.aris.booklibraries.demoBookLibraries.models.Address
-import com.aris.booklibraries.demoBookLibraries.models.Author
 import com.aris.booklibraries.demoBookLibraries.repositories.AddressRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service

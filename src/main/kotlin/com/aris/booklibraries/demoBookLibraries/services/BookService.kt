@@ -24,7 +24,7 @@ class BookService {
 
     @Transactional
     fun findAll(): List<Book> {
-        return bookRepository.findAll() ?: emptyList()
+        return bookRepository.findAll()
     }
 
 
@@ -35,7 +35,7 @@ class BookService {
 
     @Transactional
     fun findAllBooksByAuthor(authorId: Long): List<Book> {
-        return  bookRepository.findByAuthorAuthorId(authorId) ?: emptyList()
+        return  bookRepository.findByAuthorAuthorId(authorId)
     }
 
     @Transactional
@@ -43,7 +43,7 @@ class BookService {
         val matchedBook = findById( bookId )
 
         if ( matchedBook != null) {
-            return  libraryRepository.findAllLibraries(bookId) ?: emptyList()
+            return  libraryRepository.findAllLibraries(bookId)
         }
         return emptyList()
     }
@@ -52,12 +52,6 @@ class BookService {
     fun findAllBooksNotInSpecificLibrary(libraryId: Long): List<Book> {
         return bookRepository.findAllBooksNotInSpecificLibrary(libraryId)
     }
-
-//    @Transactional
-//    fun findAllBooksInSpecificLibrary(libraryId: Long): List<Book> {
-//        return bookRepository.findAllBooksNotInSpecificLibrary(libraryId)
-//    }
-
 
     @Transactional
     fun addBook(entity: Book, author: Author): Book? {
@@ -81,7 +75,7 @@ class BookService {
 
     @Transactional
     fun deleteByAuthor(authorId: Long) {
-        val booksToDelete = bookRepository.findByAuthorAuthorId(authorId) ?: emptyList()
+        val booksToDelete = bookRepository.findByAuthorAuthorId(authorId)
 
         for ( book in booksToDelete) {
             deleteById(book.bookId!!)

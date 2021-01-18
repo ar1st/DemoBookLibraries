@@ -9,7 +9,4 @@ class DemoBookLibrariesApplication
 
 fun main(args: Array<String>) {
 	runApplication<DemoBookLibrariesApplication>(*args)
-//	var datee: LocalDate
-//	datee = LocalDate.parse("2020-2-1")
-//	println( datee )
 }

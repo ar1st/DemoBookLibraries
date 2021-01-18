@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>My Library App</title>
@@ -8,9 +8,10 @@
 </head>
 <body>
     <div class="container my-2">
-        <div class="container my-2">
-            <a th:if="${session.loggedUser} != null" th:href="@{/loggedUser/books}" class="btn btn-primary">My Books</a>
-            <a th:if="${session.loggedUser} != null" th:href="@{/libraries/librariesToBorrowFrom}" class="btn btn-primary">Borrow Book</a>
+        <div class="container my-2" sec:authorize="isAuthenticated()">
+            <a  th:href="@{/loggedUser/${#authentication.name}/books}" class="btn btn-primary">My Books</a>
+            <a  th:href="@{/libraries/librariesToBorrowFrom}" class="btn btn-primary">Borrow Book</a>
+
         </div>
         <div class="container my-2" th:if="${session.loggedLibrarian} != null " >
             <div class="welcomeLabel">
@@ -21,14 +22,27 @@
             <a th:href="@{/books/showBooksInLibrary/libraries/{id}(id= ${session.loggedLibrarian.library.libraryId})}" class="btn btn-primary">Show Books In Library</a>
             <a th:href="@{/users}" class="btn btn-primary">Show all users</a>
         </div>
-        <div class="container my-2">
-            <a th:if="${session.role} != null" th:href="@{/logout}" class="btn btn-primary">Logout</a>
-            <a th:if="${session.role} == null" th:href="@{/signup}" class="btn btn-primary">Sign Up</a>
-            <a th:if="${session.role} == null" th:href="@{/login}" class="btn btn-primary">Login</a>
-        </div>
+<!--        <div class="container my-2">-->
+<!--            <a th:if="${session.role} != null" th:href="@{/logout}" class="btn btn-primary">Logout</a>-->
+<!--            <a th:if="${session.role} == null" th:href="@{/signup}" class="btn btn-primary">Sign Up</a>-->
+<!--            <a th:if="${session.role} == null" th:href="@{/mylogin}" class="btn btn-primary">Login</a>-->
+<!--        </div>-->
         <div class="p-3 mb-2 bg-secondary text-white" th:if="${message} != null">
             <p  th:text="${message}"  ></p>
         </div>
+        <div sec:authorize="isAuthenticated()">
+            This content is only shown to authenticated users.
+        </div>
+        <div sec:authorize="hasAuthority('USER')">Text visible to user.</div>
+<!--        <security:authorize access="hasAuthority('USER')">-->
+<!--            you are a logged user-->
+<!--            <security:authorize>-->
+
+            Authenticated username:
+        <div sec:authentication="name"></div>
+        Authenticated user roles:
+        <div sec:authentication="principal.authorities"></div>
+
     </div>
 
     <div class="panel panel-default" style="position: absolute;bottom: 20px;right:5px;">

@@ -18,11 +18,7 @@ class CityExecutor {
 
     fun getAllCities(): ApiResponse<List<City>, String> {
         val allCities = cityService.findAll()
-        return if ( allCities!= null) {
-            ApiResponse(data = allCities, message = "OK")
-        } else {
-            ApiResponse(data = null, message = "Error: Sth went wrong")
-        }
+        return ApiResponse(data = allCities, message = "OK")
     }
 
     fun getCityById(cityId: Long,response: HttpServletResponse): ApiResponse<City,String> {

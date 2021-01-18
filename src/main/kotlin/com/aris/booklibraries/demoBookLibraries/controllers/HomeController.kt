@@ -2,7 +2,6 @@ package com.aris.booklibraries.demoBookLibraries.controllers
 
 import com.aris.booklibraries.demoBookLibraries.executors.BookExecutor
 import com.aris.booklibraries.demoBookLibraries.executors.UserExecutor
-import com.aris.booklibraries.demoBookLibraries.services.BorrowsService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -16,8 +15,9 @@ class HomeController {
     @Autowired
     lateinit var bookExecutor: BookExecutor
 
-    @RequestMapping("/")
+    @RequestMapping("")
     fun showMainPage(): String {
+        println()
         return "main"
     }
 
@@ -32,6 +32,4 @@ class HomeController {
         model.addAttribute("books", bookExecutor.getAllBooks())
         return "general/showbooks"
     }
-
-
 }

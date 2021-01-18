@@ -79,7 +79,7 @@ class UserExecutor {
     }
 
     fun deleteById(userId: Long, response: HttpServletResponse): ApiResponse<String, String> {
-        val matchedUser = userService.findById(userId) ?: return ApiResponse(data = null, message = "OK")
+        userService.findById(userId) ?: return ApiResponse(data = null, message = "OK")
 
         userService.deleteById(userId)
         return ApiResponse( data = null, message = "OK")
@@ -127,4 +127,6 @@ class UserExecutor {
         hasBookService.addQuantityByOne(data.library.libraryId!!,data.book.bookId!!)
         return ApiResponse(data = null, message = "OK")
     }
+
+
 }

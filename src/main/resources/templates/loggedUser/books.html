@@ -25,8 +25,10 @@
             <td th:text="${borrow.libraryName}"></td>
             <td th:text="${borrow.cityName}"></td>
             <td th:text="${borrow.borrowDate}"></td>
-            <td ><a class="btn btn-primary" th:href="@{/loggedUser/{userId}/return/{hasBookId}
-            (userId = ${session.loggedUser.userId} ,hasBookId = ${borrow.hasBookId})}">Yes</a></td>
+<!--            <td ><a class="btn btn-primary" th:href="@{/loggedUser/{userId}/return/{hasBookId}-->
+<!--            (userId = ${session.loggedUser.userId} ,hasBookId = ${borrow.hasBookId})}">Yes</a></td>-->
+            <td ><a class="btn btn-primary" th:href="@{/loggedUser/${#authentication.name}/return/{hasBookId}
+            (hasBookId = ${borrow.hasBookId})}">Yes</a></td>
         </tr>
         </tbody>
     </table>

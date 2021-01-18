@@ -32,12 +32,14 @@ class AuthController {
         return "main"
     }
 
-    @GetMapping("/login")
+    @GetMapping("/mylogin")
     fun login(@ModelAttribute user: User?,@ModelAttribute librarian:Librarian?, model: Model): String {
         model.addAttribute("user",user)
         model.addAttribute("librarian",librarian)
         return "auth/login"
     }
+
+
 
     @PostMapping("/loginUser")
     fun checkLoginUser(@ModelAttribute("user") user: User?, model: Model, session: HttpSession): String {
@@ -49,7 +51,6 @@ class AuthController {
         }
         model.addAttribute("message", tryToLog.message)
         return "redirect:/login"
-
     }
 
     @PostMapping("/loginLibrarian")

@@ -6,6 +6,7 @@ import com.aris.booklibraries.demoBookLibraries.executors.UserExecutor
 import com.aris.booklibraries.demoBookLibraries.models.BorrowDetails
 import com.aris.booklibraries.demoBookLibraries.models.HasBook
 import com.aris.booklibraries.demoBookLibraries.models.User
+import com.aris.booklibraries.demoBookLibraries.newuser.NewUserRepository
 import com.aris.booklibraries.demoBookLibraries.services.BorrowsService
 import com.aris.booklibraries.demoBookLibraries.services.HasBookService
 import org.springframework.beans.factory.annotation.Autowired
@@ -27,11 +28,14 @@ class UserController {
     lateinit var libraryExecutor: LibraryExecutor
     @Autowired
     lateinit var hasBookService: HasBookService
+    @Autowired
+    lateinit var newUserRepository: NewUserRepository
 
-    @GetMapping("/loggedUser/books")
-    fun showBorrowedBooks(session: HttpSession, model: Model): String {
-        val loggedUser = session.getAttribute("loggedUser")
-        val borrow = borrowsService.getBorrowsDetails((loggedUser as User).userId !!)
+    @GetMapping("/loggedUser/{email}/books")
+    fun showBorrowedBooks(@PathVariable("email",required = true) email: String,
+                          session: HttpSession, model: Model): String {
+        val loggedUser = newUserRepository.findByEmail(email)
+        val borrow = borrowsService.getBorrowsDetails(loggedUser?.userId!!)
         val listToReturn = mutableListOf<BorrowDetails>()
         for (element: String in borrow) {
             val parts = element.split(",")
@@ -61,9 +65,10 @@ class UserController {
     fun returnBook(@PathVariable("userId",required = true) userId: String,
                    @PathVariable("hasBookId",required = true) hasBookId: String,
                    model: Model): String{
-        val user = userExecutor.getUserById( userId.toLong(),null)
+    //    val user = userExecutor.getUserById( userId.toLong(),null)
+        val user = newUserRepository.findByEmail(userId)
         val hasBook = hasBookService.getById( hasBookId.toLong() )
-        val p = userExecutor.returnBook(hasBook!!,null,user.data?.userId!!)
+        val p = userExecutor.returnBook(hasBook!!,null,user?.userId!!)
         model.addAttribute("message",p.message)
         return "main"
     }

@@ -28,7 +28,7 @@ class HasBookService {
 
     @Transactional
     fun getQuantity(libraryId: Long, bookId: Long): Int {
-        return hasBookRepository.getQuantity(libraryId, bookId) ?: 0
+        return hasBookRepository.getQuantity(libraryId, bookId)
     }
 
     @Transactional
