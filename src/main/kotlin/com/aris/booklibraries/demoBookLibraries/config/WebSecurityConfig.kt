@@ -1,5 +1,6 @@
 package com.aris.booklibraries.demoBookLibraries.config
 
+import com.aris.booklibraries.demoBookLibraries.models.Role
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -7,14 +8,9 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import javax.sql.DataSource
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-
 import org.springframework.security.crypto.password.PasswordEncoder
-
-
-
-
+import javax.sql.DataSource
 
 @Configuration
 @EnableWebSecurity
@@ -26,37 +22,37 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
     override fun configure(auth: AuthenticationManagerBuilder) {
         auth.jdbcAuthentication()
             .dataSource(dataSource)
-            .usersByUsernameQuery("select email,password,enabled "
-                    + "from new_user "
-                    + "where email = ?")
-            .authoritiesByUsernameQuery("select email,authority "
-                    + "from authority "
-                    + "where email = ?")
+            .usersByUsernameQuery("select username,password,enabled "
+                    + "from account "
+                    + "where username = ?")
+            .authoritiesByUsernameQuery("select u.username, r.authority " +
+                    "from account u join authority r on " +
+                    "r.account_id = u.account_id where u.username =?")
     }
-
 
     @Throws(Exception::class)
     override  fun configure(http: HttpSecurity) {
-        http.authorizeRequests()
-            .antMatchers("/h2-console/**")
-            .permitAll()
-            .anyRequest()
-            .authenticated()
+        http
+            .csrf().disable()
+            .authorizeRequests()
+            .antMatchers("/admin/**").hasRole( Role.ADMIN.value )
+            .antMatchers("/").permitAll()
+            .antMatchers("/login*").permitAll()
+            .anyRequest().authenticated()
             .and()
-            .formLogin();
-
-        http.csrf()
-            .ignoringAntMatchers("/h2-console/**");
-        http.headers()
-            .frameOptions()
-            .sameOrigin();
+            .formLogin()
+            .loginPage("/login.html")
+            .loginProcessingUrl("/perform_login")
+            .defaultSuccessUrl("/main.html", true)
+            .failureUrl("/login.html?error=true")
+            .and()
+            .logout()
+            .logoutUrl("/perform_logout")
+            .deleteCookies("JSESSIONID")
     }
-
 
     @Bean
     fun passwordEncoder(): PasswordEncoder? {
         return BCryptPasswordEncoder()
     }
-
-
 }

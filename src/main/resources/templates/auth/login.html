@@ -1,34 +1,19 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-    <link th:href = "@{/css/login.css}" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>Login page</title>
+    <link th:href="@{/css/login.css}" rel="stylesheet">
 </head>
 <body>
-    <div class="container my-2" id="maindiv" >
-        <div class="p-3 mb-2 bg-secondary text-white" th:if="${message} != null">
-            <p  th:text="${message}"  ></p>
-        </div>
-        <div class="container my-2" id="user">
-            <p class="label">User Login</p>
-            <form action="#" th:action="@{/loginUser}" th:object="${user}" method="post">
-                <p>Email: <input type="text" th:field="*{email}" /></p>
-                <p>Password: <input type="text" th:field="*{password}" /></p>
-                <p><input class="btn btn-success" type="submit" value="Login" /></p>
-            </form>
-            <a th:href="@{/}" class="btn btn-primary" >Back</a>
-        </div>
-
-        <div class="container my-2" id="librarian">
-            <p class="label">Librarian Login</p>
-            <form action="#" th:action="@{/loginLibrarian}" th:object="${librarian}" method="post">
-                <p>Email: <input type="text" th:field="*{email}" /></p>
-                <p>Password: <input type="text" th:field="*{password}" /></p>
-                <p><input class="btn btn-success" type="submit" value="Login" /></p>
-            </form>
-        </div>
-    </div>
+My Login
+<h1>Login page</h1>
+<p id="haserror" th:text="${error}">Wrong user or password</p>
+<form th:action="@{/perform_login}" method="post">
+    <label for="username">Username</label>:
+    <input type="text" id="username" name="username" autofocus="autofocus" /> <br />
+    <label for="password">Password</label>:
+    <input type="password" id="password" name="password" /> <br />
+    <input type="submit" value="Log in" />
+</form>
 </body>
 </html>

@@ -5,7 +5,6 @@ import com.aris.booklibraries.demoBookLibraries.executors.LibraryExecutor
 import com.aris.booklibraries.demoBookLibraries.executors.UserExecutor
 import com.aris.booklibraries.demoBookLibraries.models.BorrowDetails
 import com.aris.booklibraries.demoBookLibraries.models.HasBook
-import com.aris.booklibraries.demoBookLibraries.models.User
 import com.aris.booklibraries.demoBookLibraries.newuser.NewUserRepository
 import com.aris.booklibraries.demoBookLibraries.services.BorrowsService
 import com.aris.booklibraries.demoBookLibraries.services.HasBookService
@@ -31,11 +30,11 @@ class UserController {
     @Autowired
     lateinit var newUserRepository: NewUserRepository
 
-    @GetMapping("/loggedUser/{email}/books")
-    fun showBorrowedBooks(@PathVariable("email",required = true) email: String,
+    @GetMapping("/loggedUser/{username}/books")
+    fun showBorrowedBooks(@PathVariable("username",required = true) username: String,
                           session: HttpSession, model: Model): String {
-        val loggedUser = newUserRepository.findByEmail(email)
-        val borrow = borrowsService.getBorrowsDetails(loggedUser?.userId!!)
+        val loggedUser = newUserRepository.findByUsername(username)
+        val borrow = borrowsService.getBorrowsDetails(loggedUser?.accountId!!)
         val listToReturn = mutableListOf<BorrowDetails>()
         for (element: String in borrow) {
             val parts = element.split(",")
@@ -61,14 +60,14 @@ class UserController {
         return "main"
     }
 
-    @GetMapping("/loggedUser/{userId}/return/{hasBookId}")
-    fun returnBook(@PathVariable("userId",required = true) userId: String,
+    @GetMapping("/loggedUser/{username}/return/{hasBookId}")
+    fun returnBook(@PathVariable("username",required = true) username: String,
                    @PathVariable("hasBookId",required = true) hasBookId: String,
                    model: Model): String{
     //    val user = userExecutor.getUserById( userId.toLong(),null)
-        val user = newUserRepository.findByEmail(userId)
+        val user = newUserRepository.findByUsername(username)
         val hasBook = hasBookService.getById( hasBookId.toLong() )
-        val p = userExecutor.returnBook(hasBook!!,null,user?.userId!!)
+        val p = userExecutor.returnBook(hasBook!!,null,user?.accountId!!)
         model.addAttribute("message",p.message)
         return "main"
     }

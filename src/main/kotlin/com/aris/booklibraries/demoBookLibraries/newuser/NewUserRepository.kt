@@ -5,8 +5,7 @@ import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 
 @Repository
-interface NewUserRepository: JpaRepository<NewUser,String> {
-
+interface NewUserRepository: JpaRepository<Account,Long> {
     @Transactional
-    fun findByEmail(email:String): NewUser?
+    fun findByUsername(username:String): Account?
 }

@@ -9,40 +9,31 @@
 <body>
     <div class="container my-2">
         <div class="container my-2" sec:authorize="isAuthenticated()">
-            <a  th:href="@{/loggedUser/${#authentication.name}/books}" class="btn btn-primary">My Books</a>
-            <a  th:href="@{/libraries/librariesToBorrowFrom}" class="btn btn-primary">Borrow Book</a>
-
+            <div sec:authorize="hasAuthority('USER')">
+                <a  th:href="@{/loggedUser/{id}/books(id=${#authentication.name})}" class="btn btn-primary">My Books</a>
+                <a  th:href="@{/libraries/librariesToBorrowFrom}" class="btn btn-primary">Borrow Book</a>
+                <a  th:href="@{/perform_logout}" class="btn btn-primary">Logout</a>
+            </div>
         </div>
+
+        <div sec:authorize="isAnonymous()">
+            <div class="container my-2">
+                <a th:href="@{/signup}" class="btn btn-primary">Sign Up</a>
+                <a th:href="@{/login.html}" class="btn btn-primary">Login</a>
+            </div>
+        </div>
+
         <div class="container my-2" th:if="${session.loggedLibrarian} != null " >
             <div class="welcomeLabel">
                 <p th:text=" 'Welcome ' + ${session.loggedLibrarian.firstName} + ${session.loggedLibrarian.lastName} + '. You work at ' + ${session.loggedLibrarian.library.name} + '.'"></p>
-<!--                <p th:text=" 'You work at ' + ${session.loggedLibrarian.library.name} "></p>-->
             </div>
             <a th:href="@{/books/booksToAddToLibrary/libraries/{id}(id= ${session.loggedLibrarian.library.libraryId})}" class="btn btn-primary">Add Book To Library</a>
             <a th:href="@{/books/showBooksInLibrary/libraries/{id}(id= ${session.loggedLibrarian.library.libraryId})}" class="btn btn-primary">Show Books In Library</a>
             <a th:href="@{/users}" class="btn btn-primary">Show all users</a>
         </div>
-<!--        <div class="container my-2">-->
-<!--            <a th:if="${session.role} != null" th:href="@{/logout}" class="btn btn-primary">Logout</a>-->
-<!--            <a th:if="${session.role} == null" th:href="@{/signup}" class="btn btn-primary">Sign Up</a>-->
-<!--            <a th:if="${session.role} == null" th:href="@{/mylogin}" class="btn btn-primary">Login</a>-->
-<!--        </div>-->
         <div class="p-3 mb-2 bg-secondary text-white" th:if="${message} != null">
             <p  th:text="${message}"  ></p>
         </div>
-        <div sec:authorize="isAuthenticated()">
-            This content is only shown to authenticated users.
-        </div>
-        <div sec:authorize="hasAuthority('USER')">Text visible to user.</div>
-<!--        <security:authorize access="hasAuthority('USER')">-->
-<!--            you are a logged user-->
-<!--            <security:authorize>-->
-
-            Authenticated username:
-        <div sec:authentication="name"></div>
-        Authenticated user roles:
-        <div sec:authentication="principal.authorities"></div>
-
     </div>
 
     <div class="panel panel-default" style="position: absolute;bottom: 20px;right:5px;">

@@ -3,12 +3,13 @@ package com.aris.booklibraries.demoBookLibraries.newuser
 import javax.persistence.*
 
 @Entity
-data class Authority (
+data class UserNew(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var authorityId: Long,
+    var userId: Long?,
+    var firstName:String?,
+    var lastName:String?,
     @OneToOne
     @JoinColumn(name = "account_id")
     var account : Account?,
-    var authority: String?
-        )
+)
