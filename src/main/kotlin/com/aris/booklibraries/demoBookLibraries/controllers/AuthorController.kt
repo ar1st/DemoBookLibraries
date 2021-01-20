@@ -24,7 +24,7 @@ class AuthorController {
     fun submitForm(@ModelAttribute("author") author: Author, model: Model): String {
         val response = authorExecutor.createAuthor(author, null)
         model.addAttribute("message",response.message)
-        return "main"
+        return "homepage/homepage-librarian"
     }
 
     @GetMapping("/authors/authorsToWriteBook")
