@@ -18,9 +18,10 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
     @Autowired
     lateinit var dataSource: DataSource
 
+    //todo delete eraseCredentials
     @Throws(Exception::class)
     override fun configure(auth: AuthenticationManagerBuilder) {
-        auth.jdbcAuthentication()
+        auth.eraseCredentials(false).jdbcAuthentication()
             .dataSource(dataSource)
             .usersByUsernameQuery("select username,password,enabled "
                     + "from account "
@@ -38,6 +39,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
             .antMatchers("/admin/**").hasRole( Role.ADMIN.value )
             .antMatchers("/").permitAll()
             .antMatchers("/login*").permitAll()
+            .antMatchers("/sign*").permitAll()
             .anyRequest().authenticated()
             .and()
             .formLogin()

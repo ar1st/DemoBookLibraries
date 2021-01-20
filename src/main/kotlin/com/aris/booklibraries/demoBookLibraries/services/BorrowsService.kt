@@ -19,8 +19,8 @@ class BorrowsService {
     }
 
     @Transactional
-    fun isBorrowed(userId: Long,hasBookId: Long): Borrows? {
-        return borrowsRepository.isBorrowed(userId, hasBookId)
+    fun isBorrowed(accountId: Long, hasBookId: Long): Borrows? {
+        return borrowsRepository.isBorrowed(accountId, hasBookId)
     }
 
     @Transactional
@@ -29,8 +29,8 @@ class BorrowsService {
     }
 
     @Transactional
-    fun getBorrowsDetails(userId: Long) : List<String> {
-        return borrowsRepository.getBorrowsDetails(userId)
+    fun getBorrowsDetails(accountId: Long) : List<String> {
+        return borrowsRepository.getBorrowsDetails(accountId)
     }
 
     @Transactional

@@ -20,10 +20,11 @@ class LibraryController {
 
     @GetMapping("/libraries/{ID}")
     fun showBooksFromSpecificLibrary(@PathVariable("ID", required = true) libraryId: Long,
-                                     model: Model
-    ): String {
+                                     model: Model): String {
         model.addAttribute("books", libraryExecutor.getBooksByLibrary(libraryId,null))
         model.addAttribute("libraryId",libraryId)
         return "libraries/library/books"
     }
+
+
 }

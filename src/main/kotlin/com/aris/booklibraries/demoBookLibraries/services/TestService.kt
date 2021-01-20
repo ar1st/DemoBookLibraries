@@ -2,13 +2,14 @@ package com.aris.booklibraries.demoBookLibraries.services
 
 import com.aris.booklibraries.demoBookLibraries.models.*
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import javax.annotation.PostConstruct
 
 @Service
 class TestService {
     @Autowired
-    lateinit var userService: UserService
+    lateinit var userServiceOld: UserServiceOld
     @Autowired
     lateinit var authorService :AuthorService
     @Autowired
@@ -20,7 +21,13 @@ class TestService {
     @Autowired
     lateinit var hasBookService: HasBookService
     @Autowired
-    lateinit var librarianService: LibrarianService
+    lateinit var librarianServiceOld: LibrarianServiceOld
+    @Autowired
+    lateinit var userService: UserService
+    @Autowired
+    lateinit var accountService: AccountService
+    @Autowired
+    lateinit var authorityService:AuthorityService
 
     @PostConstruct
     fun postConstruct() {
@@ -28,10 +35,24 @@ class TestService {
     }
 
     fun init() {
-        userService.save(User(userId= null, email = "giannis@gmail.com","123", firstName = "giannis", lastName = "kostopoulos"))
-        userService.save(User(userId= null, email = "nikos@gmail.com","123", firstName = "nikos", lastName = "papadopoulos"))
-        userService.save(User(userId= null, email = "elina@gmail.com","123", firstName = "elina", lastName = "oikonomou"))
-        userService.save(User(userId= null, email = "aris", "123", firstName = "aris", lastName = "tsach"))
+        val encoder = BCryptPasswordEncoder(10)
+
+        val acc1 = accountService.save( Account(null,"aris",encoder.encode("pass"),1))
+        val acc2 = accountService.save( Account(null,"bill",encoder.encode("pass"),1))
+        val acc3 = accountService.save( Account(null,"nick",encoder.encode("pass"),1))
+
+        authorityService.save( Authority(null,acc1, Role.USER.value))
+        authorityService.save( Authority(null,acc2, Role.USER.value))
+        authorityService.save( Authority(null,acc3, Role.USER.value))
+
+        userService.save(User(null,"Aris", "Tsach", acc1))
+        userService.save(User(null,"Bill", "Pap", acc2))
+        userService.save(User(null,"Nick", "Oik", acc3))
+
+//        userServiceOld.save(UserOld(userId= null, email = "giannis@gmail.com","123", firstName = "giannis", lastName = "kostopoulos"))
+//        userServiceOld.save(UserOld(userId= null, email = "nikos@gmail.com","123", firstName = "nikos", lastName = "papadopoulos"))
+//        userServiceOld.save(UserOld(userId= null, email = "elina@gmail.com","123", firstName = "elina", lastName = "oikonomou"))
+//        userServiceOld.save(UserOld(userId= null, email = "aris", "123", firstName = "aris", lastName = "tsach"))
 
         authorService.save(Author(authorId= null, email = "petros@gmail.com", firstName = "petros", lastName = "petrou") )
         authorService.save(Author(authorId= null, email = "nikoleta@gmail.com", firstName = "nikoleta", lastName = "nikoletou") )
@@ -67,10 +88,10 @@ class TestService {
         hasBookService.addBook(4,7,10)
         hasBookService.addBook(4,1,10)
 
-        librarianService.save(Librarian(null,"lib1","123","lib","1",libraryService.findById(1)))
-        librarianService.save(Librarian(null,"lib2","123","lib","2",libraryService.findById(2)))
-        librarianService.save(Librarian(null,"lib3","123","lib","3",libraryService.findById(3)))
-        librarianService.save(Librarian(null,"lib4","123","lib","4",libraryService.findById(4)))
+        librarianServiceOld.save(LibrarianOld(null,"lib1","123","lib","1",libraryService.findById(1)))
+        librarianServiceOld.save(LibrarianOld(null,"lib2","123","lib","2",libraryService.findById(2)))
+        librarianServiceOld.save(LibrarianOld(null,"lib3","123","lib","3",libraryService.findById(3)))
+        librarianServiceOld.save(LibrarianOld(null,"lib4","123","lib","4",libraryService.findById(4)))
 
 
     }

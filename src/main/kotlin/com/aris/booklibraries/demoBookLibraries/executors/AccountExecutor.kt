@@ -1,0 +1,97 @@
+package com.aris.booklibraries.demoBookLibraries.executors
+
+import com.aris.booklibraries.demoBookLibraries.models.response.ApiResponse
+import com.aris.booklibraries.demoBookLibraries.models.Account
+import com.aris.booklibraries.demoBookLibraries.models.Borrows
+import com.aris.booklibraries.demoBookLibraries.models.HasBook
+import com.aris.booklibraries.demoBookLibraries.services.*
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
+import org.springframework.stereotype.Component
+import java.time.LocalDate
+import javax.servlet.http.HttpServletResponse
+
+@Component
+class AccountExecutor {
+    @Autowired
+    lateinit var accountService: AccountService
+    @Autowired
+    lateinit var bookService: BookService
+    @Autowired
+    lateinit var libraryService: LibraryService
+    @Autowired
+    lateinit var hasBookService: HasBookService
+    @Autowired
+    lateinit var borrowsService: BorrowsService
+
+
+    fun createAccount(data: Account, response: HttpServletResponse?): ApiResponse<Account, String> {
+        if (data.username == null || data.username!!.isEmpty()) {
+            response?.status = HttpStatus.BAD_REQUEST.value()
+            return ApiResponse(data=null,message="Error: Insert username.")
+        }
+
+        if (data.password == null || data.password!!.isEmpty()) {
+            response?.status = HttpStatus.BAD_REQUEST.value()
+            return ApiResponse(data=null,message="Error: Insert password.")
+        }
+
+        if ( accountService.findByUsername(data.username!!) != null)
+             return ApiResponse(data=null,message="Error: Username already exists.")
+
+        response?.status = HttpStatus.ACCEPTED.value()
+        return ApiResponse( data = accountService.save(data), message = "OK" )
+    }
+
+    fun findByUsername(username: String): ApiResponse<Account,String> {
+        val accountToReturn = accountService.findByUsername(username)
+            ?: return ApiResponse(null,"User not found")
+
+        return ApiResponse(accountToReturn,"OK")
+    }
+
+    fun borrowBook(data: HasBook, username: String, response: HttpServletResponse?): ApiResponse<Borrows, String> {
+        val accountToBorrow =accountService.findByUsername(username)
+            ?: return ApiResponse(data = null, message = "Error: No account with such username.")
+
+        val bookToAdd = bookService.findById(data.book.bookId?:-1)
+            ?: return ApiResponse(data = null, message = "Error: No book with such id.")
+
+        val libraryToBorrowFrom = libraryService.findById(data.library.libraryId?:-1)
+            ?: return ApiResponse(data = null, message = "Error: No library with such id.")
+
+        val bookExistsInLibrary = hasBookService
+            .isBookInSpecificLibrary( libraryToBorrowFrom.libraryId!!, bookToAdd.bookId!!)
+            ?: return ApiResponse(data = null, message = "Error: The book isn't in this library.")
+
+        val oke = borrowsService.isBorrowed(accountToBorrow.accountId!!,bookExistsInLibrary.hasBookId!!)
+
+        if ( oke == null ) {
+            val quantity = hasBookService.getQuantity(libraryToBorrowFrom.libraryId!!, bookToAdd.bookId!!)
+            if ( quantity <= 0 ) return ApiResponse(data = null, message = "Error: No available copies of this book.")
+
+            hasBookService.subtractQuantityByOne(libraryToBorrowFrom.libraryId!!, bookToAdd.bookId!!)
+
+            val borrows = Borrows (null,accountToBorrow, bookExistsInLibrary, LocalDate.now(),null)
+            val saved = borrowsService.save(borrows)
+            return ApiResponse(data = saved, message = "OK")
+        }
+        return ApiResponse(data = null, message = "The book is already borrowed by this user.")
+    }
+
+    fun returnBook(data: HasBook,
+                   response: HttpServletResponse?, username: String): ApiResponse<String, String> {
+        val bookExistsInLibrary = hasBookService
+            .isBookInSpecificLibrary( data.library.libraryId?:-1, data.book.bookId?:-1)
+            ?: return ApiResponse(data = null, message = "Error: The book isn't in this library.")
+
+        val accountToBorrow =accountService.findByUsername(username)
+            ?: return ApiResponse(data = null, message = "Error: No account with such username.")
+        val borrows = borrowsService.isBorrowed(accountToBorrow.accountId!!,bookExistsInLibrary.hasBookId?:-1)
+            ?: return ApiResponse(data = null, message = "Error: This book was already returned.")
+
+        borrowsService.returnBook(borrows.borrowsId!!, LocalDate.of(2020,2,2))
+        hasBookService.addQuantityByOne(data.library.libraryId!!,data.book.bookId!!)
+        return ApiResponse(data = null, message = "OK")
+    }
+}

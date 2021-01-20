@@ -1,7 +1,7 @@
 package com.aris.booklibraries.demoBookLibraries.controllers.restcontrollers
 
-import com.aris.booklibraries.demoBookLibraries.executors.UserExecutor
-import com.aris.booklibraries.demoBookLibraries.models.User
+import com.aris.booklibraries.demoBookLibraries.executors.UserExecutorOld
+import com.aris.booklibraries.demoBookLibraries.models.UserOld
 import com.aris.booklibraries.demoBookLibraries.models.response.ApiResponse
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RestController
 @RestController("test")
 class AuthControllerRest {
     @Autowired
-    lateinit var userExecutor: UserExecutor
+    lateinit var userExecutorOld: UserExecutorOld
 
     @GetMapping("/login/{email}/{password}")
     fun checkUserLogin(@PathVariable("email") email:String, @PathVariable("password") password:String):
-            ApiResponse<User,String> {
-        val tryToLog = userExecutor.logIn( email, password)
+            ApiResponse<UserOld,String> {
+        val tryToLog = userExecutorOld.logIn( email, password)
         if (tryToLog.data != null) {
             return ApiResponse(tryToLog.data,tryToLog.message)
         }

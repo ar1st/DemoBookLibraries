@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional
 @Repository
 interface BookRepository : JpaRepository<Book,Long> {
 
-
     @Transactional
     fun deleteByTitle (title: String)
 

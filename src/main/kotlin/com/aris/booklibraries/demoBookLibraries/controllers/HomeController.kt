@@ -1,7 +1,7 @@
 package com.aris.booklibraries.demoBookLibraries.controllers
 
 import com.aris.booklibraries.demoBookLibraries.executors.BookExecutor
-import com.aris.booklibraries.demoBookLibraries.executors.UserExecutor
+import com.aris.booklibraries.demoBookLibraries.executors.UserExecutorOld
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 @Controller
 class HomeController {
     @Autowired
-    lateinit var userExecutor: UserExecutor
+    lateinit var userExecutorOld: UserExecutorOld
     @Autowired
     lateinit var bookExecutor: BookExecutor
 
@@ -23,7 +23,7 @@ class HomeController {
 
     @GetMapping("/users")
     fun showAllUsers(model: Model): String {
-        model.addAttribute("users", userExecutor.getAllUsers())
+        model.addAttribute("users", userExecutorOld.getAllUsers())
         return "general/showusers"
     }
 

@@ -6,17 +6,18 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <body>
-    <div class="container my-2">
-        <h1>Form</h1>
-            <form action="#" th:action="@{/signup}" th:object="${user}" method="post">
-                <p>Email: <input type="text" th:field="*{email}" /></p>
-                <p>Password: <input type="text" th:field="*{password}" /></p>
+    <div class="container d-flex justify-content-center align-items-center">
+            <form action="#" th:action="@{/signup}" th:object="${registrationDetails}" method="post">
+                <h1>Form</h1>
+                <p>Username: <input type="text" th:field="*{username}" /></p>
+                <p>Password: <input type="password" th:field="*{password}" /></p>
                 <p>First Name: <input type="text" th:field="*{firstName}" /></p>
                 <p>Last Name: <input type="text" th:field="*{lastName}" /></p>
-                <p><input class="btn btn-success" type="submit" value="Submit" />
+                <p class="text-danger" th:text="${error}"></p>
+                <p><input class="btn btn-primary" type="submit" value="Submit" />
                     <input class="btn btn-warning" type="reset" value="Reset" /></p>
+                <a th:href="@{/}" class="btn btn-info">Back</a>
             </form>
-        <a th:href="@{/}" class="btn btn-primary">Back</a>
     </div>
 </body>
 </html>

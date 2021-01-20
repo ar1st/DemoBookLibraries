@@ -10,7 +10,7 @@
     <div class="container my-2">
         <div class="container my-2" sec:authorize="isAuthenticated()">
             <div sec:authorize="hasAuthority('USER')">
-                <a  th:href="@{/loggedUser/{id}/books(id=${#authentication.name})}" class="btn btn-primary">My Books</a>
+                <a  th:href="@{/loggedUser/{username}/books(username=${#authentication.name})}" class="btn btn-primary">My Books</a>
                 <a  th:href="@{/libraries/librariesToBorrowFrom}" class="btn btn-primary">Borrow Book</a>
                 <a  th:href="@{/perform_logout}" class="btn btn-primary">Logout</a>
             </div>

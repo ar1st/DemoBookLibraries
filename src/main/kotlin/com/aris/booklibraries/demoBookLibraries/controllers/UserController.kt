@@ -1,11 +1,11 @@
 package com.aris.booklibraries.demoBookLibraries.controllers
 
+import com.aris.booklibraries.demoBookLibraries.executors.AccountExecutor
 import com.aris.booklibraries.demoBookLibraries.executors.BookExecutor
 import com.aris.booklibraries.demoBookLibraries.executors.LibraryExecutor
-import com.aris.booklibraries.demoBookLibraries.executors.UserExecutor
 import com.aris.booklibraries.demoBookLibraries.models.BorrowDetails
 import com.aris.booklibraries.demoBookLibraries.models.HasBook
-import com.aris.booklibraries.demoBookLibraries.newuser.NewUserRepository
+import com.aris.booklibraries.demoBookLibraries.repositories.AccountRepository
 import com.aris.booklibraries.demoBookLibraries.services.BorrowsService
 import com.aris.booklibraries.demoBookLibraries.services.HasBookService
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,7 +20,7 @@ class UserController {
     @Autowired
     lateinit var borrowsService: BorrowsService
     @Autowired
-    lateinit var userExecutor: UserExecutor
+    lateinit var accountExecutor: AccountExecutor
     @Autowired
     lateinit var bookExecutor: BookExecutor
     @Autowired
@@ -28,12 +28,12 @@ class UserController {
     @Autowired
     lateinit var hasBookService: HasBookService
     @Autowired
-    lateinit var newUserRepository: NewUserRepository
+    lateinit var accountRepository: AccountRepository
 
     @GetMapping("/loggedUser/{username}/books")
     fun showBorrowedBooks(@PathVariable("username",required = true) username: String,
                           session: HttpSession, model: Model): String {
-        val loggedUser = newUserRepository.findByUsername(username)
+        val loggedUser = accountRepository.findByUsername(username)
         val borrow = borrowsService.getBorrowsDetails(loggedUser?.accountId!!)
         val listToReturn = mutableListOf<BorrowDetails>()
         for (element: String in borrow) {
@@ -42,20 +42,24 @@ class UserController {
             listToReturn.add(details)
         }
 
-        model.addAttribute("borrows", listToReturn)
+        if ( listToReturn.size == 0)
+            model.addAttribute("borrows", null)
+        else
+            model.addAttribute("borrows", listToReturn)
+
         return "loggedUser/books"
     }
 
-    @GetMapping("/loggedUser/{userid}/books/{bookid}/libraries/{libraryid}")
-    fun borrowBook(@PathVariable("userid",required = true) userId: String,
+    @GetMapping("/loggedUser/{username}/books/{bookid}/libraries/{libraryid}")
+    fun borrowBook(@PathVariable("username",required = true) username: String,
                    @PathVariable("bookid",required = true) bookId:String,
                    @PathVariable("libraryid",required = true) libraryId:String,
                    model: Model): String {
-        val user = userExecutor.getUserById(userId.toLong(),null)
+        val account = accountExecutor.findByUsername(username)
         val book = bookExecutor.getBookById(bookId.toLong(),null)
         val library = libraryExecutor.getLibraryById(libraryId.toLong(),null)
 
-        val response = userExecutor.borrowBook(HasBook(null,library.data!!,book.data!!,0),user.data?.userId!!,null)
+        val response = accountExecutor.borrowBook(HasBook(null,library.data!!,book.data!!,0),account.data?.username!!,null)
         model.addAttribute("message", response.message)
         return "main"
     }
@@ -65,9 +69,9 @@ class UserController {
                    @PathVariable("hasBookId",required = true) hasBookId: String,
                    model: Model): String{
     //    val user = userExecutor.getUserById( userId.toLong(),null)
-        val user = newUserRepository.findByUsername(username)
+        val account = accountRepository.findByUsername(username)
         val hasBook = hasBookService.getById( hasBookId.toLong() )
-        val p = userExecutor.returnBook(hasBook!!,null,user?.accountId!!)
+        val p = accountExecutor.returnBook(hasBook!!,null,account?.username!!)
         model.addAttribute("message",p.message)
         return "main"
     }

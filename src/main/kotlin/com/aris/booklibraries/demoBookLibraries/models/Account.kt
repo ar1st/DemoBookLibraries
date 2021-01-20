@@ -1,4 +1,4 @@
-package com.aris.booklibraries.demoBookLibraries.newuser
+package com.aris.booklibraries.demoBookLibraries.models
 
 import javax.persistence.*
 
@@ -6,8 +6,8 @@ import javax.persistence.*
 data class Account(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var accountId: Long,
+    var accountId: Long?,
     var username: String?,
     var password: String?,
-    var enabled: Int
+    var enabled: Int?
     )

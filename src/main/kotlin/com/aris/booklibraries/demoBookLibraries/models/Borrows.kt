@@ -12,8 +12,9 @@ class Borrows(
 
     @ManyToOne
     // @MapsId("bookId")
-    @JoinColumn(name = "user_id")
-    var user: User,
+    @JoinColumn(name = "account_id")
+    var account: Account,
+
 
     @ManyToOne
     //  @MapsId("libraryId")
