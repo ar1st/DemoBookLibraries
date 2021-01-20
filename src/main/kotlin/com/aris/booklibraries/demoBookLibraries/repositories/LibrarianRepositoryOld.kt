@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 
-@Deprecated("should be replaced")
+@Deprecated("Should be replaced")
 @Repository
 interface LibrarianRepositoryOld: JpaRepository<LibrarianOld,Long> {
     @Query(value="select * from librarian where email = :email AND password = :password", nativeQuery = true)

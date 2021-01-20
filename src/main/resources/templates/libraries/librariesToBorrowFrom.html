@@ -20,7 +20,7 @@
         <tr th:each="library : ${libraries.data}">
             <td th:text="${library.name}"></td>
             <td th:text="${library.city.name}"></td>
-            <td ><a class="btn btn-primary" th:href="@{/libraries/{id}(id= ${library.libraryId})}">Choose</a></td>
+            <td ><a class="btn btn-primary" th:href="@{/libraries/{id}(id= ${#authentication.name})}">Choose</a></td>
         </tr>
         </tbody>
     </table>

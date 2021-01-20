@@ -1,12 +1,11 @@
 package com.aris.booklibraries.demoBookLibraries.executors
 
+import com.aris.booklibraries.demoBookLibraries.models.*
 import com.aris.booklibraries.demoBookLibraries.models.response.ApiResponse
-import com.aris.booklibraries.demoBookLibraries.models.Account
-import com.aris.booklibraries.demoBookLibraries.models.Borrows
-import com.aris.booklibraries.demoBookLibraries.models.HasBook
 import com.aris.booklibraries.demoBookLibraries.services.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Component
 import java.time.LocalDate
 import javax.servlet.http.HttpServletResponse
@@ -23,9 +22,13 @@ class AccountExecutor {
     lateinit var hasBookService: HasBookService
     @Autowired
     lateinit var borrowsService: BorrowsService
+    @Autowired
+    lateinit var authorityService: AuthorityService
+    @Autowired
+    lateinit var librarianService: LibrarianService
 
 
-    fun createAccount(data: Account, response: HttpServletResponse?): ApiResponse<Account, String> {
+    fun createAccountAndUser(data: Account, response: HttpServletResponse?): ApiResponse<Account, String> {
         if (data.username == null || data.username!!.isEmpty()) {
             response?.status = HttpStatus.BAD_REQUEST.value()
             return ApiResponse(data=null,message="Error: Insert username.")
@@ -42,6 +45,28 @@ class AccountExecutor {
         response?.status = HttpStatus.ACCEPTED.value()
         return ApiResponse( data = accountService.save(data), message = "OK" )
     }
+
+    fun createAccountAndLibrarian(registrationDetails: RegistrationDetails, response: HttpServletResponse?): ApiResponse<Account, String> {
+
+        if ( accountService.findByUsername(registrationDetails.username!!) != null)
+            return ApiResponse(data=null,message="Error: Username already exists.")
+
+        val encoder = BCryptPasswordEncoder(10)
+        val encodedPass = encoder.encode(registrationDetails.password)
+        val accountToCreate = Account( null,registrationDetails.username,encodedPass,1)
+        val createdAccount = accountService.save(accountToCreate)
+
+        val authorityToCreate = Authority(null,createdAccount, Role.LIBRARIAN.value)
+        authorityService.save( authorityToCreate)
+
+        val librarianToCreate = Librarian(null,registrationDetails.firstName,registrationDetails.lastName,
+                                                registrationDetails.library,createdAccount)
+        val createdLibrarian = librarianService.save(librarianToCreate)
+
+        response?.status = HttpStatus.ACCEPTED.value()
+        return ApiResponse( data = accountService.save(createdAccount!!), message = "OK" )
+    }
+
 
     fun findByUsername(username: String): ApiResponse<Account,String> {
         val accountToReturn = accountService.findByUsername(username)

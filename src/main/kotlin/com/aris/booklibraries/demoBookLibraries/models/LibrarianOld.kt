@@ -2,7 +2,7 @@ package com.aris.booklibraries.demoBookLibraries.models
 
 import javax.persistence.*
 
-@Deprecated("should be replaced")
+@Deprecated("Should be replaced")
 @Entity
 data class LibrarianOld(
     @Id

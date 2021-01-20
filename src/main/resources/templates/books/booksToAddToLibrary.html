@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="container">
-    <p th:text="${session.loggedLibrarian.library.name}"></p>
+<!--    <p th:text="${session.loggedLibrarian.library.name}"></p>-->
     <table class="table table-striped table-responsive-md">
         <thead>
         <tr>
@@ -23,7 +23,7 @@
             <td th:text="${book.author.lastName}"></td>
             <td th:text="${book.author.firstName}"></td>
             <td ><a class="btn btn-primary" th:href="@{/books/{bookId}/addingToLibrary/libraries/{libraryId}
-            (bookId = ${book.bookId}, libraryId= ${session.loggedLibrarian.library.libraryId})}">Yes</a></td>
+            (bookId = ${book.bookId}, libraryId= ${libraryId})}">Yes</a></td>
         </tr>
         </tbody>
     </table>

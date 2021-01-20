@@ -1,5 +1,6 @@
 package com.aris.booklibraries.demoBookLibraries.services
 
+import com.aris.booklibraries.demoBookLibraries.executors.AccountExecutor
 import com.aris.booklibraries.demoBookLibraries.models.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -8,8 +9,8 @@ import javax.annotation.PostConstruct
 
 @Service
 class TestService {
-    @Autowired
-    lateinit var userServiceOld: UserServiceOld
+//    @Autowired
+//    lateinit var userServiceOld: UserServiceOld
     @Autowired
     lateinit var authorService :AuthorService
     @Autowired
@@ -28,6 +29,8 @@ class TestService {
     lateinit var accountService: AccountService
     @Autowired
     lateinit var authorityService:AuthorityService
+    @Autowired
+    lateinit var librarianService: LibrarianService
 
     @PostConstruct
     fun postConstruct() {
@@ -40,10 +43,12 @@ class TestService {
         val acc1 = accountService.save( Account(null,"aris",encoder.encode("pass"),1))
         val acc2 = accountService.save( Account(null,"bill",encoder.encode("pass"),1))
         val acc3 = accountService.save( Account(null,"nick",encoder.encode("pass"),1))
+        val acc4 = accountService.save( Account(null,"lib",encoder.encode("pass"),1))
 
         authorityService.save( Authority(null,acc1, Role.USER.value))
         authorityService.save( Authority(null,acc2, Role.USER.value))
         authorityService.save( Authority(null,acc3, Role.USER.value))
+        authorityService.save( Authority(null,acc4, Role.LIBRARIAN.value))
 
         userService.save(User(null,"Aris", "Tsach", acc1))
         userService.save(User(null,"Bill", "Pap", acc2))
@@ -70,7 +75,7 @@ class TestService {
         cityService.cityRepository?.save(City(null,"Athens"))
         cityService.cityRepository?.save(City(null,"Larissa"))
 
-        libraryService.addLibrary(Library(null,"Anagnostirio Apth",null,
+        val libr1 = libraryService.addLibrary(Library(null,"Anagnostirio Apth",null,
         ),cityService.cityRepository?.findById(1)!!.orElse(null))
         libraryService.addLibrary(Library(null,"Dimosia Vivliothiki",null,
         ),cityService.cityRepository?.findById(1)!!.orElse(null))
@@ -93,6 +98,7 @@ class TestService {
         librarianServiceOld.save(LibrarianOld(null,"lib3","123","lib","3",libraryService.findById(3)))
         librarianServiceOld.save(LibrarianOld(null,"lib4","123","lib","4",libraryService.findById(4)))
 
+        librarianService.save( Librarian(null,"firstName lib","lastName lib",libr1,acc4))
 
     }
 }

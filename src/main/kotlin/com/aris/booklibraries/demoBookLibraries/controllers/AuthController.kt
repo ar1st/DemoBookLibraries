@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import javax.servlet.http.HttpServletResponse
-import javax.servlet.http.HttpSession
 
 @Controller
 class AuthController {
@@ -46,7 +45,7 @@ class AuthController {
         val encoder = BCryptPasswordEncoder(10)
         val encodedPass = encoder.encode(registrationDetails.password)
         val accountToCreate = Account( null,registrationDetails.username,encodedPass,1)
-        val createdAccount = accountExecutor.createAccount(accountToCreate,response)
+        val createdAccount = accountExecutor.createAccountAndUser(accountToCreate,response)
 
         if ( createdAccount.data == null) {
             model.addAttribute("error",createdAccount.message)
@@ -86,60 +85,13 @@ class AuthController {
     // Main form
     @RequestMapping("/main.html")
     fun main(): String? {
-        val p = SecurityContextHolder.getContext().authentication.principal.javaClass
-        val n = SecurityContextHolder.getContext().authentication.credentials
-        val l = SecurityContextHolder.getContext().authentication.authorities
-        val m = SecurityContextHolder.getContext().authentication.details
-        val t = SecurityContextHolder.getContext().authentication.name
+        val role =  SecurityContextHolder.getContext().authentication.authorities.toString()
+        if ( role == "[USER]")
+            return "homepage/homepage-user"
+        else if ( role == "[LIBRARIAN]")
+            return "homepage/homepage-librarian"
+
         return "main.html"
     }
 
-    // Login form with error
-    @RequestMapping("/login-error.html")
-    fun loginError(model: Model): String? {
-        model.addAttribute("loginError", true)
-        return "auth/login.html"
-    }
-
-//    @GetMapping("/login")
-//    fun login(model: Model): String {
-//        println()
-//        //model.addAttribute("user",user)
-//        return "auth/login"
-//    }
-//
-//
-//
-//    @PostMapping("/login")
-//    fun checkLoginUser(@ModelAttribute("user") user: User, model: Model, session: HttpSession): String {
-//        val tryToLog = userExecutor.logIn(user.email!!, user.password!!)
-//        if (tryToLog.data != null) {
-//            session.setAttribute("loggedUser", tryToLog.data)
-//            session.setAttribute("role", "user")
-//            return "main"
-//        }
-//        model.addAttribute("message", tryToLog.message)
-//        return "redirect:/login"
-//    }
-
-//    //todo delete this
-//    @PostMapping("/loginLibrarian")
-//    fun checkLoginLibrarian(@ModelAttribute("librarian") librarian: Librarian?, model: Model, session: HttpSession): String {
-//        val tryToLog = librarianExecutor.logIn(librarian?.email!!,librarian.password!!)
-//        if (tryToLog.data != null) {
-//            session.setAttribute("loggedLibrarian", tryToLog.data)
-//            session.setAttribute("role", "librarian")
-//            return "main"
-//        }
-//        model.addAttribute("message",tryToLog.message )
-//        return "redirect:/login"
-//    }
-
-    @RequestMapping("/logout")
-    fun logout(session: HttpSession): String {
-        session.setAttribute("loggedUser", null)
-        session.setAttribute("loggedLibrarian", null)
-        session.setAttribute("role", null)
-        return "main.html"
-    }
 }
