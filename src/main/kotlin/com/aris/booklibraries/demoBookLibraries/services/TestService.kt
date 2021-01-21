@@ -28,8 +28,6 @@ class TestService {
     @Autowired
     lateinit var accountService: AccountService
     @Autowired
-    lateinit var authorityService:AuthorityService
-    @Autowired
     lateinit var librarianService: LibrarianService
 
     @PostConstruct
@@ -40,15 +38,10 @@ class TestService {
     fun init() {
         val encoder = BCryptPasswordEncoder(10)
 
-        val acc1 = accountService.save( Account(null,"aris",encoder.encode("pass"),1))
-        val acc2 = accountService.save( Account(null,"bill",encoder.encode("pass"),1))
-        val acc3 = accountService.save( Account(null,"nick",encoder.encode("pass"),1))
-        val acc4 = accountService.save( Account(null,"lib",encoder.encode("pass"),1))
-
-        authorityService.save( Authority(null,acc1, Role.USER.value))
-        authorityService.save( Authority(null,acc2, Role.USER.value))
-        authorityService.save( Authority(null,acc3, Role.USER.value))
-        authorityService.save( Authority(null,acc4, Role.LIBRARIAN.value))
+        val acc1 = accountService.save( Account(null,"aris",encoder.encode("pass"),1,Role.USER.value))
+        val acc2 = accountService.save( Account(null,"bill",encoder.encode("pass"),1,Role.USER.value))
+        val acc3 = accountService.save( Account(null,"nick",encoder.encode("pass"),1,Role.USER.value))
+        val acc4 = accountService.save( Account(null,"lib",encoder.encode("pass"),1,Role.LIBRARIAN.value))
 
         userService.save(User(null,"Aris", "Tsach", acc1))
         userService.save(User(null,"Bill", "Pap", acc2))

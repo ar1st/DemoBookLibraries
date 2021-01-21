@@ -9,5 +9,6 @@ data class Account(
     var accountId: Long?,
     var username: String?,
     var password: String?,
-    var enabled: Int?
+    var enabled: Int?,
+    var authority: String
     )

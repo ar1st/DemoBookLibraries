@@ -23,8 +23,6 @@ class AccountExecutor {
     @Autowired
     lateinit var borrowsService: BorrowsService
     @Autowired
-    lateinit var authorityService: AuthorityService
-    @Autowired
     lateinit var librarianService: LibrarianService
     @Autowired
     lateinit var userService: UserService
@@ -43,13 +41,10 @@ class AccountExecutor {
 
         val encoder = BCryptPasswordEncoder(10)
         val encodedPass = encoder.encode(registrationDetails.password)
-        val accountToCreate = Account( null,registrationDetails.username,encodedPass,1)
+        val accountToCreate = Account( null,registrationDetails.username,encodedPass,1,Role.USER.value)
 
         val createdAccount = accountService.save(accountToCreate)
             ?: return ApiResponse(data=null,message="Something went wrong. Try again later.")
-
-        val authorityToCreate = Authority(null,createdAccount, Role.USER.value)
-        authorityService.save(authorityToCreate)
 
         val userToCreate = User(null,registrationDetails.firstName,registrationDetails.lastName,createdAccount)
         val createdUser = userService.save(userToCreate)
@@ -65,11 +60,8 @@ class AccountExecutor {
 
         val encoder = BCryptPasswordEncoder(10)
         val encodedPass = encoder.encode(registrationDetails.password)
-        val accountToCreate = Account( null,registrationDetails.username,encodedPass,1)
+        val accountToCreate = Account( null,registrationDetails.username,encodedPass,1,Role.LIBRARIAN.value)
         val createdAccount = accountService.save(accountToCreate)
-
-        val authorityToCreate = Authority(null,createdAccount, Role.LIBRARIAN.value)
-        authorityService.save( authorityToCreate)
 
         val librarianToCreate = Librarian(null,registrationDetails.firstName,registrationDetails.lastName,
                                                 registrationDetails.library,createdAccount)

@@ -24,10 +24,10 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
             .dataSource(dataSource)
             .usersByUsernameQuery("select username,password,enabled "
                     + "from account "
-                    + "where username = ?")
-            .authoritiesByUsernameQuery("select u.username, r.authority " +
-                    "from account u join authority r on " +
-                    "r.account_id = u.account_id where u.username =?")
+                    + "where username = ? ")
+            .authoritiesByUsernameQuery("select username, authority " +
+                    "from account " +
+                    "where username =? ")
     }
 
     @Throws(Exception::class)

@@ -1,12 +1,9 @@
 package com.aris.booklibraries.demoBookLibraries.controllers
 
 import com.aris.booklibraries.demoBookLibraries.executors.AccountExecutor
-import com.aris.booklibraries.demoBookLibraries.executors.AuthorityExecutor
-import com.aris.booklibraries.demoBookLibraries.executors.UserExecutor
 import com.aris.booklibraries.demoBookLibraries.models.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -17,14 +14,8 @@ import javax.servlet.http.HttpServletResponse
 
 @Controller
 class AuthController {
-
     @Autowired
     lateinit var accountExecutor: AccountExecutor
-    @Autowired
-    lateinit var userExecutor: UserExecutor
-    @Autowired
-    lateinit var authorityExecutor: AuthorityExecutor
-
 
     @GetMapping("/signup")
     fun signUpUser(@ModelAttribute registrationDetails: RegistrationDetails, model: Model): String {
