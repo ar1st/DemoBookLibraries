@@ -36,33 +36,13 @@ class AuthController {
     fun submitForm(@ModelAttribute("registrationDetails") registrationDetails: RegistrationDetails,
                     model:Model,response: HttpServletResponse): String {
 
-        if ( registrationDetails.username.isNullOrEmpty() || registrationDetails.password.isNullOrEmpty()
-            ||registrationDetails.firstName.isNullOrEmpty() ||registrationDetails.lastName.isNullOrEmpty() ){
-            model.addAttribute("error","Fill all fields.")
-            return "auth/signup"
+        val response = accountExecutor.createAccountAndUser(registrationDetails,response)
+
+        if ( response.data == null) {
+            model.addAttribute("error",response.message)
+            return "auth/signup.html"
         }
-
-        val encoder = BCryptPasswordEncoder(10)
-        val encodedPass = encoder.encode(registrationDetails.password)
-        val accountToCreate = Account( null,registrationDetails.username,encodedPass,1)
-        val createdAccount = accountExecutor.createAccountAndUser(accountToCreate,response)
-
-        if ( createdAccount.data == null) {
-            model.addAttribute("error",createdAccount.message)
-            return "auth/signup"
-        }
-
-        val authorityToCreate = Authority(null,createdAccount.data, Role.USER.value)
-        authorityExecutor.createAuthority(authorityToCreate,response)
-
-        val userToCreate = User(null,registrationDetails.firstName,registrationDetails.lastName,createdAccount.data)
-        val createdUser = userExecutor.createUser(userToCreate,response)
-        if ( createdUser.data == null) {
-            model.addAttribute("error",createdUser.message)
-            return "auth/signup"
-        }
-
-        model.addAttribute("message","You can login now :)")
+        model.addAttribute("message",response.message)
         return "auth/login.html"
     }
 

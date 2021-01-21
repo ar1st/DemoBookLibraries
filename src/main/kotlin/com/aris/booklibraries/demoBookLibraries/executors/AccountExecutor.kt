@@ -26,24 +26,36 @@ class AccountExecutor {
     lateinit var authorityService: AuthorityService
     @Autowired
     lateinit var librarianService: LibrarianService
+    @Autowired
+    lateinit var userService: UserService
 
 
-    fun createAccountAndUser(data: Account, response: HttpServletResponse?): ApiResponse<Account, String> {
-        if (data.username == null || data.username!!.isEmpty()) {
-            response?.status = HttpStatus.BAD_REQUEST.value()
-            return ApiResponse(data=null,message="Error: Insert username.")
+
+    fun createAccountAndUser(registrationDetails: RegistrationDetails, response: HttpServletResponse?): ApiResponse<Account, String> {
+
+        if ( registrationDetails.username.isNullOrEmpty() || registrationDetails.password.isNullOrEmpty()
+            ||registrationDetails.firstName.isNullOrEmpty() ||registrationDetails.lastName.isNullOrEmpty() ){
+            return ApiResponse(null, "Fill all the fields.")
         }
 
-        if (data.password == null || data.password!!.isEmpty()) {
-            response?.status = HttpStatus.BAD_REQUEST.value()
-            return ApiResponse(data=null,message="Error: Insert password.")
-        }
-
-        if ( accountService.findByUsername(data.username!!) != null)
+        if ( accountService.findByUsername(registrationDetails.username!!) != null)
              return ApiResponse(data=null,message="Error: Username already exists.")
 
+        val encoder = BCryptPasswordEncoder(10)
+        val encodedPass = encoder.encode(registrationDetails.password)
+        val accountToCreate = Account( null,registrationDetails.username,encodedPass,1)
+
+        val createdAccount = accountService.save(accountToCreate)
+            ?: return ApiResponse(data=null,message="Something went wrong. Try again later.")
+
+        val authorityToCreate = Authority(null,createdAccount, Role.USER.value)
+        authorityService.save(authorityToCreate)
+
+        val userToCreate = User(null,registrationDetails.firstName,registrationDetails.lastName,createdAccount)
+        val createdUser = userService.save(userToCreate)
+
         response?.status = HttpStatus.ACCEPTED.value()
-        return ApiResponse( data = accountService.save(data), message = "OK" )
+        return ApiResponse(createdAccount,"You can login now :)")
     }
 
     fun createAccountAndLibrarian(registrationDetails: RegistrationDetails, response: HttpServletResponse?): ApiResponse<Account, String> {

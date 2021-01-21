@@ -18,10 +18,9 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
     @Autowired
     lateinit var dataSource: DataSource
 
-    //todo delete eraseCredentials
     @Throws(Exception::class)
     override fun configure(auth: AuthenticationManagerBuilder) {
-        auth.eraseCredentials(false).jdbcAuthentication()
+        auth.jdbcAuthentication()
             .dataSource(dataSource)
             .usersByUsernameQuery("select username,password,enabled "
                     + "from account "
