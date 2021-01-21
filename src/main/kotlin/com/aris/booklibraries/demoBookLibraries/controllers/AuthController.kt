@@ -27,13 +27,13 @@ class AuthController {
     fun submitForm(@ModelAttribute("registrationDetails") registrationDetails: RegistrationDetails,
                     model:Model,response: HttpServletResponse): String {
 
-        val response = accountExecutor.createAccountAndUser(registrationDetails,response)
+        val apiResponse = accountExecutor.createAccountAndUser(registrationDetails,response)
 
-        if ( response.data == null) {
-            model.addAttribute("error",response.message)
+        if ( apiResponse.data == null) {
+            model.addAttribute("error",apiResponse.message)
             return "auth/signup.html"
         }
-        model.addAttribute("message",response.message)
+        model.addAttribute("message",apiResponse.message)
         return "auth/login.html"
     }
 
