@@ -1,0 +1,81 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+main {
+    font-family: "Poppins", sans-serif;
+    min-height: 100vh;
+    background: linear-gradient(to right top, #6dd8c4, #6cdbeb);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+h3 {
+    color: #426696;
+    font-weight: 600;
+    font-size: 23px;
+    opacity: 0.8;
+}
+
+.glass {
+    background: white;
+    min-height: 80vh;
+    width: 60%;
+    background: linear-gradient(
+            to right bottom,
+            rgba(255, 255, 255, 0.7),
+            rgba(255, 255, 255, 0.3)
+    );
+    border-radius: 2rem;
+    z-index: 2;
+    backdrop-filter: blur(2em);
+    display: flex;
+}
+
+.dashboard {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    text-align: center;
+    background: linear-gradient(
+            to right bottom,
+            rgba(255, 255, 255, 0.7),
+            rgba(255, 255, 255, 0.3)
+    );
+    border: none;
+    border-radius: 2rem;
+}
+
+
+
+.status {
+    margin-bottom: 3rem;
+}
+
+.circle1,
+.circle2 {
+    background: white;
+    background: linear-gradient(
+            to right bottom,
+            rgba(255, 255, 255, 0.8),
+            rgba(255, 255, 255, 0.3)
+    );
+    height: 15rem;
+    width: 15rem;
+    position: absolute;
+    border-radius: 50%;
+}
+
+.circle1 {
+    top: 5%;
+    right: 15%;
+}
+.circle2 {
+    bottom: 5%;
+    left: 15%;
+}
