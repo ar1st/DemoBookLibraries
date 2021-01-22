@@ -1,3 +1,135 @@
-#haserror {
-    color: red;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1 {
+    color: #426696;
+    font-weight: 600;
+    font-size: 55px;
+    opacity: 0.8;
+    position: absolute;
+    top: 18%;
+    left:37%
+}
+
+
+h3 {
+    color: #426696;
+    font-weight: 600;
+    font-size: 23px;
+    opacity: 0.8;
+}
+
+main {
+    font-family: "Poppins", sans-serif;
+    min-height: 100vh;
+    background: linear-gradient(to right top, #6dd8c4, #6cdbeb);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.glass {
+    background: white;
+    min-height: 80vh;
+    width: 60%;
+    background: linear-gradient(
+            to right bottom,
+            rgba(255, 255, 255, 0.7),
+            rgba(255, 255, 255, 0.3)
+    );
+    border-radius: 2rem;
+    z-index: 2;
+    backdrop-filter: blur(2em);
+    display: flex;
+}
+
+.dashboard {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    text-align: center;
+    background: linear-gradient(
+            to right bottom,
+            rgba(255, 255, 255, 0.7),
+            rgba(255, 255, 255, 0.3)
+    );
+    border: none;
+    border-radius: 2rem;
+}
+
+.logButton,
+.backButton {
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.logButton {
+    background: linear-gradient(to right top, #65df84, #65dfc9);
+    margin-left: 30px;
+
+}
+
+.backButton {
+    background: linear-gradient(to right top, #c9df65, #65dfc9);
+
+}
+
+.status {
+    margin-bottom: 3rem;
+}
+
+.inputlabel {
+    background: linear-gradient(
+            to right,
+            #c6e3e7,
+            #9ed6e0
+    );
+    border: none;
+    width: 50%;
+    padding: 0.5rem;
+    border-radius: 2rem;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.error {
+    color:red;
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.circle1,
+.circle2 {
+    background: white;
+    background: linear-gradient(
+            to right bottom,
+            rgba(255, 255, 255, 0.8),
+            rgba(255, 255, 255, 0.3)
+    );
+    height: 15rem;
+    width: 15rem;
+    position: absolute;
+    border-radius: 50%;
+}
+
+.circle1 {
+    top: 5%;
+    right: 15%;
+}
+.circle2 {
+    bottom: 5%;
+    left: 15%;
 }
