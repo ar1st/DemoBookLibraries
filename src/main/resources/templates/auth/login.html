@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <title>Login page</title>
     <link th:href="@{/css/login.css}" rel="stylesheet">
@@ -16,24 +16,26 @@
         <section class="glass">
             <div class="dashboard">
                 <div class="status">
-                    <form th:action="@{/perform_login}" method="post">
-                        <h1>Login page</h1>
-<!--                        style this-->
-                        <p class="text-primary" th:text="${message}"></p>
-                        <p class="error" th:text="${error}"></p>
-                        <h3>
-                            <label for="username">Username</label>:
-                            <input class="inputlabel" type="text" id="username" name="username" autofocus="autofocus" />
-                        </h3>
-                            <br/>
-                        <h3>
-                            <label  for="password">Password</label>:
-                            <input  class="inputlabel" type="password" id="password" name="password" />
-                        </h3>
-                             <br/>
-                        <input class="backButton" type="button"   onclick="window.location='/';"  value="Back" />
-                        <input class="logButton" type="submit" value="Log in" />
-                    </form>
+                    <div sec:authorize="isAnonymous()">
+                        <form th:action="@{/perform_login}" method="post">
+                            <h1>Login page</h1>
+    <!--                        style this-->
+                            <p class="text-primary" th:text="${message}"></p>
+                            <p class="error" th:text="${error}"></p>
+                            <h3>
+                                <label for="username">Username</label>:
+                                <input class="inputlabel" type="text" id="username" name="username" autofocus="autofocus" />
+                            </h3>
+                                <br/>
+                            <h3>
+                                <label  for="password">Password</label>:
+                                <input  class="inputlabel" type="password" id="password" name="password" />
+                            </h3>
+                                 <br/>
+                            <input class="backButton" type="button"   onclick="window.location='/';"  value="Back" />
+                            <input class="logButton" type="submit" value="Log in" />
+                        </form>
+                    </div>
                 </div>
             </div>
         </section>

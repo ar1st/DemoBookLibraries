@@ -50,6 +50,7 @@ class AuthController {
         if (error != null)
             model.addAttribute("error", "Your username and password is invalid.")
 
+
         return "auth/login.html"
     }
 

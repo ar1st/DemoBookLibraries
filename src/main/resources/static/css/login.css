@@ -25,6 +25,7 @@ h1 {
     font-size: 20px;
     border-radius: 12px;
     cursor: pointer;
+    width:130px;
 }
 
 .logButton {
