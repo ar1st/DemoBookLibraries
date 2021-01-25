@@ -8,6 +8,6 @@ import org.springframework.transaction.annotation.Transactional
 @Repository
 interface AccountRepository: JpaRepository<Account,Long> {
     @Transactional
-    fun findByUsername(username:String): Account?
+    fun findByEmail(email :String): Account?
 
 }

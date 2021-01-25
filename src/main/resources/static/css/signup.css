@@ -10,9 +10,6 @@ h1 {
 
 }
 
-
-
-
 .signButton,
 .backButton,
 .resetButton{
@@ -31,17 +28,17 @@ h1 {
 .signButton,
 .resetButton{
     background: linear-gradient(to right top, #65df84, #65dfc9);
-
+    margin-left: 2em
 }
 
 .backButton {
     background: linear-gradient(to right top, #c9df65, #65dfc9);
     margin-top: 2%;
-    margin-right: 23%;
+    margin-right: 7.6em;
 }
 
 .signButton {
-    margin-left: 30px;
+    margin-left: 3em;
 }
 
 .inputlabel {

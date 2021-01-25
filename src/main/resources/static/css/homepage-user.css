@@ -1,19 +1,93 @@
-.logButton,
-.signButton {
+.navButton,
+.logOutButton{
     border: none;
     color: white;
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 20px;
+    font-size: 18px;
+    font-weight:bold;
     border-radius: 12px;
     cursor: pointer;
-    width:140px;
-    /*height: 20px;*/
+    text-align: justify;
 }
 
-.logButton {
+
+.navButton {
     background: linear-gradient(to right top, #65df84, #65dfc9);
     margin-left: 30px;
+}
+
+.logo,
+.logOutButton,
+nav{
+    display: flex;
+}
+
+.logo {
+    color: #2f7ea6;
+    margin: 5px;
+    flex: 1;
+}
+
+.logOutContainer {
+    align-content: flex-end;
+    margin:5px;
+    flex:1
+}
+
+.logOutButton {
+    background: linear-gradient(to right top, #ff6340, #65dfc9);
+    float:right;
+}
+
+nav {
+    flex: 2;
+    justify-content: space-around;
+}
+
+.styled-table {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+    font-size: 1em;
+    font-weight:bold;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    border-radius: 2rem;
+}
+
+.styled-table thead tr {
+    color: #ffffff;
+    text-align: left;
+
+    background-color: #009879;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+
+.styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+}
+
+table th:first-child{
+  border-radius:10px 0 0 10px;
+}
+
+table th:last-child{
+  border-radius:0 10px 10px 0;
 }

@@ -1,0 +1,24 @@
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>My Library App</title>
+<!--    <link th:href = "@{/css/core.css}" rel="stylesheet">-->
+<!--    <link th:href = "@{/css/homepage-user.css}" rel="stylesheet">-->
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />-->
+</head>
+<body>
+<header th:fragment="navbar">
+    <i class="fas fa-book fa-3x logo"></i>
+    <nav>
+            <a class="navButton" th:href="@{/loggedUser/{username}/books(username=${#authentication.name})}" >My Books</a>
+            <a class="navButton" th:href="@{/libraries/librariesToBorrowFrom}">Borrow </a>
+    </nav>
+    <div class="logOutContainer">
+        <a class="logOutButton" th:href="@{/perform_logout}" >Logout</a>
+    </div>
+</header>
+</body>
+</html>

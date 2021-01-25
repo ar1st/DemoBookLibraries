@@ -32,8 +32,8 @@ class UserController {
 
     @GetMapping("/loggedUser/{username}/books")
     fun showBorrowedBooks(@PathVariable("username",required = true) username: String,
-                          session: HttpSession, model: Model): String {
-        val loggedUser = accountRepository.findByUsername(username)
+                          session: HttpSession?, model: Model): String {
+        val loggedUser = accountRepository.findByEmail(username)
         val borrow = borrowsService.getBorrowsDetails(loggedUser?.accountId!!)
         val listToReturn = mutableListOf<BorrowDetails>()
         for (element: String in borrow) {
@@ -47,7 +47,7 @@ class UserController {
         else
             model.addAttribute("borrows", listToReturn)
 
-        return "loggedUser/books"
+        return "homepage/homepage-user.html"
     }
 
     @GetMapping("/loggedUser/{username}/books/{bookid}/libraries/{libraryid}")
@@ -59,9 +59,9 @@ class UserController {
         val book = bookExecutor.getBookById(bookId.toLong(),null)
         val library = libraryExecutor.getLibraryById(libraryId.toLong(),null)
 
-        val response = accountExecutor.borrowBook(HasBook(null,library.data!!,book.data!!,0),account.data?.username!!,null)
+        val response = accountExecutor.borrowBook(HasBook(null,library.data!!,book.data!!,0),account.data?.email!!,null)
         model.addAttribute("message", response.message)
-        return "main"
+        return "homepage/homepage-user.html"
     }
 
     @GetMapping("/loggedUser/{username}/return/{hasBookId}")
@@ -69,9 +69,9 @@ class UserController {
                    @PathVariable("hasBookId",required = true) hasBookId: String,
                    model: Model): String{
     //    val user = userExecutor.getUserById( userId.toLong(),null)
-        val account = accountRepository.findByUsername(username)
+        val account = accountRepository.findByEmail(username)
         val hasBook = hasBookService.getById( hasBookId.toLong() )
-        val p = accountExecutor.returnBook(hasBook!!,null,account?.username!!)
+        val p = accountExecutor.returnBook(hasBook!!,null,account?.email!!)
         model.addAttribute("message",p.message)
         return "main"
     }

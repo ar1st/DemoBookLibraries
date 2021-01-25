@@ -32,7 +32,7 @@ class TestService {
 
     @PostConstruct
     fun postConstruct() {
-      //  init()
+        init()
     }
 
     fun init() {

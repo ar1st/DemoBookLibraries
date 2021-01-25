@@ -24,12 +24,12 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
     override fun configure(auth: AuthenticationManagerBuilder) {
         auth.jdbcAuthentication()
             .dataSource(dataSource)
-            .usersByUsernameQuery("select username,password,enabled "
+            .usersByUsernameQuery("select email as username,password,enabled "
                     + "from account "
-                    + "where username = ? ")
-            .authoritiesByUsernameQuery("select username, authority " +
+                    + "where email = ? ")
+            .authoritiesByUsernameQuery("select email as username, authority " +
                     "from account " +
-                    "where username =? ")
+                    "where email =? ")
     }
 
     @Throws(Exception::class)

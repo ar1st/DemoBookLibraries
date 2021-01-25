@@ -17,8 +17,8 @@ class AccountService {
     }
 
     @Transactional
-    fun findByUsername(username:String): Account? {
-        return accountRepository.findByUsername(username)
+    fun findByEmail(email:String): Account? {
+        return accountRepository.findByEmail(email)
     }
 
 }

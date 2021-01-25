@@ -7,7 +7,8 @@ data class Account(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var accountId: Long?,
-    var username: String?,
+    @Column(unique=true)
+    var email: String?,
     var password: String?,
     var enabled: Int?,
     var authority: String

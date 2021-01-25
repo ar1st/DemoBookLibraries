@@ -36,7 +36,7 @@ class AccountExecutor {
             return ApiResponse(null, "Fill all the fields.")
         }
 
-        if ( accountService.findByUsername(registrationDetails.username!!) != null)
+        if ( accountService.findByEmail(registrationDetails.username!!) != null)
              return ApiResponse(data=null,message="Error: Username already exists.")
 
         val encoder = BCryptPasswordEncoder(10)
@@ -55,7 +55,7 @@ class AccountExecutor {
 
     fun createAccountAndLibrarian(registrationDetails: RegistrationDetails, response: HttpServletResponse?): ApiResponse<Account, String> {
 
-        if ( accountService.findByUsername(registrationDetails.username!!) != null)
+        if ( accountService.findByEmail(registrationDetails.username!!) != null)
             return ApiResponse(data=null,message="Error: Username already exists.")
 
         val encoder = BCryptPasswordEncoder(10)
@@ -73,14 +73,14 @@ class AccountExecutor {
 
 
     fun findByUsername(username: String): ApiResponse<Account,String> {
-        val accountToReturn = accountService.findByUsername(username)
+        val accountToReturn = accountService.findByEmail(username)
             ?: return ApiResponse(null,"User not found")
 
         return ApiResponse(accountToReturn,"OK")
     }
 
     fun borrowBook(data: HasBook, username: String, response: HttpServletResponse?): ApiResponse<Borrows, String> {
-        val accountToBorrow =accountService.findByUsername(username)
+        val accountToBorrow =accountService.findByEmail(username)
             ?: return ApiResponse(data = null, message = "Error: No account with such username.")
 
         val bookToAdd = bookService.findById(data.book.bookId?:-1)
@@ -114,7 +114,7 @@ class AccountExecutor {
             .isBookInSpecificLibrary( data.library.libraryId?:-1, data.book.bookId?:-1)
             ?: return ApiResponse(data = null, message = "Error: The book isn't in this library.")
 
-        val accountToBorrow =accountService.findByUsername(username)
+        val accountToBorrow =accountService.findByEmail(username)
             ?: return ApiResponse(data = null, message = "Error: No account with such username.")
         val borrows = borrowsService.isBorrowed(accountToBorrow.accountId!!,bookExistsInLibrary.hasBookId?:-1)
             ?: return ApiResponse(data = null, message = "Error: This book was already returned.")
