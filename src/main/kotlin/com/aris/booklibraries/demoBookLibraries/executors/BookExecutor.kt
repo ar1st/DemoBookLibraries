@@ -1,9 +1,12 @@
 package com.aris.booklibraries.demoBookLibraries.executors
 
 import com.aris.booklibraries.demoBookLibraries.models.Book
+import com.aris.booklibraries.demoBookLibraries.models.BorrowDetails
 import com.aris.booklibraries.demoBookLibraries.models.Library
 import com.aris.booklibraries.demoBookLibraries.models.response.ApiResponse
+import com.aris.booklibraries.demoBookLibraries.services.AccountService
 import com.aris.booklibraries.demoBookLibraries.services.BookService
+import com.aris.booklibraries.demoBookLibraries.services.BorrowsService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
@@ -15,6 +18,10 @@ class BookExecutor {
     lateinit var bookService: BookService
     @Autowired
     lateinit var libraryExecutor: LibraryExecutor
+    @Autowired
+    lateinit var accountService: AccountService
+    @Autowired
+    lateinit var borrowsService: BorrowsService
 
     fun getAllBooks(): ApiResponse< List<Book>,String> {
         val allBooks = bookService.findAll()
@@ -80,5 +87,16 @@ class BookExecutor {
         return ApiResponse(data = null, message = "OK")
     }
 
+    fun findBorrowedBooksByUser(username: String): MutableList<BorrowDetails> {
+        val listToReturn = mutableListOf<BorrowDetails>()
+        val loggedUser = accountService.findByEmail(username)
+        val borrow = borrowsService.getBorrowsDetails(loggedUser?.accountId!!)
+        for (element: String in borrow) {
+            val parts = element.split(",")
+            val details = BorrowDetails(parts[0],parts[1],parts[2],parts[3],parts[4])
+            listToReturn.add(details)
+        }
 
+        return listToReturn
+    }
 }

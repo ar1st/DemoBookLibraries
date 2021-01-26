@@ -1,6 +1,7 @@
 package com.aris.booklibraries.demoBookLibraries.controllers
 
 import com.aris.booklibraries.demoBookLibraries.executors.AccountExecutor
+import com.aris.booklibraries.demoBookLibraries.executors.BookExecutor
 import com.aris.booklibraries.demoBookLibraries.models.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
@@ -16,6 +17,8 @@ import javax.servlet.http.HttpServletResponse
 class AuthController {
     @Autowired
     lateinit var accountExecutor: AccountExecutor
+    @Autowired
+    lateinit var bookExecutor: BookExecutor
 
     @GetMapping("/signup")
     fun signUpUser(@ModelAttribute registrationDetails: RegistrationDetails, model: Model): String {
@@ -40,7 +43,7 @@ class AuthController {
     // Index
     @RequestMapping("/")
     fun index(): String? {
-        return main()
+        return main(null)
     }
 
     // Login form
@@ -50,20 +53,28 @@ class AuthController {
         if (error != null)
             model.addAttribute("error", "Your username and password is invalid.")
 
-
         return "auth/login.html"
     }
 
     // Main form
     @RequestMapping("/main.html")
-    fun main(): String? {
+    fun main(model: Model?): String? {
         val role =  SecurityContextHolder.getContext().authentication.authorities.toString()
-        if ( role == "[USER]")
+        val name = SecurityContextHolder.getContext().authentication.name
+        if ( role == "[USER]") {
+            val listReturn = bookExecutor.findBorrowedBooksByUser(name)
+            model?.addAttribute("borrows", if (listReturn.size == 0) null else listReturn)
             return "homepage/homepage-user"
+        }
         else if ( role == "[LIBRARIAN]")
             return "homepage/homepage-librarian"
 
         return "main.html"
+    }
+
+    @RequestMapping("back")
+    fun backToMain(): String? {
+        return main(null)
     }
 
 }

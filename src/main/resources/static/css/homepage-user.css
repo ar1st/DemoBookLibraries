@@ -13,13 +13,16 @@
     text-align: justify;
 }
 
+.logoContainer{
+    flex:1
+}
 
 .navButton {
     background: linear-gradient(to right top, #65df84, #65dfc9);
     margin-left: 30px;
 }
 
-.logo,
+.logoContainer,
 .logOutButton,
 nav{
     display: flex;
@@ -28,7 +31,6 @@ nav{
 .logo {
     color: #2f7ea6;
     margin: 5px;
-    flex: 1;
 }
 
 .logOutContainer {
@@ -47,6 +49,10 @@ nav {
     justify-content: space-around;
 }
 
+header{
+    display:flex;
+}
+
 .styled-table {
     width: 100%;
     height: 100%;
@@ -54,14 +60,11 @@ nav {
     font-size: 1em;
     font-weight:bold;
     min-width: 400px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-    border-radius: 2rem;
 }
 
 .styled-table thead tr {
     color: #ffffff;
     text-align: left;
-
     background-color: #009879;
 }
 
@@ -70,8 +73,8 @@ nav {
     padding: 12px 15px;
 }
 
-.styled-table tbody tr {
-    border-bottom: 1px solid #dddddd;
+.styled-table td {
+    width: 20%
 }
 
 .styled-table tbody tr:nth-of-type(even) {
@@ -84,10 +87,10 @@ nav {
     color: #009879;
 }
 
-table th:first-child{
-  border-radius:10px 0 0 10px;
-}
-
-table th:last-child{
-  border-radius:0 10px 10px 0;
+.borrowText{
+    color: #426696;
+    font-weight: 600;
+    font-size: 20px;
+    opacity: 0.8;
+    text-align:center;
 }

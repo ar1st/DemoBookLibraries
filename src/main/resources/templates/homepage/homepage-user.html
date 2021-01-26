@@ -3,23 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>My Library App</title>
+    <!--CSS-->
     <link th:href = "@{/css/core.css}" rel="stylesheet">
     <link th:href = "@{/css/homepage-user.css}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
+    <!--Fonts-->
     <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link
-            href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap"
-            rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet"/>
+    <!--jQuery-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <!--jQuery Modal -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 </head>
 <body>
     <main>
         <header th:replace="fragments :: navbar"></header>
         <section class="glass">
             <table class="styled-table" >
-<!--                th:if="${borrows} != null"-->
                 <thead>
-                <tr>
+                <tr style="text-align:center;">
                     <th scope="col">Title</th>
                     <th scope="col">Library</th>
                     <th scope="col">City</th>
@@ -28,61 +31,29 @@
                 </tr>
                 </thead>
                 <tbody>
-<!--                <tr th:each="borrow : ${borrows}">-->
-<!--                    <td th:text="${borrow.bookTitle}"></td>-->
-<!--                    <td th:text="${borrow.libraryName}"></td>-->
-<!--                    <td th:text="${borrow.cityName}"></td>-->
-<!--                    <td th:text="${borrow.borrowDate}"></td>-->
-<!--                    <td ><a class="btn btn-primary" th:href="@{/loggedUser/{username}/return/{hasBookId}-->
-<!--            (username=${#authentication.name}, hasBookId = ${borrow.hasBookId})}">Yes</a></td>-->
-<!--                </tr>-->
-                <tr>
-                    <td>ena</td>
-                    <td>ena</td>
-                    <td>ena</td>
-                    <td>ena</td>
-                    <td>ena</td>
-                </tr>
-
-<tr>
-    <td>ena</td>
-    <td>ena</td>
-    <td>ena</td>
-    <td>ena</td>
-    <td>ena</td>
-</tr>
-<tr>
-    <td>ena</td>
-    <td>ena</td>
-    <td>ena</td>
-    <td>ena</td>
-    <td>ena</td>
-</tr>
-<tr>
-    <td>ena</td>
-    <td>ena</td>
-    <td>ena</td>
-    <td>ena</td>
-    <td>ena</td>
-</tr>
-<tr>
-    <td>ena</td>
-    <td>ena</td>
-    <td>ena</td>
-    <td>ena</td>
-    <td>ena</td>
-</tr>
-<tr>
-    <td>ena</td>
-    <td>ena</td>
-    <td>ena</td>
-    <td>ena</td>
-    <td>ena</td>
-</tr>
+                    <tr th:if="${borrows} == null" >
+                        <td colspan="5" class="borrowText">
+                            You don't have any books yet :( </br>
+                            Hurry and borrow some.
+                        </td>
+                    </tr>
+                    <tr th:if="${borrows} != null"  th:each="borrow : ${borrows}" style="text-align:center;">
+                        <td><a href="#ex1" rel="modal:open" th:text="${borrow.bookTitle}"></a></td>
+                        <td th:text="${borrow.libraryName}"></td>
+                        <td th:text="${borrow.cityName}"></td>
+                        <td th:text="${borrow.borrowDate}"></td>
+                        <td ><a class="btn btn-primary" th:href="@{/loggedUser/{username}/return/{hasBookId}
+                           (username=${#authentication.name}, hasBookId = ${borrow.hasBookId})}">Yes</a></td>
+                    </tr>
                 </tbody>
             </table>
-
         </section>
     </main>
+
+    <div id="ex1" class="modal">
+        <p>Thanks for clicking. That felt good.</p>
+
+    </div>
+
 </body>
 </html>
