@@ -40,7 +40,7 @@ class BookController {
 
     @PostMapping("/books/add/writtenBy/{authorId}")
     fun submitBook(@ModelAttribute("book") book: Book, model: Model,@PathVariable("authorId") authorId: Long): String {
-        val bookToAdd = Book(null,book.title, authorExecutor.getAuthorById(authorId,null).data)
+        val bookToAdd = Book(null,book.title, authorExecutor.getAuthorById(authorId,null).data,null,null,null,null)
         val response =  bookExecutor.createBook(bookToAdd,null)
         model.addAttribute("message",response.message)
         return "homepage/homepage-librarian"

@@ -5,6 +5,7 @@ import com.aris.booklibraries.demoBookLibraries.models.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 import javax.annotation.PostConstruct
 
 @Service
@@ -29,6 +30,8 @@ class TestService {
     lateinit var accountService: AccountService
     @Autowired
     lateinit var librarianService: LibrarianService
+    @Autowired
+    lateinit var borrowsService: BorrowsService
 
     @PostConstruct
     fun postConstruct() {
@@ -56,13 +59,15 @@ class TestService {
         authorService.save(Author(authorId= null, email = "nikoleta@gmail.com", firstName = "nikoleta", lastName = "nikoletou") )
         authorService.save(Author(authorId= null, email = "bunny@gmail.com", firstName = "bunny", lastName = "funny") )
 
-        bookService.addBook(Book(null,"Avatar",null),authorService.findById(1)!!)
-        bookService.addBook(Book(null,"Star Wars",null),authorService.findById(1)!!)
-        bookService.addBook(Book(null,"Star Wars 2",null),authorService.findById(1)!!)
-        bookService.addBook(Book(null,"Harry Potter",null),authorService.findById(2)!!)
-        bookService.addBook(Book(null,"Harry Potter 2",null),authorService.findById(2)!!)
-        bookService.addBook(Book(null,"Harry Potter 3",null),authorService.findById(2)!!)
-        bookService.addBook(Book(null,"Harry Potter 4",null),authorService.findById(2)!!)
+        val summary = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam gravida tincidunt sagittis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Phasellus quam magna, venenatis vitae nisi nec, suscipit blandit ante. Nam vel neque euismod, ullamcorper urna vitae, varius lorem. Ut gravida urna orci, nec vestibulum magna faucibus a. Duis sed elementum tortor, vel consectetur nibh. Pellentesque vel pretium enim, eget iaculis neque. In feugiat accumsan varius. Proin volutpat nisi id massa finibus, sed lacinia dolor ullamcorper. Etiam est odio, sollicitudin nec turpis ut, bibendum ultrices felis. Suspendisse blandit leo sed erat sodales ullamcorper. Donec massa mauris, egestas eget enim non, vehicula iaculis mauris. "
+
+        bookService.addBook(Book(null,"Avatar",null,summary,"ISBN 111-1-11-111111-1",2018,222),authorService.findById(1)!!)
+        bookService.addBook(Book(null,"Star Wars",null,null,null,null,222),authorService.findById(1)!!)
+        bookService.addBook(Book(null,"Star Wars 2",null,null,null,null,222),authorService.findById(1)!!)
+        bookService.addBook(Book(null,"Harry Potter",null,null,null,null,222),authorService.findById(2)!!)
+        bookService.addBook(Book(null,"Harry Potter 2",null,null,null,null,222),authorService.findById(2)!!)
+        bookService.addBook(Book(null,"Harry Potter 3",null,null,null,null,222),authorService.findById(2)!!)
+        bookService.addBook(Book(null,"Harry Potter 4",null,null,null,null,222),authorService.findById(2)!!)
 
         cityService.cityRepository?.save(City(null,"Thessaloniki"))
         cityService.cityRepository?.save(City(null,"Athens"))
@@ -77,7 +82,7 @@ class TestService {
         libraryService.addLibrary(Library(null,"Idiotiki Vivliothiki Athinas",null,
         ),cityService.cityRepository?.findById(2)!!.orElse(null))
 
-        hasBookService.addBook(1,1,10)
+        val hasBook1= hasBookService.addBook(1,1,0)
         hasBookService.addBook(1,2,5)
         hasBookService.addBook(2,3,10)
         hasBookService.addBook(2,4,10)
@@ -93,5 +98,8 @@ class TestService {
 
         librarianService.save( Librarian(null,"firstName lib","lastName lib",libr1,acc4))
 
+
+        val borrows = Borrows (null,acc1!!, HasBook(1,null,null,null), LocalDate.now(),null)
+        val saved = borrowsService.save(borrows)
     }
 }

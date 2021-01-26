@@ -12,6 +12,13 @@ data class Book(
         @ManyToOne(targetEntity = Author::class, cascade = [CascadeType.DETACH], fetch = FetchType.EAGER)
         @JoinColumn(name="author_id")
         var author: Author?,
+        @Column(columnDefinition="TEXT")
+        var summary: String?,
+        @Column(unique = true)
+        var ISBN: String?,
+        var publishedYear: Long?,
+        var pages: Long?,
+
 //        @OneToMany(mappedBy = "book")
 //        var hasBook: MutableSet<HasBook>
         )

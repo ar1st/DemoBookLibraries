@@ -89,19 +89,19 @@ class LibraryExecutor {
 
     fun addBookToSpecificLibrary(libraryId: Long, data: HasBook,
                                  response: HttpServletResponse): ApiResponse<Book, String> {
-        if ( libraryId != data.library.libraryId )
+        if ( libraryId != data.library?.libraryId )
             return ApiResponse(data = null, "Error: Library Id doesn't not match Path Id.")
 
         libraryService.findById(libraryId)
             ?: return ApiResponse(data = null, "Error: No library with such id")
 
-        bookService.findById( data.book.bookId ?: -1)
+        bookService.findById( data.book?.bookId ?: -1)
             ?: return ApiResponse(data = null, "Error: No book with such id")
 
         //todo want to check if library already has book
-        val temp = hasBookService.isBookInSpecificLibrary(data.library.libraryId!!, data.book.bookId!!)
+        val temp = hasBookService.isBookInSpecificLibrary(data.library!!.libraryId!!, data.book?.bookId!!)
         if (temp == null ) {
-            hasBookService.addBook(libraryId, data.book.bookId!!, data.quantity)
+            hasBookService.addBook(libraryId, data.book?.bookId!!, data?.quantity!!)
             return ApiResponse(data = null, "The book was added successfully")
         }
 

@@ -12,12 +12,12 @@ class HasBook (
     @ManyToOne
   //  @MapsId("libraryId")
     @JoinColumn(name = "library_id")
-    var library: Library,
+    var library: Library?,
 
     @ManyToOne
    // @MapsId("bookId")
     @JoinColumn(name = "book_id")
-    var book: Book,
+    var book: Book?,
 
-    var quantity: Long
+    var quantity: Long?
 )

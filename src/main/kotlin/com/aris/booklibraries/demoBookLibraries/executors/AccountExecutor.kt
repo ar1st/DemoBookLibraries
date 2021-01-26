@@ -83,10 +83,10 @@ class AccountExecutor {
         val accountToBorrow =accountService.findByEmail(username)
             ?: return ApiResponse(data = null, message = "Error: No account with such username.")
 
-        val bookToAdd = bookService.findById(data.book.bookId?:-1)
+        val bookToAdd = bookService.findById(data.book?.bookId?:-1)
             ?: return ApiResponse(data = null, message = "Error: No book with such id.")
 
-        val libraryToBorrowFrom = libraryService.findById(data.library.libraryId?:-1)
+        val libraryToBorrowFrom = libraryService.findById(data.library?.libraryId?:-1)
             ?: return ApiResponse(data = null, message = "Error: No library with such id.")
 
         val bookExistsInLibrary = hasBookService
@@ -111,7 +111,7 @@ class AccountExecutor {
     fun returnBook(data: HasBook,
                    response: HttpServletResponse?, username: String): ApiResponse<String, String> {
         val bookExistsInLibrary = hasBookService
-            .isBookInSpecificLibrary( data.library.libraryId?:-1, data.book.bookId?:-1)
+            .isBookInSpecificLibrary( data.library?.libraryId?:-1, data.book?.bookId?:-1)
             ?: return ApiResponse(data = null, message = "Error: The book isn't in this library.")
 
         val accountToBorrow =accountService.findByEmail(username)
@@ -120,7 +120,7 @@ class AccountExecutor {
             ?: return ApiResponse(data = null, message = "Error: This book was already returned.")
 
         borrowsService.returnBook(borrows.borrowsId!!, LocalDate.of(2020,2,2))
-        hasBookService.addQuantityByOne(data.library.libraryId!!,data.book.bookId!!)
+        hasBookService.addQuantityByOne(data.library?.libraryId!!,data.book?.bookId!!)
         return ApiResponse(data = null, message = "OK")
     }
 }
