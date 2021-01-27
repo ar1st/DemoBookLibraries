@@ -12,6 +12,6 @@ interface LibrarianRepository: JpaRepository<Librarian,Long> {
     @Transactional
     @Query(value="SELECT librarian.* " +
             "from librarian inner join account on librarian.account_id = account.account_id " +
-            "where account.username = username",nativeQuery = true)
-    fun findLibrarianByAccountUsername(username: String): Librarian?
+            "where account.email = :email",nativeQuery = true)
+    fun findLibrarianByAccountEmail(email: String): Librarian?
 }

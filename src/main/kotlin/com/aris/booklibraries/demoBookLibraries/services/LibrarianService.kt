@@ -17,7 +17,7 @@ class LibrarianService {
     }
 
     @Transactional
-    fun findLibrarianByAccountUsername(username: String): Librarian? {
-        return librarianRepository.findLibrarianByAccountUsername(username)
+    fun findLibrarianByAccountEmail(email: String): Librarian? {
+        return librarianRepository.findLibrarianByAccountEmail(email)
     }
 }

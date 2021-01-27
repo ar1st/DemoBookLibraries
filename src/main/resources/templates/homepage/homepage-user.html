@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html xmlns:th="http://www.thymeleaf.org" >
 <head>
     <meta charset="UTF-8">
     <title>My Library App</title>
     <!--CSS-->
     <link th:href = "@{/css/core.css}" rel="stylesheet">
     <link th:href = "@{/css/homepage-user.css}" rel="stylesheet">
+    <link th:href = "@{/css/modal.css}" rel="stylesheet">
+    <link th:href = "@{/css/styled-table.css}" rel="stylesheet">
+    <link th:href = "@{/css/navbar.css}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
     <!--Fonts-->
     <link rel="preconnect" href="https://fonts.gstatic.com" />
@@ -15,7 +18,6 @@
     <!--jQuery Modal -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
-
 </head>
 <body>
     <main>
@@ -38,23 +40,33 @@
                             Hurry and borrow some.
                         </td>
                     </tr>
-                    <tr th:if="${borrows} != null"  th:each="borrow : ${borrows}" style="text-align:center;">
-                        <td><a href="#ex1" rel="modal:open" th:text="${borrow.bookTitle}"></a></td>
-                        <td th:text="${borrow.libraryName}"></td>
-                        <td th:text="${borrow.cityName}"></td>
-                        <td th:text="${borrow.borrowDate}"></td>
-                        <td ><a class="btn btn-primary" th:href="@{/loggedUser/{username}/return/{hasBookId}
+                    <tr th:if="${borrows} != null"  th:each="borrow : ${borrows}" >
+                        <td class="bookDetails"><a href="#ex1" rel="modal:open" th:text="${borrow.bookTitle}" ></a></td>
+                        <td class="bookDetails" th:text="${borrow.libraryName}"></td>
+                        <td class="bookDetails" th:text="${borrow.cityName}"></td>
+                        <td class="bookDetails" th:text="${borrow.borrowDate}"></td>
+                        <td class="bookDetails"><a class="btn btn-primary" th:href="@{/loggedUser/{username}/return/{hasBookId}
                            (username=${#authentication.name}, hasBookId = ${borrow.hasBookId})}">Yes</a></td>
+
+                        <div id="ex1" class="modal">
+                            <div class="container">
+                                <div class="title" th:text="${borrow.bookTitle}">BOOK TITLE</div>
+                                <div class="author" th:text="'Author: ' + ${borrow.authorFirstName} + ' ' + ${borrow.authorLastName}"></div>
+                                <div class="isbn" th:text="'ISBN: ' + ${borrow.isbn}">ISBN</div>
+                                <div class="year" th:text="'Published Year: ' + ${borrow.publishedYear}">Year</div>
+<!--                                <div class="summary" th:text="'Summary: ' + ${borrow.summary}">Summary</div>-->
+
+                                <div class="summary">
+                                    <div style="float:left" th:text="'Summary: '"></div>
+                                    <div class="summary-data" th:text="${borrow.summary}" ></div>
+                                </div>
+                            </div>
+                        </div>
                     </tr>
                 </tbody>
             </table>
         </section>
     </main>
-
-    <div id="ex1" class="modal">
-        <p>Thanks for clicking. That felt good.</p>
-
-    </div>
 
     <div class="circle1"></div>
     <div class="circle2"></div>

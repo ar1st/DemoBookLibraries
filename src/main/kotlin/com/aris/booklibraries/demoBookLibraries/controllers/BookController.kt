@@ -46,9 +46,9 @@ class BookController {
         return "homepage/homepage-librarian"
     }
 
-    @GetMapping("/books/booksToAddToLibrary/libraries/{username}")
-    fun showAllBooksToAddToLibrary(model: Model, @PathVariable("username") username: String): String {
-        val librarian = librarianService.findLibrarianByAccountUsername(username)
+    @GetMapping("/books/booksToAddToLibrary/libraries/{email}")
+    fun showAllBooksToAddToLibrary(model: Model, @PathVariable("email") email: String): String {
+        val librarian = librarianService.findLibrarianByAccountEmail(email)
             ?: return "sth is very wrong"
 
         val books = bookExecutor.getAllBooksNotInSpecificLibrary(librarian.library?.libraryId!!)
@@ -57,15 +57,15 @@ class BookController {
         return "books/booksToAddToLibrary"
     }
 
-    @GetMapping("/books/{bookId}/addingToLibrary/libraries/{username}")
+    @GetMapping("/books/{bookId}/addingToLibrary/libraries/{libraryId}")
     fun addingBookToLibrary(@PathVariable("bookId",required = true) bookId: Long,
-                            @PathVariable("username",required = true) username: String,
+                            @PathVariable("libraryId",required = true) libraryId: String,
                             model: Model): String{
-        val librarian = librarianService.findLibrarianByAccountUsername(username)
-            ?: return "sth is very wrong"
-        val isInLibrary = hasBookService.isBookInSpecificLibrary(librarian.library?.libraryId!!, bookId)
+        val library = libraryExecutor.getLibraryById( libraryId.toLong(),null)
+
+        val isInLibrary = hasBookService.isBookInSpecificLibrary(library.data?.libraryId!!, bookId)
         if ( isInLibrary == null) {
-            hasBookService.addBook(librarian.library?.libraryId!!, bookId,10)
+            hasBookService.addBook(library.data?.libraryId!!, bookId,10)
             model.addAttribute("message","Book added.")
         } else {
             model.addAttribute("message","Book already in library.")
@@ -74,9 +74,9 @@ class BookController {
         return "homepage/homepage-librarian"
     }
 
-    @GetMapping("/books/showBooksInLibrary/libraries/{username}")
-    fun showAllBookToRemoveFromLibrary(model: Model, @PathVariable("username") username: String): String {
-        val librarian = librarianService.findLibrarianByAccountUsername(username)
+    @GetMapping("/books/showBooksInLibrary/libraries/{email}")
+    fun showAllBookToRemoveFromLibrary(model: Model, @PathVariable("email") email: String): String {
+        val librarian = librarianService.findLibrarianByAccountEmail(email)
             ?: return "sth is very wrong"
 
         val books = libraryExecutor.getBooksByLibrary(librarian.library?.libraryId!!,null)
@@ -84,11 +84,11 @@ class BookController {
         return "books/showBooksInLibrary"
     }
 
-    @GetMapping("/books/{bookId}/removingFromLibrary/libraries/{username}")
+    @GetMapping("/books/{bookId}/removingFromLibrary/libraries/{email}")
     fun removingBookFromLibrary(@PathVariable("bookId",required = true) bookId: Long,
-                            @PathVariable("username",required = true) username: String,
+                            @PathVariable("email",required = true) email: String,
                             model: Model): String{
-        val librarian = librarianService.findLibrarianByAccountUsername(username)
+        val librarian = librarianService.findLibrarianByAccountEmail(email)
             ?: return "sth is very wrong"
 
         val isBorrowed = borrowsService.isBookBorrowed(bookId)
@@ -99,5 +99,11 @@ class BookController {
             model.addAttribute("message", "Book can't be removed. Is borrowed.")
         }
         return "homepage/homepage-librarian"
+    }
+
+    @GetMapping("book/details")
+    fun showBookDetails(model: Model): Model {
+         model.addAttribute("book", "katina")
+        return model;
     }
 }

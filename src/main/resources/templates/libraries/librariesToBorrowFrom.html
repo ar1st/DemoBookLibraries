@@ -3,27 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <title>All libraries</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!--CSS-->
+    <link th:href = "@{/css/core.css}" rel="stylesheet">
+    <link th:href = "@{/css/styled-table.css}" rel="stylesheet">
+    <link th:href = "@{/css/fragments.css}" rel="stylesheet">
+    <link th:href = "@{/css/navbar.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
+    <!--Fonts-->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet"/>
 </head>
 <body>
-<div class="container">
-    <table class="table table-striped table-responsive-md">
-        <thead>
-        <tr>
-            <th scope="col">Name</th>
-            <th scope="col">City</th>
-            <th scope="col">From here</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="library : ${libraries.data}">
-            <td th:text="${library.name}"></td>
-            <td th:text="${library.city.name}"></td>
-            <td ><a class="btn btn-primary" th:href="@{/libraries/{id}(id= ${library.libraryId})}">Choose</a></td>
-        </tr>
-        </tbody>
-    </table>
-    <a th:href="@{/main.html}" class="btn btn-primary">Back</a>
-</div>
+<main>
+    <header th:replace="fragments :: navbar"></header>
+    <section class="glass">
+        <table class="styled-table">
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">City</th>
+                <th scope="col">From here</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="library : ${libraries.data}" >
+                <td th:text="${library.name}"></td>
+                <td th:text="${library.city.name}"></td>
+                <td ><a class="btn btn-primary" th:href="@{/libraries/{id}(id= ${library.libraryId})}">Choose</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+
+<div class="circle1"></div>
+<div class="circle2"></div>
 </body>
 </html>
