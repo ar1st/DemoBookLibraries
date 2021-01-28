@@ -61,13 +61,13 @@ class TestService {
 
         val summary = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam gravida tincidunt sagittis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Phasellus quam magna, venenatis vitae nisi nec, suscipit blandit ante. Nam vel neque euismod, ullamcorper urna vitae, varius lorem. Ut gravida urna orci, nec vestibulum magna faucibus a. Duis sed elementum tortor, vel consectetur nibh. Pellentesque vel pretium enim, eget iaculis neque. In feugiat accumsan varius. Proin volutpat nisi id massa finibus, sed lacinia dolor ullamcorper. Etiam est odio, sollicitudin nec turpis ut, bibendum ultrices felis. Suspendisse blandit leo sed erat sodales ullamcorper. Donec massa mauris, egestas eget enim non, vehicula iaculis mauris. "
 
-        bookService.addBook(Book(null,"Avatar",null,summary,"ISBN 111-1-11-111111-1",2018,222),authorService.findById(1)!!)
-        bookService.addBook(Book(null,"Star Wars",null,summary,null,null,222),authorService.findById(1)!!)
-        bookService.addBook(Book(null,"Star Wars 2",null,summary,null,null,222),authorService.findById(1)!!)
-        bookService.addBook(Book(null,"Harry Potter",null,summary,null,null,222),authorService.findById(2)!!)
-        bookService.addBook(Book(null,"Harry Potter 2",null,summary,null,null,222),authorService.findById(2)!!)
-        bookService.addBook(Book(null,"Harry Potter 3",null,summary,null,null,222),authorService.findById(2)!!)
-        bookService.addBook(Book(null,"Harry Potter 4",null,summary,null,null,222),authorService.findById(2)!!)
+        bookService.addBook(Book(null,"Avatar",null,summary,"111-1-11-111111-1",2018,222),authorService.findById(1)!!)
+        bookService.addBook(Book(null,"Star Wars",null,summary,"111-1-22-111111-2",2019,222),authorService.findById(1)!!)
+        bookService.addBook(Book(null,"Star Wars 2",null,summary,"111-1-33-111111-3",2020,222),authorService.findById(1)!!)
+        bookService.addBook(Book(null,"Harry Potter",null,summary,"111-1-44-111111-4",2005,222),authorService.findById(2)!!)
+        bookService.addBook(Book(null,"Harry Potter 2",null,summary,"111-1-55-111111-5",2010,222),authorService.findById(2)!!)
+        bookService.addBook(Book(null,"Harry Potter 3",null,summary,"111-1-66-111111-6",2011,222),authorService.findById(2)!!)
+        bookService.addBook(Book(null,"Harry Potter 4",null,summary,"111-1-77-111111-7",2008,222),authorService.findById(2)!!)
 
         cityService.cityRepository?.save(City(null,"Thessaloniki"))
         cityService.cityRepository?.save(City(null,"Athens"))

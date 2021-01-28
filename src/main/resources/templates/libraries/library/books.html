@@ -18,6 +18,22 @@
     <!--jQuery Modal -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+    <script>
+        $(document).ready(function(){
+            $(".test").click(function(){
+                var  bookId = $(this).attr('id')
+              $.get("http://localhost:8080/books/" + bookId + "/details", function(data, status){
+                    $(".title").text(data.bookTitle)
+                    $(".summary-data").text(data.summary)
+                    $(".year").text("Year: " + data.publishedYear)
+                    $(".isbn").text("ISBN: " + data.isbn)
+                    $(".author").text("Author: " + data.authorFirstName + " " + data.authorLastName)
+              });
+            });
+
+            console.log("im ready");
+        });
+    </script>
 </head>
 <body>
 
@@ -35,23 +51,26 @@
         </thead>
         <tbody>
         <tr th:each="book : ${books.data}">
-            <td><a href="#ex1" rel="modal:open" th:text="${book.title}" ></a></td>
+            <td><a href="#ex1" rel="modal:open" th:text="${book.title}" th:id="${book.bookId}" class="test"></a></td>
             <td th:text="${book.author.lastName}"></td>
             <td th:text="${book.author.firstName}"></td>
             <td>
-                <a class="btn btn-primary" th:href="@{/loggedUser/{username}/books/{bookId}/libraries/{libraryId}
+                <a  th:href="@{/loggedUser/{username}/books/{bookId}/libraries/{libraryId}
                     (username=${#authentication.name}, bookId = ${book.bookId}, libraryId = ${libraryId} )}">
                 Borrow</a>
             </td>
 
             <div id="ex1" class="modal">
-                <div class="container" >
-                    <div class="title" th:text="${book.title}">BOOK TITLE</div>
-                    <div class="author" th:text="'Author: ' + ${book.author.firstName} + ' ' + ${book.author.lastName}"></div>
-                    <div class="isbn" th:text="'ISBN: ' + ${book.ISBN}">ISBN</div>
-                    <div class="year" th:text="'Published Year: ' + ${book.publishedYear}">Year</div>
-<!--                    <div class="summary" th:text="'Summary: ' + ${book.summary}">Summary</div>-->
-                    <div class="summary"><div th:text="'Summary: '"></div><div class="summary-data" th:text="${book.summary}" ></div></div>
+                <div class="container">
+                    <div class="title" ></div>
+                    <div class="author"></div>
+                    <div class="isbn" ></div>
+                    <div class="year" ></div>
+
+                    <div class="summary">
+                        <div style="float:left" th:text="'Summary: '"></div>
+                        <div class="summary-data" ></div>
+                    </div>
                 </div>
             </div>
         </tr>

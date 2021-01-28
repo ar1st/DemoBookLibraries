@@ -14,7 +14,8 @@ class RestController {
 
     @GetMapping("/books/{bookId}/details")
     fun showBookDetails(@PathVariable("bookId") bookId:String): BorrowDetails {
-        return bookExecutor.findBookDetailsById(bookId)
+        val l = bookExecutor.findBookDetailsById(bookId)
+        return l
     }
 
 }

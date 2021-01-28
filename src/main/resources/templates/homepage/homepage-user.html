@@ -23,10 +23,12 @@
         $(document).ready(function(){
             $(".test").click(function(){
                 var  bookId = $(this).attr('id')
-                var fakeId = 1
               $.get("http://localhost:8080/books/" + bookId + "/details", function(data, status){
-                alert("Data: " + data.bookTitle + "\nStatus: " + status);
-                console.log(data);
+                    $(".title").text(data.bookTitle)
+                    $(".summary-data").text(data.summary)
+                    $(".year").text("Year: " + data.publishedYear)
+                    $(".isbn").text("ISBN: " + data.isbn)
+                    $(".author").text("Author: " + data.authorFirstName + " " + data.authorLastName)
               });
             });
 
@@ -65,14 +67,14 @@
                            (username=${#authentication.name}, hasBookId = ${borrow.hasBookId})}">Yes</a></td>
                         <div id="ex1" class="modal">
                             <div class="container">
-                                <div class="title" th:text="${borrow.bookTitle}">BOOK TITLE</div>
-                                <div class="author" th:text="'Author: ' + ${borrow.authorFirstName} + ' ' + ${borrow.authorLastName}"></div>
-                                <div class="isbn" th:text="'ISBN: ' + ${borrow.isbn}">ISBN</div>
-                                <div class="year" th:text="'Published Year: ' + ${borrow.publishedYear}">Year</div>
+                                <div class="title" ></div>
+                                <div class="author"></div>
+                                <div class="isbn" ></div>
+                                <div class="year" ></div>
 
                                 <div class="summary">
                                     <div style="float:left" th:text="'Summary: '"></div>
-                                    <div class="summary-data" th:text="${borrow.summary}" ></div>
+                                    <div class="summary-data" ></div>
                                 </div>
                             </div>
                         </div>
