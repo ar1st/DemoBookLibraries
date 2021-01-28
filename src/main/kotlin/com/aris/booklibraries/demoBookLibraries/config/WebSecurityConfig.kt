@@ -12,10 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import javax.sql.DataSource
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
-
-
-
 
 
 @Configuration
@@ -70,10 +66,4 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                 .ignoring()
                 .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/img/**", "/icon/**")
     }
-
-    fun addResourceHandlers(registry: ResourceHandlerRegistry) {
-        registry.addResourceHandler("/static/**").addResourceLocations("/static/")
-        registry.addResourceHandler("/static/**").addResourceLocations("/static/example")
-    }
-
 }

@@ -41,10 +41,10 @@ class TestService {
     fun init() {
         val encoder = BCryptPasswordEncoder(10)
 
-        val acc1 = accountService.save( Account(null,"aris",encoder.encode("pass"),1,Role.USER.value))
-        val acc2 = accountService.save( Account(null,"bill",encoder.encode("pass"),1,Role.USER.value))
-        val acc3 = accountService.save( Account(null,"nick",encoder.encode("pass"),1,Role.USER.value))
-        val acc4 = accountService.save( Account(null,"lib",encoder.encode("pass"),1,Role.LIBRARIAN.value))
+        val acc1 = accountService.save( Account(null,"aris",encoder.encode("pass"),1,Role.USER.value,false))
+        val acc2 = accountService.save( Account(null,"bill",encoder.encode("pass"),1,Role.USER.value,false))
+        val acc3 = accountService.save( Account(null,"nick",encoder.encode("pass"),1,Role.USER.value,false))
+        val acc4 = accountService.save( Account(null,"lib",encoder.encode("pass"),1,Role.LIBRARIAN.value,false))
 
         userService.save(User(null,"Aris", "Tsach", acc1))
         userService.save(User(null,"Bill", "Pap", acc2))

@@ -3,10 +3,8 @@ package com.aris.booklibraries.demoBookLibraries.controllers
 import com.aris.booklibraries.demoBookLibraries.executors.AccountExecutor
 import com.aris.booklibraries.demoBookLibraries.executors.BookExecutor
 import com.aris.booklibraries.demoBookLibraries.executors.LibraryExecutor
-import com.aris.booklibraries.demoBookLibraries.models.BorrowDetails
 import com.aris.booklibraries.demoBookLibraries.models.HasBook
 import com.aris.booklibraries.demoBookLibraries.repositories.AccountRepository
-import com.aris.booklibraries.demoBookLibraries.services.BorrowsService
 import com.aris.booklibraries.demoBookLibraries.services.HasBookService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
