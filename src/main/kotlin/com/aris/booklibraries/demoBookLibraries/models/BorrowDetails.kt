@@ -1,6 +1,7 @@
 package com.aris.booklibraries.demoBookLibraries.models
 
 data class BorrowDetails(
+    var bookId: String?,
     var bookTitle: String?,
     var libraryName: String?,
     var cityName: String?,

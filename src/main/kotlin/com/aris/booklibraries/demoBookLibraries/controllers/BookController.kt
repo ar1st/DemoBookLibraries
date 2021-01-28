@@ -101,9 +101,4 @@ class BookController {
         return "homepage/homepage-librarian"
     }
 
-    @GetMapping("book/details")
-    fun showBookDetails(model: Model): Model {
-         model.addAttribute("book", "katina")
-        return model;
-    }
 }

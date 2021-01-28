@@ -35,4 +35,13 @@ interface BookRepository : JpaRepository<Book,Long> {
         ,nativeQuery=true)
     @Transactional
     fun findAllBooksNotInSpecificLibrary(libraryId: Long): List<Book>
+
+    @Query(value = "select book.book_id,book.title, " +
+            "REPLACE(book.summary, ',', '*') as new_summary, " +
+            "book.pages, book.isbn, book.published_year, " +
+            "author.first_name, author.last_name " +
+            "from book inner join author on author.author_id = book.author_id " +
+            "where book.book_id = :bookId", nativeQuery = true)
+    @Transactional
+    fun getBookDetails(bookId:Long): String
 }

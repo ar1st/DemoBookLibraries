@@ -93,10 +93,20 @@ class BookExecutor {
         val borrow = borrowsService.getBorrowsDetails(loggedUser?.accountId!!)
         for (element: String in borrow) {
             val parts = element.split(",")
-            val details = BorrowDetails(parts[0],parts[1],parts[2],parts[3],parts[4],parts[5],parts[6],parts[7],parts[8],parts[9],parts[10])
+            val details = BorrowDetails(parts[0],parts[1],parts[2],parts[3],parts[4],parts[5],parts[6],parts[7],parts[8],parts[9],parts[10],parts[11])
             listToReturn.add(details)
         }
 
         return listToReturn
+    }
+
+    fun findBookDetailsById(bookId: String): BorrowDetails {
+        val bookDetails = bookService.getBookDetails(bookId.toLong())
+        val parts = bookDetails.split(",")
+
+        return BorrowDetails(
+            parts[0], parts[1], null, null, null, null, parts[2],
+            parts[3], parts[4], parts[5], parts[6], parts[7]
+        )
     }
 }

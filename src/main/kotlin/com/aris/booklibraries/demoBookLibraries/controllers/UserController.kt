@@ -42,8 +42,6 @@ class UserController {
         return "homepage/homepage-user.html"
     }
 
-
-
     @GetMapping("/loggedUser/{username}/books/{bookid}/libraries/{libraryid}")
     fun borrowBook(@PathVariable("username",required = true) username: String,
                    @PathVariable("bookid",required = true) bookId:String,

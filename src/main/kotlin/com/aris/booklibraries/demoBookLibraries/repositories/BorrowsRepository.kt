@@ -22,7 +22,7 @@ interface BorrowsRepository: JpaRepository<Borrows, Long> {
     @Transactional
     fun returnBook(borrowsId: Long, date: LocalDate)
 
-    @Query(value = "select book.title, " +
+    @Query(value = "select book.book_id, book.title, " +
             "library.name, city.name as cityName, borrows.borrowing_date, has_book.has_book_id," +
             "REPLACE(book.summary, ',', '*') as new_summary, book.pages, book.isbn, book.published_year, author.first_name, author.last_name " +
             "from borrows inner join has_book on borrows.has_book_id = has_book.has_book_id " +

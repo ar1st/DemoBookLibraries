@@ -18,6 +18,22 @@
     <!--jQuery Modal -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
+    <script>
+        $(document).ready(function(){
+            $(".test").click(function(){
+                var  bookId = $(this).attr('id')
+                var fakeId = 1
+              $.get("http://localhost:8080/books/" + bookId + "/details", function(data, status){
+                alert("Data: " + data.bookTitle + "\nStatus: " + status);
+                console.log(data);
+              });
+            });
+
+            console.log("im ready");
+        });
+    </script>
+
 </head>
 <body>
     <main>
@@ -41,20 +57,18 @@
                         </td>
                     </tr>
                     <tr th:if="${borrows} != null"  th:each="borrow : ${borrows}" >
-                        <td class="bookDetails"><a href="#ex1" rel="modal:open" th:text="${borrow.bookTitle}" ></a></td>
-                        <td class="bookDetails" th:text="${borrow.libraryName}"></td>
-                        <td class="bookDetails" th:text="${borrow.cityName}"></td>
-                        <td class="bookDetails" th:text="${borrow.borrowDate}"></td>
-                        <td class="bookDetails"><a class="btn btn-primary" th:href="@{/loggedUser/{username}/return/{hasBookId}
+                        <td ><a href="#ex1" rel="modal:open" th:text="${borrow.bookTitle}" th:id="${borrow.bookId}"  class="test"></a></td>
+                        <td th:text="${borrow.libraryName}"></td>
+                        <td th:text="${borrow.cityName}"></td>
+                        <td th:text="${borrow.borrowDate}"></td>
+                        <td><a th:href="@{/loggedUser/{username}/return/{hasBookId}
                            (username=${#authentication.name}, hasBookId = ${borrow.hasBookId})}">Yes</a></td>
-
                         <div id="ex1" class="modal">
                             <div class="container">
                                 <div class="title" th:text="${borrow.bookTitle}">BOOK TITLE</div>
                                 <div class="author" th:text="'Author: ' + ${borrow.authorFirstName} + ' ' + ${borrow.authorLastName}"></div>
                                 <div class="isbn" th:text="'ISBN: ' + ${borrow.isbn}">ISBN</div>
                                 <div class="year" th:text="'Published Year: ' + ${borrow.publishedYear}">Year</div>
-<!--                                <div class="summary" th:text="'Summary: ' + ${borrow.summary}">Summary</div>-->
 
                                 <div class="summary">
                                     <div style="float:left" th:text="'Summary: '"></div>

@@ -81,4 +81,9 @@ class BookService {
             deleteById(book.bookId!!)
         }
     }
+
+    @Transactional
+    fun getBookDetails(bookId: Long) : String {
+        return bookRepository.getBookDetails(bookId)
+    }
 }
