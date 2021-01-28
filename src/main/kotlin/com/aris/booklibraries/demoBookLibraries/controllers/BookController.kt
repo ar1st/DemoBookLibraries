@@ -81,7 +81,7 @@ class BookController {
 
         val books = libraryExecutor.getBooksByLibrary(librarian.library?.libraryId!!,null)
         model.addAttribute("books", books)
-        return "books/showBooksInLibrary"
+        return "homepage/homepage-librarian.html"
     }
 
     @GetMapping("/books/{bookId}/removingFromLibrary/libraries/{email}")
@@ -98,6 +98,9 @@ class BookController {
         } else {
             model.addAttribute("message", "Book can't be removed. Is borrowed.")
         }
+
+        val books = libraryExecutor.getBooksByLibrary(librarian.library?.libraryId!!,null)
+        model.addAttribute("books", books)
         return "homepage/homepage-librarian"
     }
 

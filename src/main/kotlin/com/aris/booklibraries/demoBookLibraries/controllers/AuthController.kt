@@ -2,7 +2,9 @@ package com.aris.booklibraries.demoBookLibraries.controllers
 
 import com.aris.booklibraries.demoBookLibraries.executors.AccountExecutor
 import com.aris.booklibraries.demoBookLibraries.executors.BookExecutor
+import com.aris.booklibraries.demoBookLibraries.executors.LibraryExecutor
 import com.aris.booklibraries.demoBookLibraries.models.*
+import com.aris.booklibraries.demoBookLibraries.services.LibrarianService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
@@ -19,6 +21,10 @@ class AuthController {
     lateinit var accountExecutor: AccountExecutor
     @Autowired
     lateinit var bookExecutor: BookExecutor
+    @Autowired
+    lateinit var libraryExecutor: LibraryExecutor
+    @Autowired
+    lateinit var librarianService: LibrarianService
 
     @GetMapping("/signup")
     fun signUpUser(@ModelAttribute registrationDetails: RegistrationDetails, model: Model): String {
@@ -60,14 +66,19 @@ class AuthController {
     @RequestMapping("/main.html")
     fun main(model: Model?): String? {
         val role =  SecurityContextHolder.getContext().authentication.authorities.toString()
-        val name = SecurityContextHolder.getContext().authentication.name
+        val email = SecurityContextHolder.getContext().authentication.name
         if ( role == "[USER]") {
-            val listReturn = bookExecutor.findBorrowedBooksByUser(name)
-            model?.addAttribute("borrows", if (listReturn.size == 0) null else listReturn)
+            val borrowedBooks = bookExecutor.findBorrowedBooksByUser(email)
+            model?.addAttribute("borrows", if (borrowedBooks.size == 0) null else borrowedBooks)
             return "homepage/homepage-user"
         }
-        else if ( role == "[LIBRARIAN]")
+        else if ( role == "[LIBRARIAN]") {
+            val librarian = librarianService.findLibrarianByAccountEmail(email)
+                    ?: return "sth is very wrong"
+            val books = libraryExecutor.getBooksByLibrary(librarian.library?.libraryId!!,null)
+            model?.addAttribute("books", books)
             return "homepage/homepage-librarian"
+        }
 
         return "main.html"
     }
