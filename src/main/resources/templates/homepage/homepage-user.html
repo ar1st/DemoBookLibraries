@@ -21,7 +21,7 @@
 
     <script>
         $(document).ready(function(){
-            $(".test").click(function(){
+            $(".showModal").click(function(){
                 var  bookId = $(this).attr('id')
               $.get("http://localhost:8080/books/" + bookId + "/details", function(data, status){
                     $(".title").text(data.bookTitle)
@@ -59,25 +59,13 @@
                         </td>
                     </tr>
                     <tr th:if="${borrows} != null"  th:each="borrow : ${borrows}" >
-                        <td ><a href="#ex1" rel="modal:open" th:text="${borrow.bookTitle}" th:id="${borrow.bookId}"  class="test"></a></td>
+                        <td ><a href="#ex1" rel="modal:open" th:text="${borrow.bookTitle}" th:id="${borrow.bookId}"  class="showModal"></a></td>
                         <td th:text="${borrow.libraryName}"></td>
                         <td th:text="${borrow.cityName}"></td>
                         <td th:text="${borrow.borrowDate}"></td>
                         <td><a th:href="@{/loggedUser/{username}/return/{hasBookId}
                            (username=${#authentication.name}, hasBookId = ${borrow.hasBookId})}">Yes</a></td>
-                        <div id="ex1" class="modal">
-                            <div class="container">
-                                <div class="title" ></div>
-                                <div class="author"></div>
-                                <div class="isbn" ></div>
-                                <div class="year" ></div>
-
-                                <div class="summary">
-                                    <div style="float:left" th:text="'Summary: '"></div>
-                                    <div class="summary-data" ></div>
-                                </div>
-                            </div>
-                        </div>
+                        <div th:replace="fragments :: modal"></div>
                     </tr>
                 </tbody>
             </table>

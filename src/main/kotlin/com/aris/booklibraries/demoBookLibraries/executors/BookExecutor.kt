@@ -103,10 +103,11 @@ class BookExecutor {
     fun findBookDetailsById(bookId: String): BorrowDetails {
         val bookDetails = bookService.getBookDetails(bookId.toLong())
         val parts = bookDetails.split(",")
-        val l = BorrowDetails(
+        parts[2].replace("*", ",")
+        return BorrowDetails(
             parts[0], parts[1], null, null, null, null, parts[2],
-            parts[3], parts[4], parts[5], parts[6], parts[7])
-        return l
+            parts[3], parts[4], parts[5], parts[6], parts[7]
+        )
 
     }
 }

@@ -13,42 +13,35 @@
     />
 </head>
 <body>
-    <header>
-        patata
-    </header>
-    <main>
-        <section class="glass">
-            <div class="dashboard">
-                <div class="status">
-                    <form action="#" th:action="@{/signup}" th:object="${registrationDetails}" method="post">
-                        <h1>Sign Up Form</h1>
-                            <h3>
-                                <label for="username">Username</label>:
-                                <input class="inputlabel" type="text" id="username" name="username" th:field="*{username}" autofocus="autofocus" />
-                                <label class="inputlabel2" for="password">Password</label>:
-                                <input class="inputlabel" type="text" id="password" name="password" th:field="*{password}"/>
-                            </h3>
-                    <br/>
-                            <h3>
-                                <label for="firstName">First Name</label>:
-                                <input class="inputlabel" type="text" id="firstName" name="firstName" th:field="*{firstName}" />
-                                <label class="inputlabel2" for="lastName">Last Name</label>:
-                                <input class="inputlabel" type="text" id="lastName" name="lastName" th:field="*{lastName}" />
-                            </h3>
-<!--                            <p>Username: <input type="text" th:field="*{username}" /></p>-->
-<!--                            <p>Password: <input type="password" th:field="*{password}" /></p>-->
-<!--                            <p>First Name: <input type="text" th:field="*{firstName}" /></p>-->
-<!--                            <p>Last Name: <input type="text" th:field="*{lastName}" /></p>-->
-                            <p class="error" th:text="${error}"></p>
-                            <input class="resetButton" type="reset" value="Reset" />
-                            <input class="signButton" type="submit" value="Submit" />
-                        <br/>
-                            <input class="backButton" type="button"   onclick="window.location='/';"  value="Back" />
-                    </form>
-                </div>
+<main>
+    <section class="glass">
+        <div class="dashboard">
+            <div class="status">
+                <form action="#" th:action="@{/signup}" th:object="${registrationDetails}" method="post">
+                    <h1>Sign Up Form</h1>
+                        <h3>
+                            <label for="email">Email</label>:
+                            <input class="inputlabel" type="text" id="email" name="email" th:field="*{email}" autofocus="autofocus" />
+                            <label class="inputlabel2" for="password">Password</label>:
+                            <input class="inputlabel" type="password" id="password" name="password" th:field="*{password}"/>
+                        </h3>
+                            <br/>
+                        <h3>
+                            <label for="firstName">First Name</label>:
+                            <input class="inputlabel" type="text" id="firstName" name="firstName" th:field="*{firstName}" />
+                            <label class="inputlabel2" for="lastName">Last Name</label>:
+                            <input class="inputlabel" type="text" id="lastName" name="lastName" th:field="*{lastName}" />
+                        </h3>
+                        <p class="error" th:text="${error}"></p>
+                        <input class="resetButton" type="reset" value="Reset" />
+                        <input class="signButton" type="submit" value="Submit" />
+                            <br/>
+                        <input class="backButton" type="button" onclick="window.location='/';"  value="Back" />
+                </form>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
+</main>
     <div class="circle1"></div>
     <div class="circle2"></div>
 </body>

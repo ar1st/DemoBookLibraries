@@ -6,8 +6,10 @@ h1 {
     font-size: 55px;
     opacity: 0.8;
     position: absolute;
-    top: 18%;
-    left:37%
+   /* top: 18%;
+    left:37%; */
+    top: 2em;
+    left: 5.5em;
 }
 
 .logButton,

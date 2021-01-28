@@ -31,17 +31,17 @@ class AccountExecutor {
 
     fun createAccountAndUser(registrationDetails: RegistrationDetails, response: HttpServletResponse?): ApiResponse<Account, String> {
 
-        if ( registrationDetails.username.isNullOrEmpty() || registrationDetails.password.isNullOrEmpty()
+        if ( registrationDetails.email.isNullOrEmpty() || registrationDetails.password.isNullOrEmpty()
             ||registrationDetails.firstName.isNullOrEmpty() ||registrationDetails.lastName.isNullOrEmpty() ){
             return ApiResponse(null, "Fill all the fields.")
         }
 
-        if ( accountService.findByEmail(registrationDetails.username!!) != null)
-             return ApiResponse(data=null,message="Error: Username already exists.")
+        if ( accountService.findByEmail(registrationDetails.email!!) != null)
+             return ApiResponse(data=null,message="Error: Email already exists.")
 
         val encoder = BCryptPasswordEncoder(10)
         val encodedPass = encoder.encode(registrationDetails.password)
-        val accountToCreate = Account( null,registrationDetails.username,encodedPass,1,Role.USER.value)
+        val accountToCreate = Account( null,registrationDetails.email,encodedPass,1,Role.USER.value)
 
         val createdAccount = accountService.save(accountToCreate)
             ?: return ApiResponse(data=null,message="Something went wrong. Try again later.")
@@ -55,12 +55,12 @@ class AccountExecutor {
 
     fun createAccountAndLibrarian(registrationDetails: RegistrationDetails, response: HttpServletResponse?): ApiResponse<Account, String> {
 
-        if ( accountService.findByEmail(registrationDetails.username!!) != null)
-            return ApiResponse(data=null,message="Error: Username already exists.")
+        if ( accountService.findByEmail(registrationDetails.email!!) != null)
+            return ApiResponse(data=null,message="Error: Email already exists.")
 
         val encoder = BCryptPasswordEncoder(10)
         val encodedPass = encoder.encode(registrationDetails.password)
-        val accountToCreate = Account( null,registrationDetails.username,encodedPass,1,Role.LIBRARIAN.value)
+        val accountToCreate = Account( null,registrationDetails.email,encodedPass,1,Role.LIBRARIAN.value)
         val createdAccount = accountService.save(accountToCreate)
 
         val librarianToCreate = Librarian(null,registrationDetails.firstName,registrationDetails.lastName,

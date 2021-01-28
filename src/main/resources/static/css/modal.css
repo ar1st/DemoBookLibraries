@@ -38,6 +38,9 @@
     max-height: 5em;
     max-width:70%;
     overflow-y:scroll;
-    line-height:normal
+    line-height:normal;
+    margin-top: 1em;
+    margin-right: 2em;
+
 }
 
