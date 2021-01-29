@@ -20,7 +20,7 @@
 </head>
 <body>
 <main>
-    <header th:replace="fragments :: navbar"></header>
+    <header th:replace="fragments :: navbarLibrarian"></header>
         <section class="glass">
             <table class="styled-table" >
                 <caption>Books In Library</caption>
@@ -47,6 +47,9 @@
             <div th:text="${message}"></div>
         </section>
 </main>
+
+<div class="circle1"></div>
+<div class="circle2"></div>
 <!--<div class="container my-2">-->
 <!--    <a th:href="@{/books/booksToAddToLibrary/libraries/{id}(id= ${#authentication.name})}" class="btn btn-primary">Add Book To Library</a>-->
 <!--    <a th:href="@{/books/showBooksInLibrary/libraries/{id}(id= ${#authentication.name})}" class="btn btn-primary">Show Books In Library</a>-->

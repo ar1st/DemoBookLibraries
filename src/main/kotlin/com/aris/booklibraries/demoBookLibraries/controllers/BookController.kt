@@ -8,6 +8,7 @@ import com.aris.booklibraries.demoBookLibraries.services.BorrowsService
 import com.aris.booklibraries.demoBookLibraries.services.HasBookService
 import com.aris.booklibraries.demoBookLibraries.services.LibrarianService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -38,11 +39,21 @@ class BookController {
         return "books/add"
     }
 
+    //add book. and add book to libray of librarian
     @PostMapping("/books/add/writtenBy/{authorId}")
     fun submitBook(@ModelAttribute("book") book: Book, model: Model,@PathVariable("authorId") authorId: Long): String {
         val bookToAdd = Book(null,book.title, authorExecutor.getAuthorById(authorId,null).data,null,null,null,null)
         val response =  bookExecutor.createBook(bookToAdd,null)
         model.addAttribute("message",response.message)
+
+        val email = SecurityContextHolder.getContext().authentication.name
+        val librarian = librarianService.findLibrarianByAccountEmail(email)
+                ?: return "sth is very wrong"
+
+        hasBookService.addBook(librarian.library?.libraryId!!, response.data?.bookId!!,10)
+
+        val books = libraryExecutor.getBooksByLibrary(librarian.library?.libraryId!!,null   )
+        model.addAttribute("books", books)
         return "homepage/homepage-librarian"
     }
 
@@ -57,11 +68,14 @@ class BookController {
         return "books/booksToAddToLibrary"
     }
 
-    @GetMapping("/books/{bookId}/addingToLibrary/libraries/{libraryId}")
+    @GetMapping("/books/{bookId}/addingToLibrary/libraries/{email}")
     fun addingBookToLibrary(@PathVariable("bookId",required = true) bookId: Long,
-                            @PathVariable("libraryId",required = true) libraryId: String,
+                            @PathVariable("email",required = true) email: String,
                             model: Model): String{
-        val library = libraryExecutor.getLibraryById( libraryId.toLong(),null)
+        val librarian = librarianService.findLibrarianByAccountEmail(email)
+                ?: return "sth is very wrong"
+
+        val library = libraryExecutor.getLibraryById( librarian.library?.libraryId!!,null)
 
         val isInLibrary = hasBookService.isBookInSpecificLibrary(library.data?.libraryId!!, bookId)
         if ( isInLibrary == null) {
@@ -71,6 +85,8 @@ class BookController {
             model.addAttribute("message","Book already in library.")
         }
 
+        val books = libraryExecutor.getBooksByLibrary(librarian.library?.libraryId!!,null)
+        model.addAttribute("books", books)
         return "homepage/homepage-librarian"
     }
 

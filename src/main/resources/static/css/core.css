@@ -48,6 +48,7 @@ h3 {
     z-index: 1;
     backdrop-filter: blur(2em);
     display: flex;
+    flex-direction: column;
     bottom:0;
 }
 
