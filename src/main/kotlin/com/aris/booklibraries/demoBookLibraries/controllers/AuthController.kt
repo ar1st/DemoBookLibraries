@@ -4,16 +4,16 @@ import com.aris.booklibraries.demoBookLibraries.executors.AccountExecutor
 import com.aris.booklibraries.demoBookLibraries.executors.BookExecutor
 import com.aris.booklibraries.demoBookLibraries.executors.LibraryExecutor
 import com.aris.booklibraries.demoBookLibraries.models.*
+import com.aris.booklibraries.demoBookLibraries.models.response.ApiResponse
+import com.aris.booklibraries.demoBookLibraries.registration.RegistrationService
 import com.aris.booklibraries.demoBookLibraries.services.LibrarianService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.ModelAttribute
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.*
 import javax.servlet.http.HttpServletResponse
+
 
 @Controller
 class AuthController {
@@ -25,25 +25,39 @@ class AuthController {
     lateinit var libraryExecutor: LibraryExecutor
     @Autowired
     lateinit var librarianService: LibrarianService
+    @Autowired
+    lateinit var registrationService: RegistrationService
 
     @GetMapping("/signup")
     fun signUpUser(@ModelAttribute registrationDetails: RegistrationDetails, model: Model): String {
-        model.addAttribute("registrationDetails",registrationDetails)
+        model.addAttribute("registrationDetails", registrationDetails)
         return "auth/signup"
     }
 
     @PostMapping("/signup")
     fun submitForm(@ModelAttribute("registrationDetails") registrationDetails: RegistrationDetails,
-                    model:Model,response: HttpServletResponse): String {
+                   model: Model, response: HttpServletResponse): String {
+        registrationDetails.email = "aristnm@hotmail.com"
+        registrationDetails.password = "pass"
+        registrationDetails.firstName = "aris"
+        registrationDetails.lastName = "tsach"
+      //  val apiResponse = accountExecutor.createAccountAndUser(registrationDetails,response)
+        val apiResponse = registrationService.register(registrationDetails)
+//        if ( apiResponse.data == null) {
+//            model.addAttribute("error", apiResponse.message)
+//            return "auth/signup.html"
+//        }
+//        model.addAttribute("message", apiResponse.message)
 
-        val apiResponse = accountExecutor.createAccountAndUser(registrationDetails,response)
+        model.addAttribute("error", "Confirm your email")
 
-        if ( apiResponse.data == null) {
-            model.addAttribute("error",apiResponse.message)
-            return "auth/signup.html"
-        }
-        model.addAttribute("message",apiResponse.message)
         return "auth/login.html"
+    }
+
+
+    @RequestMapping("signup/confirm")
+    fun confirm(@RequestParam("token") token: String): String? {
+        return registrationService.confirmToken(token)
     }
 
     // Index
@@ -54,7 +68,7 @@ class AuthController {
 
     // Login form
     @RequestMapping("login.html")
-    fun login(model: Model, error:String?): String? {
+    fun login(model: Model, error: String?): String? {
 
         if (error != null)
             model.addAttribute("error", "Your username and password is invalid.")
@@ -75,7 +89,7 @@ class AuthController {
         else if ( role == "[LIBRARIAN]") {
             val librarian = librarianService.findLibrarianByAccountEmail(email)
                     ?: return "sth is very wrong"
-            val books = libraryExecutor.getBooksByLibrary(librarian.library?.libraryId!!,null)
+            val books = libraryExecutor.getBooksByLibrary(librarian.library?.libraryId!!, null)
             model?.addAttribute("books", books)
             return "homepage/homepage-librarian"
         }

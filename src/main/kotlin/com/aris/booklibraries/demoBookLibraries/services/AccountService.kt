@@ -21,4 +21,8 @@ class AccountService {
         return accountRepository.findByEmail(email)
     }
 
+    fun enableAccount(email: String) {
+        return accountRepository.enableAccount(email)
+    }
+
 }

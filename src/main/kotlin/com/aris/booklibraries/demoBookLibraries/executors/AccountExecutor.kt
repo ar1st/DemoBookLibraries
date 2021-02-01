@@ -2,12 +2,16 @@ package com.aris.booklibraries.demoBookLibraries.executors
 
 import com.aris.booklibraries.demoBookLibraries.models.*
 import com.aris.booklibraries.demoBookLibraries.models.response.ApiResponse
+import com.aris.booklibraries.demoBookLibraries.registration.token.ConfirmationToken
+import com.aris.booklibraries.demoBookLibraries.registration.token.ConfirmationTokenService
 import com.aris.booklibraries.demoBookLibraries.services.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Component
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.util.*
 import javax.servlet.http.HttpServletResponse
 
 @Component
@@ -26,8 +30,8 @@ class AccountExecutor {
     lateinit var librarianService: LibrarianService
     @Autowired
     lateinit var userService: UserService
-
-
+    @Autowired
+    lateinit var confirmationTokenService: ConfirmationTokenService
 
     fun createAccountAndUser(registrationDetails: RegistrationDetails, response: HttpServletResponse?): ApiResponse<Account, String> {
 
@@ -70,7 +74,37 @@ class AccountExecutor {
         response?.status = HttpStatus.ACCEPTED.value()
         return ApiResponse( data = accountService.save(createdAccount!!), message = "OK" )
     }
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    fun signUpAccount(registrationDetails: RegistrationDetails): String {
+        if ( accountService.findByEmail(registrationDetails.email!!) != null)
+            return "Email already exists"
 
+        val encoder = BCryptPasswordEncoder(10)
+        val encodedPass = encoder.encode(registrationDetails.password)
+        val accountToCreate = Account( null,registrationDetails.email,encodedPass,1,Role.USER.value,false)
+
+        val createdAccount = accountService.save(accountToCreate)
+                ?: return "Sth went wrong. Try again later."
+
+        val token = UUID.randomUUID().toString()
+        val confirmationToken = ConfirmationToken(
+                null,
+                token,
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(15),
+                null,
+                createdAccount
+                )
+
+        confirmationTokenService.save(confirmationToken)
+
+
+
+        return token
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     fun findByUsername(username: String): ApiResponse<Account,String> {
         val accountToReturn = accountService.findByEmail(username)
@@ -122,5 +156,10 @@ class AccountExecutor {
         borrowsService.returnBook(borrows.borrowsId!!, LocalDate.of(2020,2,2))
         hasBookService.addQuantityByOne(data.library?.libraryId!!,data.book?.bookId!!)
         return ApiResponse(data = null, message = "OK")
+    }
+
+
+    fun enableAccount(email: String?) {
+        return accountService.enableAccount(email!!);
     }
 }
