@@ -1,10 +1,9 @@
 package com.aris.booklibraries.demoBookLibraries.controllers
 
-import com.aris.booklibraries.demoBookLibraries.executors.AccountExecutor
 import com.aris.booklibraries.demoBookLibraries.executors.BookExecutor
 import com.aris.booklibraries.demoBookLibraries.executors.LibraryExecutor
 import com.aris.booklibraries.demoBookLibraries.models.*
-import com.aris.booklibraries.demoBookLibraries.registration.RegistrationService
+import com.aris.booklibraries.demoBookLibraries.registration.RegistrationExecutor
 import com.aris.booklibraries.demoBookLibraries.services.LibrarianService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
@@ -22,7 +21,7 @@ class AuthController {
     @Autowired
     lateinit var librarianService: LibrarianService
     @Autowired
-    lateinit var registrationService: RegistrationService
+    lateinit var registrationExecutor: RegistrationExecutor
 
     @GetMapping("/signup")
     fun signUpUser(@ModelAttribute registrationDetails: RegistrationDetails, model: Model): String {
@@ -33,7 +32,7 @@ class AuthController {
     @PostMapping("/signup")
     fun submitForm(@ModelAttribute("registrationDetails") registrationDetails: RegistrationDetails,
                    model: Model, response: HttpServletResponse): String {
-        val apiResponse = registrationService.register(registrationDetails)
+        val apiResponse = registrationExecutor.register(registrationDetails)
 
         if (apiResponse.data == null ) {
             model.addAttribute("message", apiResponse.message)
@@ -46,8 +45,12 @@ class AuthController {
 
     @RequestMapping("signup/confirm")
     fun confirm(@RequestParam("token") token: String,model: Model): String? {
-        model.addAttribute("message","You can login now!")
-        val p = registrationService.confirmToken(token)
+        val p = registrationExecutor.confirmToken(token)
+        if ( p.data == null) {
+            model.addAttribute("message",p.message)
+        } else {
+            model.addAttribute("message", "You can login now!")
+        }
         return "auth/login.html"
     }
 

@@ -3,27 +3,35 @@ package com.aris.booklibraries.demoBookLibraries.registration
 import com.aris.booklibraries.demoBookLibraries.executors.AccountExecutor
 import com.aris.booklibraries.demoBookLibraries.models.Account
 import com.aris.booklibraries.demoBookLibraries.models.RegistrationDetails
+import com.aris.booklibraries.demoBookLibraries.models.Role
 import com.aris.booklibraries.demoBookLibraries.models.User
 import com.aris.booklibraries.demoBookLibraries.models.response.ApiResponse
 import com.aris.booklibraries.demoBookLibraries.registration.email.EmailSender
 import com.aris.booklibraries.demoBookLibraries.registration.token.ConfirmationToken
 import com.aris.booklibraries.demoBookLibraries.registration.token.ConfirmationTokenService
+import com.aris.booklibraries.demoBookLibraries.services.AccountService
 import com.aris.booklibraries.demoBookLibraries.services.UserService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Service
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
+import java.util.*
 
-
-@Service
-class RegistrationService(val emailValidator: EmailValidator) {
-    @Autowired
-    lateinit var accountExecutor: AccountExecutor
+@Component
+class RegistrationExecutor {
     @Autowired
     lateinit var confirmationTokenService: ConfirmationTokenService
     @Autowired
     lateinit var emailSender: EmailSender
-
+    @Autowired
+    lateinit var emailValidator: EmailValidator
+    @Autowired
+    lateinit var accountService: AccountService
+    @Autowired
+    lateinit var userService: UserService
+    @Autowired
+    lateinit var accountExecutor: AccountExecutor
 
     fun register(registrationDetails: RegistrationDetails): ApiResponse<String, String> {
         if ( registrationDetails.email.isNullOrEmpty() || registrationDetails.password.isNullOrEmpty()
@@ -37,33 +45,57 @@ class RegistrationService(val emailValidator: EmailValidator) {
             return ApiResponse(null, "Email not valid")
         }
 
-        val token = accountExecutor.signUpAccount(registrationDetails)
-        if ( token.contains("Error"))
-            return ApiResponse(null, token)
+        if ( accountService.findByEmail(registrationDetails.email!!) != null)
+            return ApiResponse(null, "Email already exists.")
+
+        val encoder = BCryptPasswordEncoder(10)
+        val encodedPass = encoder.encode(registrationDetails.password)
+        val accountToCreate = Account( null,registrationDetails.email,encodedPass,0, Role.USER.value)
+        val createdAccount = accountService.save(accountToCreate)
+            ?: return ApiResponse(null, "Something went wrong.")
+
+        val token = UUID.randomUUID().toString()
+        val confirmationToken = ConfirmationToken(
+            null,
+            token,
+            LocalDateTime.now(),
+            LocalDateTime.now().plusMinutes(15),
+            null,
+            createdAccount
+        )
+
+        confirmationTokenService.save(confirmationToken)
+        val userToCreate = User(null,registrationDetails.firstName,registrationDetails.lastName,createdAccount)
+        userService.save(userToCreate)
 
 
         val link= "http://localhost:8080/signup/confirm?token=$token"
         emailSender.send(registrationDetails.email!!,
-                            buildEmail(registrationDetails.firstName!!,link))
+            buildEmail(registrationDetails.firstName!!,link))
 
 
         return ApiResponse(token, null)
     }
 
     @Transactional
-    fun confirmToken(token: String): String? {
-        val confirmationToken: ConfirmationToken = confirmationTokenService.getToken(token) ?: return "error"
+    fun confirmToken(token: String): ApiResponse<String,String>{
+        val confirmationToken: ConfirmationToken = confirmationTokenService.getToken(token)
+            ?: return ApiResponse(null,"Where did u find that?")
 
-        check(confirmationToken.confirmedAt == null) { "email already confirmed" }
+        if (confirmationToken.confirmedAt != null) {
+            return ApiResponse(null,"Email already confirmed.")
+        }
 
         val expiredAt: LocalDateTime = confirmationToken.expiresAt
 
-        check(!expiredAt.isBefore(LocalDateTime.now())) { "token expired" }
+        if (expiredAt.isBefore(LocalDateTime.now())) {
+            return ApiResponse(null,"Token is expired.")
+        }
 
         confirmationTokenService.setConfirmedAt(token)
         accountExecutor.enableAccount(
-                confirmationToken.account.email)
-        return "confirmed"
+            confirmationToken.account.email)
+        return ApiResponse("confirmed",null)
     }
 
     private fun buildEmail(name: String, link: String): String {

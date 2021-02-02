@@ -30,32 +30,6 @@ class AccountExecutor {
     lateinit var librarianService: LibrarianService
     @Autowired
     lateinit var userService: UserService
-    @Autowired
-    lateinit var confirmationTokenService: ConfirmationTokenService
-
-    fun createAccountAndUser(registrationDetails: RegistrationDetails, response: HttpServletResponse?): ApiResponse<Account, String> {
-
-        if ( registrationDetails.email.isNullOrEmpty() || registrationDetails.password.isNullOrEmpty()
-            ||registrationDetails.firstName.isNullOrEmpty() ||registrationDetails.lastName.isNullOrEmpty() ){
-            return ApiResponse(null, "Fill all the fields.")
-        }
-
-        if ( accountService.findByEmail(registrationDetails.email!!) != null)
-             return ApiResponse(data=null,message="Error: Email already exists.")
-
-        val encoder = BCryptPasswordEncoder(10)
-        val encodedPass = encoder.encode(registrationDetails.password)
-        val accountToCreate = Account( null,registrationDetails.email,encodedPass,1,Role.USER.value)
-
-        val createdAccount = accountService.save(accountToCreate)
-            ?: return ApiResponse(data=null,message="Something went wrong. Try again later.")
-
-        val userToCreate = User(null,registrationDetails.firstName,registrationDetails.lastName,createdAccount)
-        val createdUser = userService.save(userToCreate)
-
-        response?.status = HttpStatus.ACCEPTED.value()
-        return ApiResponse(createdAccount,"You can login now :)")
-    }
 
     fun createAccountAndLibrarian(registrationDetails: RegistrationDetails, response: HttpServletResponse?): ApiResponse<Account, String> {
 
@@ -74,37 +48,6 @@ class AccountExecutor {
         response?.status = HttpStatus.ACCEPTED.value()
         return ApiResponse( data = accountService.save(createdAccount!!), message = "OK" )
     }
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    fun signUpAccount(registrationDetails: RegistrationDetails): String {
-        if ( accountService.findByEmail(registrationDetails.email!!) != null)
-            return "Error: Email already exists"
-
-        val encoder = BCryptPasswordEncoder(10)
-        val encodedPass = encoder.encode(registrationDetails.password)
-        val accountToCreate = Account( null,registrationDetails.email,encodedPass,0,Role.USER.value)
-
-        val createdAccount = accountService.save(accountToCreate)
-                ?: return "Error: Sth went wrong. Try again later."
-
-        val token = UUID.randomUUID().toString()
-        val confirmationToken = ConfirmationToken(
-                null,
-                token,
-                LocalDateTime.now(),
-                LocalDateTime.now().plusMinutes(15),
-                null,
-                createdAccount
-                )
-
-        confirmationTokenService.save(confirmationToken)
-        val userToCreate = User(null,registrationDetails.firstName,registrationDetails.lastName,createdAccount)
-        userService.save(userToCreate)
-
-        return token
-    }
-
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     fun findByUsername(username: String): ApiResponse<Account,String> {
         val accountToReturn = accountService.findByEmail(username)
@@ -157,7 +100,6 @@ class AccountExecutor {
         hasBookService.addQuantityByOne(data.library?.libraryId!!,data.book?.bookId!!)
         return ApiResponse(data = null, message = "OK")
     }
-
 
     fun enableAccount(email: String?) {
         return accountService.enableAccount(email!!);
