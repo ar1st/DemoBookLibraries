@@ -11,6 +11,5 @@ data class Account(
     var email: String?,
     var password: String?,
     var enabled: Int?,
-    var authority: String,
-    var locked: Boolean
+    var authority: String
     )

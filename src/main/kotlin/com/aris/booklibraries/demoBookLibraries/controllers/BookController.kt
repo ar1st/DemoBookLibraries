@@ -39,6 +39,7 @@ class BookController {
         return "books/add"
     }
 
+    //writtenBy = author
     //add book. and add book to libray of librarian
     @PostMapping("/books/add/writtenBy/{authorId}")
     fun submitBook(@ModelAttribute("book") book: Book, model: Model,@PathVariable("authorId") authorId: Long): String {

@@ -15,8 +15,8 @@ interface AccountRepository: JpaRepository<Account, Long> {
 
     @Transactional
     @Modifying
-    @Query("UPDATE Account a " +
-            "SET a.enabled = 1 WHERE a.email = ?1")
+    @Query("UPDATE account  " +
+            "SET account.enabled = 1 WHERE account.email = :email",nativeQuery = true)
     fun enableAccount(email: String)
 
 }

@@ -71,5 +71,4 @@ class UserController {
 
         return "homepage/homepage-user.html"
     }
-
 }

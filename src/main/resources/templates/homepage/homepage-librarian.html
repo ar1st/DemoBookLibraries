@@ -19,51 +19,58 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 </head>
 <body>
-<main>
-    <header th:replace="fragments :: navbarLibrarian"></header>
-        <section class="glass">
-            <table class="styled-table" >
-                <caption>Books In Library</caption>
-                <thead>
-                <tr style="text-align:center;">
-                    <th scope="col">Title</th>
-                    <th scope="col">Author</th>
-                    <th scope="col">Pages</th>
-                    <th scope="col">Remove</th>
-                    <th scope="col"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:if="${books} != null"  th:each="book : ${books.data}">
-                    <td th:text="${book.title}"></td>
-                    <td th:text="${book.author.firstName} + ' ' + ${book.author.lastName}"></td>
-                    <td th:text="${book.pages}"></td>
-                    <td ><a th:href="@{/books/{bookId}/removingFromLibrary/libraries/{email}
-            (bookId = ${book.bookId}, email= ${#authentication.name})}">Yes</a></td>
-                </tr>
-                </tbody>
+<script th:inline="javascript">
+/*<![CDATA[*/
 
-            </table>
-            <div th:text="${message}"></div>
-        </section>
-</main>
+$(document).ready(function(){
+    var message = [[${message}]];
 
-<div class="circle1"></div>
-<div class="circle2"></div>
-<!--<div class="container my-2">-->
-<!--    <a th:href="@{/books/booksToAddToLibrary/libraries/{id}(id= ${#authentication.name})}" class="btn btn-primary">Add Book To Library</a>-->
-<!--    <a th:href="@{/books/showBooksInLibrary/libraries/{id}(id= ${#authentication.name})}" class="btn btn-primary">Show Books In Library</a>-->
-<!--    <a th:href="@{/users}" class="btn btn-primary">Show all users</a>-->
+    if ( message != null) {
+        console.log("message not null");
+        $('.message-modal').modal();
+    }
 
-<!--    <div class="p-3 mb-2 bg-secondary text-white" th:if="${message} != null">-->
-<!--        <p  th:text="${message}"  ></p>-->
-<!--    </div>-->
-<!--</div>-->
+});
 
-<!--<div class="panel panel-default" style="position: absolute;bottom: 20px;right:5px;">-->
-<!--    <a th:href="@{/authors/add}" class="btn btn-primary">Add Author</a>-->
-<!--    <a th:href="@{/authors/authorsToWriteBook}" class="btn btn-primary">Add Book</a>-->
-<!--    <a th:href="@{/books}" class="btn btn-primary">Show all books</a>-->
-<!--</div>-->
+/*]]>*/
+</script>
+    <main>
+        <header th:replace="fragments :: navbarLibrarian"></header>
+            <section class="glass">
+                <table class="styled-table" >
+                    <caption>Books In Library</caption>
+                    <thead>
+                    <tr style="text-align:center;">
+                        <th scope="col">Title</th>
+                        <th scope="col">Author</th>
+                        <th scope="col">Pages</th>
+                        <th scope="col">Remove</th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${books} != null"  th:each="book : ${books.data}">
+                        <td th:text="${book.title}"></td>
+                        <td th:text="${book.author.firstName} + ' ' + ${book.author.lastName}"></td>
+                        <td th:text="${book.pages}"></td>
+                        <td ><a th:href="@{/books/{bookId}/removingFromLibrary/libraries/{email}
+                (bookId = ${book.bookId}, email= ${#authentication.name})}">Yes</a></td>
+                    </tr>
+                    </tbody>
+
+                </table>
+                <div th:text="${message}"></div>
+            </section>
+    </main>
+
+    <div class="circle1"></div>
+    <div class="circle2"></div>
+
+    <div class="message-modal" style="background: linear-gradient(to right top, #6dd8c4, #6cdbeb);text-align:center">
+        <p th:text="${message}" style="color: #EA3727;
+                                        margin-bottom: 15px;
+                                        font-size: 18px;
+                                        font-weight: bold;"></p>
+    </div>
 </body>
 </html>

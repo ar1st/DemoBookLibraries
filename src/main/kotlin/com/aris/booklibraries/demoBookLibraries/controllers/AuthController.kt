@@ -4,7 +4,6 @@ import com.aris.booklibraries.demoBookLibraries.executors.AccountExecutor
 import com.aris.booklibraries.demoBookLibraries.executors.BookExecutor
 import com.aris.booklibraries.demoBookLibraries.executors.LibraryExecutor
 import com.aris.booklibraries.demoBookLibraries.models.*
-import com.aris.booklibraries.demoBookLibraries.models.response.ApiResponse
 import com.aris.booklibraries.demoBookLibraries.registration.RegistrationService
 import com.aris.booklibraries.demoBookLibraries.services.LibrarianService
 import org.springframework.beans.factory.annotation.Autowired
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 import javax.servlet.http.HttpServletResponse
-
 
 @Controller
 class AuthController {
@@ -37,27 +35,18 @@ class AuthController {
     @PostMapping("/signup")
     fun submitForm(@ModelAttribute("registrationDetails") registrationDetails: RegistrationDetails,
                    model: Model, response: HttpServletResponse): String {
-        registrationDetails.email = "aristnm@hotmail.com"
-        registrationDetails.password = "pass"
-        registrationDetails.firstName = "aris"
-        registrationDetails.lastName = "tsach"
-      //  val apiResponse = accountExecutor.createAccountAndUser(registrationDetails,response)
         val apiResponse = registrationService.register(registrationDetails)
-//        if ( apiResponse.data == null) {
-//            model.addAttribute("error", apiResponse.message)
-//            return "auth/signup.html"
-//        }
-//        model.addAttribute("message", apiResponse.message)
 
-        model.addAttribute("error", "Confirm your email")
+        model.addAttribute("message", "Confirm your email.")
 
         return "auth/login.html"
     }
 
-
     @RequestMapping("signup/confirm")
-    fun confirm(@RequestParam("token") token: String): String? {
-        return registrationService.confirmToken(token)
+    fun confirm(@RequestParam("token") token: String,model: Model): String? {
+        model.addAttribute("message","You can login now!")
+        val p = registrationService.confirmToken(token)
+        return "auth/login.html"
     }
 
     // Index
@@ -71,7 +60,7 @@ class AuthController {
     fun login(model: Model, error: String?): String? {
 
         if (error != null)
-            model.addAttribute("error", "Your username and password is invalid.")
+            model.addAttribute("message",error)
 
         return "auth/login.html"
     }
@@ -101,5 +90,4 @@ class AuthController {
     fun backToMain(): String? {
         return main(null)
     }
-
 }

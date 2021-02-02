@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class RestController {
+class BookDetailsController {
     @Autowired
     lateinit var bookExecutor: BookExecutor
 

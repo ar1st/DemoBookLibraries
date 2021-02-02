@@ -38,6 +38,21 @@
 
 </head>
 <body>
+<script th:inline="javascript">
+/*<![CDATA[*/
+
+$(document).ready(function(){
+    var message = [[${message}]];
+
+    if ( message != null) {
+        console.log("message not null");
+        $('.message-modal').modal();
+    }
+
+});
+
+/*]]>*/
+</script>
     <main>
         <header th:replace="fragments :: navbar"></header>
         <section class="glass">
@@ -74,6 +89,13 @@
 
     <div class="circle1"></div>
     <div class="circle2"></div>
+
+    <div class="message-modal" style="background: linear-gradient(to right top, #6dd8c4, #6cdbeb);text-align:center">
+        <p th:text="${message}" style="color: #EA3727;
+                                        margin-bottom: 15px;
+                                        font-size: 18px;
+                                        font-weight: bold;"></p>
+    </div>
 
 </body>
 </html>

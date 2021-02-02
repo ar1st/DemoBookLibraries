@@ -45,7 +45,7 @@ class AccountExecutor {
 
         val encoder = BCryptPasswordEncoder(10)
         val encodedPass = encoder.encode(registrationDetails.password)
-        val accountToCreate = Account( null,registrationDetails.email,encodedPass,1,Role.USER.value,false)
+        val accountToCreate = Account( null,registrationDetails.email,encodedPass,1,Role.USER.value)
 
         val createdAccount = accountService.save(accountToCreate)
             ?: return ApiResponse(data=null,message="Something went wrong. Try again later.")
@@ -64,7 +64,7 @@ class AccountExecutor {
 
         val encoder = BCryptPasswordEncoder(10)
         val encodedPass = encoder.encode(registrationDetails.password)
-        val accountToCreate = Account( null,registrationDetails.email,encodedPass,1,Role.LIBRARIAN.value,false)
+        val accountToCreate = Account( null,registrationDetails.email,encodedPass,1,Role.LIBRARIAN.value)
         val createdAccount = accountService.save(accountToCreate)
 
         val librarianToCreate = Librarian(null,registrationDetails.firstName,registrationDetails.lastName,
@@ -81,7 +81,7 @@ class AccountExecutor {
 
         val encoder = BCryptPasswordEncoder(10)
         val encodedPass = encoder.encode(registrationDetails.password)
-        val accountToCreate = Account( null,registrationDetails.email,encodedPass,1,Role.USER.value,false)
+        val accountToCreate = Account( null,registrationDetails.email,encodedPass,0,Role.USER.value)
 
         val createdAccount = accountService.save(accountToCreate)
                 ?: return "Sth went wrong. Try again later."

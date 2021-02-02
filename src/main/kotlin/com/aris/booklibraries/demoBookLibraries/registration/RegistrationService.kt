@@ -41,7 +41,6 @@ class RegistrationService(val emailValidator: EmailValidator) {
     fun confirmToken(token: String): String? {
         val confirmationToken: ConfirmationToken = confirmationTokenService.getToken(token) ?: return "error"
 
-
         check(confirmationToken.confirmedAt == null) { "email already confirmed" }
 
         val expiredAt: LocalDateTime = confirmationToken.expiresAt
