@@ -16,8 +16,6 @@ import javax.servlet.http.HttpServletResponse
 @Controller
 class AuthController {
     @Autowired
-    lateinit var accountExecutor: AccountExecutor
-    @Autowired
     lateinit var bookExecutor: BookExecutor
     @Autowired
     lateinit var libraryExecutor: LibraryExecutor
@@ -37,8 +35,12 @@ class AuthController {
                    model: Model, response: HttpServletResponse): String {
         val apiResponse = registrationService.register(registrationDetails)
 
-        model.addAttribute("message", "Confirm your email.")
+        if (apiResponse.data == null ) {
+            model.addAttribute("message", apiResponse.message)
+            return "auth/signup"
+        }
 
+        model.addAttribute("message", "Confirm your email!")
         return "auth/login.html"
     }
 

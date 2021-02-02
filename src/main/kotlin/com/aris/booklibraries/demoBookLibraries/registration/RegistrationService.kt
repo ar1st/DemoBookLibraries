@@ -3,10 +3,12 @@ package com.aris.booklibraries.demoBookLibraries.registration
 import com.aris.booklibraries.demoBookLibraries.executors.AccountExecutor
 import com.aris.booklibraries.demoBookLibraries.models.Account
 import com.aris.booklibraries.demoBookLibraries.models.RegistrationDetails
+import com.aris.booklibraries.demoBookLibraries.models.User
 import com.aris.booklibraries.demoBookLibraries.models.response.ApiResponse
 import com.aris.booklibraries.demoBookLibraries.registration.email.EmailSender
 import com.aris.booklibraries.demoBookLibraries.registration.token.ConfirmationToken
 import com.aris.booklibraries.demoBookLibraries.registration.token.ConfirmationTokenService
+import com.aris.booklibraries.demoBookLibraries.services.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -22,19 +24,30 @@ class RegistrationService(val emailValidator: EmailValidator) {
     @Autowired
     lateinit var emailSender: EmailSender
 
-    fun register(registrationDetails: RegistrationDetails): ApiResponse<Account, String> {
+
+    fun register(registrationDetails: RegistrationDetails): ApiResponse<String, String> {
+        if ( registrationDetails.email.isNullOrEmpty() || registrationDetails.password.isNullOrEmpty()
+            ||registrationDetails.firstName.isNullOrEmpty() ||registrationDetails.lastName.isNullOrEmpty() ){
+            return ApiResponse(null, "Fill all the fields.")
+        }
+
         val isValidEmail = emailValidator.test(registrationDetails.email!!)
 
         if ( !isValidEmail) {
-            return ApiResponse(null, "email not valid")
+            return ApiResponse(null, "Email not valid")
         }
 
         val token = accountExecutor.signUpAccount(registrationDetails)
+        if ( token.contains("Error"))
+            return ApiResponse(null, token)
+
 
         val link= "http://localhost:8080/signup/confirm?token=$token"
         emailSender.send(registrationDetails.email!!,
                             buildEmail(registrationDetails.firstName!!,link))
-        return ApiResponse(null, token)
+
+
+        return ApiResponse(token, null)
     }
 
     @Transactional

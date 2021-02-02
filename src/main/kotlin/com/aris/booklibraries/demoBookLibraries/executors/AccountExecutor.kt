@@ -77,14 +77,14 @@ class AccountExecutor {
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     fun signUpAccount(registrationDetails: RegistrationDetails): String {
         if ( accountService.findByEmail(registrationDetails.email!!) != null)
-            return "Email already exists"
+            return "Error: Email already exists"
 
         val encoder = BCryptPasswordEncoder(10)
         val encodedPass = encoder.encode(registrationDetails.password)
         val accountToCreate = Account( null,registrationDetails.email,encodedPass,0,Role.USER.value)
 
         val createdAccount = accountService.save(accountToCreate)
-                ?: return "Sth went wrong. Try again later."
+                ?: return "Error: Sth went wrong. Try again later."
 
         val token = UUID.randomUUID().toString()
         val confirmationToken = ConfirmationToken(
@@ -97,8 +97,8 @@ class AccountExecutor {
                 )
 
         confirmationTokenService.save(confirmationToken)
-
-
+        val userToCreate = User(null,registrationDetails.firstName,registrationDetails.lastName,createdAccount)
+        userService.save(userToCreate)
 
         return token
     }
