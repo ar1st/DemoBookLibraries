@@ -1,41 +1,63 @@
 package com.aris.booklibraries.demoBookLibraries.registration.email;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-
 import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.UnsupportedEncodingException;
+import java.util.Properties;
 
 @Service
 public class EmailService implements EmailSender {
-    private final static Logger LOGGER = LoggerFactory
-            .getLogger(EmailService.class);
 
-    private final JavaMailSender mailSender;
-
-    public EmailService(JavaMailSender mailSender) {
-        this.mailSender = mailSender;
-    }
+    //alternative send method can be found at
+    //https://github.com/amigoscode/login-registration-backend/blob/master/src/main/java/com/example/demo/email/EmailService.java
 
     @Override
     @Async
-    public void send(String to, String email) {
+    public  void send(@NotNull String to, @NotNull String email) {
+        // Set required configs
+        String from = "demolibraryapp@gmail.com";
+        String host = "smtp.gmail.com";
+        String port = "587";
+        String user = "demolibraryapp@gmail.com";
+        String password = "msensisproject";
+
+        // Set system properties
+        Properties properties = System.getProperties();
+        properties.put("mail.smtp.auth", "true");
+        properties.setProperty("mail.smtp.host", host);
+        properties.setProperty("mail.smtp.port", port);
+        properties.setProperty("mail.smtp.user", user);
+        properties.setProperty("mail.smtp.password", password);
+        properties.setProperty("mail.smtp.starttls.enable", "true");
+
+        // Get the default Session object.
+        Session session = Session.getDefaultInstance(properties);
+
         try {
-            MimeMessage mimeMessage = mailSender.createMimeMessage();
-            MimeMessageHelper helper =
-                    new MimeMessageHelper(mimeMessage, "utf-8");
-            helper.setText(email, true);
-            helper.setTo(to);
-            helper.setSubject("Confirm your email");
-            helper.setFrom("aristnm@hotmail.com");
-            mailSender.send(mimeMessage);
-        } catch (MessagingException e) {
-            LOGGER.error("failed to send email", e);
-            throw new IllegalStateException("failed to send email");
+            // Create a default MimeMessage object.
+            MimeMessage message = new MimeMessage(session);
+            // Set from email address
+            message.setFrom(new InternetAddress(from, "Library App"));
+            // Set the recipient email address
+            message.addRecipient(MimeMessage.RecipientType.TO, new InternetAddress(to));
+            // Set email subject
+            message.setSubject("Confirm your email.");
+            // Set email body
+            message.setText(email,"utf-8", "html");
+            // Set configs for sending email
+            Transport transport = session.getTransport("smtp");
+            transport.connect(host, from, password);
+            // Send email
+            transport.sendMessage(message, message.getAllRecipients());
+            transport.close();
+        } catch (UnsupportedEncodingException | MessagingException e) {
+            e.printStackTrace();
         }
     }
 }
