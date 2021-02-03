@@ -21,11 +21,11 @@ public class EmailService implements EmailSender {
     @Async
     public  void send(@NotNull String to, @NotNull String email) {
         // Set required configs
-        String from = "demolibraryapp@gmail.com";
-        String host = "smtp.gmail.com";
-        String port = "587";
-        String user = "demolibraryapp@gmail.com";
-        String password = "msensisproject";
+        String from = "demolibraryapp@hotmail.com";
+        String host = "smtp.live.com";
+        String port = "25";
+        String user = "demolibraryapp@hotmail.com";
+        String password = "msensispr0ject";
 
         // Set system properties
         Properties properties = System.getProperties();

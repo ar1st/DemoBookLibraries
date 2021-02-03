@@ -65,6 +65,6 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
     override fun configure(web: WebSecurity) {
         web
                 .ignoring()
-                .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/img/**", "/icon/**")
+                .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**", "/icon/**")
     }
 }

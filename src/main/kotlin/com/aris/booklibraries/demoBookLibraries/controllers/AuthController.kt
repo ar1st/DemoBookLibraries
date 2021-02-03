@@ -65,7 +65,7 @@ class AuthController {
     fun login(model: Model, error: String?): String? {
 
         if (error != null)
-            model.addAttribute("message",error)
+            model.addAttribute("error","Invalid username or password.")
 
         return "auth/login.html"
     }
@@ -88,7 +88,7 @@ class AuthController {
             return "homepage/homepage-librarian"
         }
 
-        return "main.html"
+        return "/auth/login.html"
     }
 
     @RequestMapping("back")
