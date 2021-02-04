@@ -1,0 +1,53 @@
+.log-button {
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    width:130px;
+    background: linear-gradient(to right top, #65df84, #65dfc9);
+    margin-left: 30px;
+    margin-top: 1em;
+    font-weight: bold;
+}
+
+h1 .login-header {
+    color: #426696;
+    font-weight: 600;
+    font-size: 55px;
+    opacity: 0.8;
+    margin-bottom: 1em;
+}
+
+.input-label {
+    background: linear-gradient(
+            to right,
+            #c6e3e7,
+            #9ed6e0
+    );
+    border: none;
+    width: 50%;
+    padding: 0.5rem;
+    border-radius: 2rem;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.error-login {
+    color: #EA3727;
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
+
+
+
+.status {
+    margin-bottom: 3rem;
+}

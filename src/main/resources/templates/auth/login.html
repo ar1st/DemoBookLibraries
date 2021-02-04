@@ -4,6 +4,7 @@
     <title>Login page</title>
     <link th:href="@{/css/login.css}" rel="stylesheet">
     <link th:href="@{/css/core.css}" rel="stylesheet">
+    <link th:href="@{/css/buttons.css}" rel="stylesheet">
     <link rel="shortcut icon" href="#">
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
@@ -37,21 +38,20 @@ $(document).ready(function(){
                 <div class="status">
                     <div sec:authorize="isAnonymous()">
                         <form th:action="@{/perform_login}" method="post">
-                            <h1>Login page</h1>
-                            <p class="error" th:text="${error}"></p>
+                            <h1 class="login-header">Login page</h1>
+                            <p class="error-login" th:text="${error}"></p>
                             <h3>
                                 <label for="username">Username</label>:
-                                <input class="inputlabel" type="text" id="username" name="username" autofocus="autofocus" />
+                                <input class="input-label" type="text" id="username" name="username" autofocus="autofocus" />
                             </h3>
                                 <br/>
                             <h3>
                                 <label  for="password">Password</label>:
-                                <input  class="inputlabel" type="password" id="password" name="password" />
+                                <input  class="input-label" type="password" id="password" name="password" />
                             </h3>
                                  <br/>
                             <div style="margin-top: -1em">Don't have an account? Sign up <a th:href="@{/signup}" th:text="here."></a></div>
-<!--                            <input class="backButton" type="button"   onclick="window.location='/';"  value="Back" />-->
-                            <input class="logButton" type="submit" value="Log in" />
+                            <input class="log-button" type="submit" value="Log in" />
                         </form>
                     </div>
                 </div>
