@@ -10,8 +10,6 @@ import javax.annotation.PostConstruct
 
 @Service
 class TestService {
-//    @Autowired
-//    lateinit var userServiceOld: UserServiceOld
     @Autowired
     lateinit var authorService :AuthorService
     @Autowired
@@ -55,9 +53,9 @@ class TestService {
 //        userServiceOld.save(UserOld(userId= null, email = "elina@gmail.com","123", firstName = "elina", lastName = "oikonomou"))
 //        userServiceOld.save(UserOld(userId= null, email = "aris", "123", firstName = "aris", lastName = "tsach"))
 
-        authorService.save(Author(authorId= null, email = "petros@gmail.com", firstName = "petros", lastName = "petrou") )
-        authorService.save(Author(authorId= null, email = "nikoleta@gmail.com", firstName = "nikoleta", lastName = "nikoletou") )
-        authorService.save(Author(authorId= null, email = "bunny@gmail.com", firstName = "bunny", lastName = "funny") )
+        authorService.save(Author(authorId= null, email = "petros@gmail.com", firstName = "Petros", lastName = "petrou") )
+        authorService.save(Author(authorId= null, email = "nikoleta@gmail.com", firstName = "Nikoleta", lastName = "Nikoletou") )
+        authorService.save(Author(authorId= null, email = "bunny@gmail.com", firstName = "Marios", lastName = "Papadopoulos") )
 
         val summary = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam gravida tincidunt sagittis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Phasellus quam magna, venenatis vitae nisi nec, suscipit blandit ante. Nam vel neque euismod, ullamcorper urna vitae, varius lorem. Ut gravida urna orci, nec vestibulum magna faucibus a. Duis sed elementum tortor, vel consectetur nibh. Pellentesque vel pretium enim, eget iaculis neque. In feugiat accumsan varius. Proin volutpat nisi id massa finibus, sed lacinia dolor ullamcorper. Etiam est odio, sollicitudin nec turpis ut, bibendum ultrices felis. Suspendisse blandit leo sed erat sodales ullamcorper. Donec massa mauris, egestas eget enim non, vehicula iaculis mauris. "
 
@@ -82,7 +80,7 @@ class TestService {
         libraryService.addLibrary(Library(null,"Idiotiki Vivliothiki Athinas",null,
         ),cityService.cityRepository?.findById(2)!!.orElse(null))
 
-        val hasBook1= hasBookService.addBook(1,1,0)
+        hasBookService.addBook(1,1,0)
         hasBookService.addBook(1,2,5)
         hasBookService.addBook(2,3,10)
         hasBookService.addBook(2,4,10)
@@ -100,6 +98,6 @@ class TestService {
 
 
         val borrows = Borrows (null,acc1!!, HasBook(1,null,null,null), LocalDate.now(),null)
-        val saved = borrowsService.save(borrows)
+        borrowsService.save(borrows)
     }
 }
