@@ -7,6 +7,7 @@
     <link th:href = "@{/css/modal.css}" rel="stylesheet">
     <link th:href = "@{/css/styled-table.css}" rel="stylesheet">
     <link th:href = "@{/css/navbar.css}" rel="stylesheet">
+    <link th:href = "@{/css/buttons.css}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
     <!--Fonts-->
     <link rel="preconnect" href="https://fonts.gstatic.com" />
@@ -36,19 +37,7 @@
         </tr>
         </tbody>
     </table>
-        <a th:href="@{/authors/authorsToWriteBook}" style="border: none;
-                        color: white;
-                        padding: 15px 32px;
-                        text-align: center;
-                        text-decoration: none;
-                        display: inline-block;
-                        font-size: 20px;
-                        border-radius: 12px;
-                        cursor: pointer;
-                        width:130px;
-                        background: linear-gradient(to right top, #65df84, #65dfc9);
-                        margin-left: 35em;
-                        margin-top: 2em;">
+        <a th:href="@{/authors/authorsToWriteBook}" class="new-entry-button" >
             New Entry</a>
     </section>
 </main>

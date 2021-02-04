@@ -94,3 +94,21 @@ h1.signup-header{
 .status {
     margin-bottom: 3rem;
 }
+
+
+.new-entry-button {
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    font-weight: bolder;
+    border-radius: 12px;
+    cursor: pointer;
+    width:130px;
+    background: linear-gradient(to right top, #65df84, #65dfc9);
+    margin-left: 75%;
+    margin-top: 2em;
+}
