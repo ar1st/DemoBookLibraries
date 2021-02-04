@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Sign Up</title>
-    <link th:href="@{/css/signup.css}" rel="stylesheet">
     <link th:href="@{/css/core.css}" rel="stylesheet">
+    <link th:href="@{/css/buttons.css}" rel="stylesheet">
     <link rel="shortcut icon" href="#">
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
@@ -37,25 +37,24 @@ $(document).ready(function(){
         <div class="dashboard">
             <div class="status">
                 <form action="#" th:action="@{/signup}" th:object="${registrationDetails}" method="post">
-                    <h1>Sign Up Form</h1>
-                        <h3>
+                    <h1 class="signup-header">SignUp Page</h1>
+                        <h3 style="margin-left:2.4em">
                             <label for="email">Email</label>:
-                            <input class="inputlabel" type="text" id="email" name="email" th:field="*{email}" autofocus="autofocus" />
-                            <label class="inputlabel2" for="password">Password</label>:
-                            <input class="inputlabel" type="password" id="password" name="password" th:field="*{password}"/>
+                            <input class="input-signup" type="text" id="email" name="email" th:field="*{email}" autofocus="autofocus" />
+                            <label class="label-margin" for="password">Password</label>:
+                            <input class="input-signup" type="password" id="password" name="password" th:field="*{password}"/>
                         </h3>
                             <br/>
                         <h3>
                             <label for="firstName">First Name</label>:
-                            <input class="inputlabel" type="text" id="firstName" name="firstName" th:field="*{firstName}" />
-                            <label class="inputlabel2" for="lastName">Last Name</label>:
-                            <input class="inputlabel" type="text" id="lastName" name="lastName" th:field="*{lastName}" />
+                            <input class="input-signup" type="text" id="firstName" name="firstName" th:field="*{firstName}" />
+                            <label class="label-margin" for="lastName">Last Name</label>:
+                            <input class="input-signup" type="text" id="lastName" name="lastName" th:field="*{lastName}" />
                         </h3>
-                        <p class="error" th:text="${error}"></p>
-                        <input class="resetButton" type="reset" value="Reset" />
-                        <input class="signButton" type="submit" value="Submit" />
-                            <br/>
-                        <input class="backButton" type="button" onclick="window.location='/';"  value="Back" />
+                    <div>
+                        <input class="back-button" type="button" onclick="window.location='/';"  value="Back" />
+                        <input class="sign-button" type="submit" value="Submit" />
+                    </div>
                 </form>
             </div>
         </div>

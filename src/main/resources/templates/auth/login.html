@@ -2,7 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <title>Login page</title>
-    <link th:href="@{/css/login.css}" rel="stylesheet">
     <link th:href="@{/css/core.css}" rel="stylesheet">
     <link th:href="@{/css/buttons.css}" rel="stylesheet">
     <link rel="shortcut icon" href="#">
@@ -39,15 +38,15 @@ $(document).ready(function(){
                     <div sec:authorize="isAnonymous()">
                         <form th:action="@{/perform_login}" method="post">
                             <h1 class="login-header">Login page</h1>
-                            <p class="error-login" th:text="${error}"></p>
+                            <p class="error" th:text="${error}"></p>
                             <h3>
                                 <label for="username">Username</label>:
-                                <input class="input-label" type="text" id="username" name="username" autofocus="autofocus" />
+                                <input class="input-login" type="text" id="username" name="username" autofocus="autofocus" />
                             </h3>
                                 <br/>
                             <h3>
                                 <label  for="password">Password</label>:
-                                <input  class="input-label" type="password" id="password" name="password" />
+                                <input  class="input-login" type="password" id="password" name="password" />
                             </h3>
                                  <br/>
                             <div style="margin-top: -1em">Don't have an account? Sign up <a th:href="@{/signup}" th:text="here."></a></div>
