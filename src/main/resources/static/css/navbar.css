@@ -1,50 +1,46 @@
-.navButton,
-.logOutButton{
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 18px;
-    font-weight:bold;
-    border-radius: 12px;
-    cursor: pointer;
-
-}
-
-.logoContainer{
+.logo-container {
     flex:1
 }
 
-.navButton {
-    background: linear-gradient(to right top, #65df84, #65dfc9);
-    margin-left: 30px;
-}
-
-.logoContainer,
-.logOutButton,
-nav{
-    display: flex;
-}
-
-.logo {
-    color: #2f7ea6;
-    margin: 5px;
-}
-
-.logOutContainer {
+.logout-container {
     align-content: flex-end;
     margin:5px;
     flex:1
 }
 
-.logOutButton {
-    background: linear-gradient(to right top, #ff6340, #65dfc9);
-    float:right;
-}
-
 nav {
     flex: 2;
     justify-content: space-around;
+}
+
+.logo-container,
+nav {
+    display: flex;
+}
+
+.logout-button,
+.nav-button {
+    border: none;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    font-weight:bold;
+    cursor:pointer;
+    border-radius: 0.5em;
+    padding: 12px;
+}
+
+.logout-button {
+    float: right;
+    background: linear-gradient(to right top, #6cdae0, #65dfc9);
+}
+
+.nav-button {
+    background: linear-gradient(to right top, #65df84, #65dfc9);
+}
+
+.logo {
+    color: #2f7ea6;
+    margin: 5px;
 }

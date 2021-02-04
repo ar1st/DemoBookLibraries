@@ -6,27 +6,27 @@
 </head>
 <body>
     <header th:fragment="navbar">
-         <a class="logoContainer" th:href="@{/main.html}" style="display:block;">
+         <a class="logo-container" th:href="@{/main.html}" style="display:block;">
              <i class="fas fa-book fa-3x logo"></i>
          </a>
         <nav>
-                <a class="navButton" th:href="@{/libraries/librariesToBorrowFrom}">Borrow </a>
+                <a type="button" class="nav-button" th:href="@{/libraries/librariesToBorrowFrom}">Borrow </a>
         </nav>
-        <div class="logOutContainer" >
-            <a class="logOutButton" th:href="@{/perform_logout}" >Logout</a>
+        <div class="logout-container" >
+            <a type="button" class="logout-button" th:href="@{/perform_logout}" >Logout</a>
         </div>
     </header>
 
     <header th:fragment="navbarLibrarian">
-        <a class="logoContainer" th:href="@{/main.html}" style="display:block;">
+        <a class="logo-container" th:href="@{/main.html}" style="display:block;">
             <i class="fas fa-book fa-3x logo"></i>
         </a>
         <nav>
-            <a class="navButton" th:href="@{/books/booksToAddToLibrary/libraries/{id}(id= ${#authentication.name})}">Add Book</a>
-            <a class="navButton" th:href="@{/authors/add}">Add Author</a>
+            <a class="nav-button" th:href="@{/books/booksToAddToLibrary/libraries/{id}(id= ${#authentication.name})}">Add Book</a>
+            <a class="nav-button" th:href="@{/authors/add}">Add Author</a>
         </nav>
-        <div class="logOutContainer" >
-            <a class="logOutButton" th:href="@{/perform_logout}" >Logout</a>
+        <div class="logout-container" >
+            <a class="logout-button" th:href="@{/perform_logout}" >Logout</a>
         </div>
     </header>
 
