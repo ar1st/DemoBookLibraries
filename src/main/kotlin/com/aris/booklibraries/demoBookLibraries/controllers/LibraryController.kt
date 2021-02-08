@@ -25,6 +25,4 @@ class LibraryController {
         model.addAttribute("libraryId",libraryId)
         return "libraries/library/books"
     }
-
-
 }

@@ -17,8 +17,8 @@
 <main>
     <header th:replace="fragments :: navbarLibrarian"></header>
     <section class="glass" style="display: flex;flex-direction: column" >
-        <h1>Who wrote it</h1>
         <table class="styled-table">
+            <caption>Who wrote it?</caption>
             <thead>
             <tr>
                 <th scope="col">Email</th>
@@ -32,7 +32,7 @@
                 <td th:text="${author.email}"></td>
                 <td th:text="${author.firstName}"></td>
                 <td th:text="${author.lastName}"></td>
-                <td ><a class="btn btn-primary" th:href="@{/books/add/writtenBy/{authorId}
+                <td ><a class="button-table" th:href="@{/books/add/writtenBy/{authorId}
                 (authorId= ${author.authorId})}">Choose</a></td>
             </tr>
             </tbody>

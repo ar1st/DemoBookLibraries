@@ -57,6 +57,7 @@ $(document).ready(function(){
         <header th:replace="fragments :: navbar"></header>
         <section class="glass">
             <table class="styled-table" >
+                <caption>My Books</caption>
                 <thead>
                 <tr style="text-align:center;">
                     <th scope="col">Title</th>
@@ -80,7 +81,7 @@ $(document).ready(function(){
                         <td th:text="${borrow.libraryName}"></td>
                         <td th:text="${borrow.cityName}"></td>
                         <td th:text="${borrow.borrowDate}"></td>
-                        <td><a th:href="@{/loggedUser/{username}/return/{hasBookId}
+                        <td><a class="button-table" th:href="@{/loggedUser/{username}/return/{hasBookId}
                            (username=${#authentication.name}, hasBookId = ${borrow.hasBookId})}">Yes</a></td>
                         <div th:replace="fragments :: modal"></div>
                     </tr>

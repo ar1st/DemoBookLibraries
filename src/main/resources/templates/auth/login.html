@@ -35,7 +35,7 @@ $(document).ready(function(){
         <section class="glass">
             <div class="dashboard">
                 <div class="status">
-                    <div sec:authorize="isAnonymous()">
+<!--                    <div sec:authorize="isAnonymous()">-->
                         <form th:action="@{/perform_login}" method="post">
                             <h1 class="login-header">Login page</h1>
                             <p class="error" th:text="${error}"></p>
@@ -53,7 +53,7 @@ $(document).ready(function(){
                             <input class="log-button" type="submit" value="Log in" />
                         </form>
                     </div>
-                </div>
+<!--                </div>-->
             </div>
         </section>
     </main>

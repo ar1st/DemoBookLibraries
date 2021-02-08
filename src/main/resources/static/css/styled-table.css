@@ -19,7 +19,27 @@
 }
 
 .styled-table td {
-    color: #426696;
+    color: #1a293e;
+}
+
+caption {
+    font-size:25px;
+    color: #1a293e;
+
+}
+
+.button-table {
+    border: none;
+    color: white;
+    padding: 0.3em 0.6em;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    background: linear-gradient(to right top, #65df84, #65dfc9);
+    font-weight: bold;
 }
 
 .styled-table tbody tr:nth-of-type(even) {

@@ -18,6 +18,7 @@
     <header th:replace="fragments :: navbarLibrarian"></header>
     <section class="glass">
     <table class="styled-table">
+        <caption>Add To Library</caption>
         <thead>
         <tr>
             <th scope="col">Title</th>
@@ -31,7 +32,7 @@
             <td th:text="${book.title}"></td>
             <td th:text="${book.author.lastName}"></td>
             <td th:text="${book.author.firstName}"></td>
-            <td ><a class="btn btn-primary" th:href="@{/books/{bookId}/addingToLibrary/libraries/{email}
+            <td ><a class="button-table" th:href="@{/books/{bookId}/addingToLibrary/libraries/{email}
             (bookId = ${book.bookId}, email=  ${#authentication.name} )}">Yes</a></td>
         </tr>
         </tbody>

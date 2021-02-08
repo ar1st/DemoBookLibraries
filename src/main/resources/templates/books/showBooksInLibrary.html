@@ -24,7 +24,7 @@
             <td th:text="${book.title}"></td>
             <td th:text="${book.author.lastName}"></td>
             <td th:text="${book.author.firstName}"></td>
-            <td ><a class="btn btn-primary" th:href="@{/books/{bookId}/removingFromLibrary/libraries/{libraryId}
+            <td ><a class="button-table" th:href="@{/books/{bookId}/removingFromLibrary/libraries/{libraryId}
             (bookId = ${book.bookId}, libraryId= ${#authentication.name})}">Yes</a></td>
         </tr>
         </tbody>

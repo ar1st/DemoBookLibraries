@@ -17,6 +17,23 @@
     <!--jQuery Modal -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
+    <script>
+        $(document).ready(function(){
+            $(".showModal").click(function(){
+                var  bookId = $(this).attr('id')
+              $.get("http://localhost:8080/books/" + bookId + "/details", function(data, status){
+                    $(".title").text(data.bookTitle)
+                    $(".summary-data").text(data.summary)
+                    $(".year").text("Year: " + data.publishedYear)
+                    $(".isbn").text("ISBN: " + data.isbn)
+                    $(".author").text("Author: " + data.authorFirstName + " " + data.authorLastName)
+              });
+            });
+
+            console.log("im ready");
+        });
+    </script>
 </head>
 <body>
 <script th:inline="javascript">
@@ -49,11 +66,12 @@ $(document).ready(function(){
                     </thead>
                     <tbody>
                     <tr th:if="${books} != null"  th:each="book : ${books.data}">
-                        <td th:text="${book.title}"></td>
+                        <td ><a href="#ex1" rel="modal:open" th:text="${book.title}" th:id="${book.bookId}"  class="showModal"></a></td>
                         <td th:text="${book.author.firstName} + ' ' + ${book.author.lastName}"></td>
                         <td th:text="${book.pages}"></td>
-                        <td ><a th:href="@{/books/{bookId}/removingFromLibrary/libraries/{email}
+                        <td ><a class="button-table" th:href="@{/books/{bookId}/removingFromLibrary/libraries/{email}
                 (bookId = ${book.bookId}, email= ${#authentication.name})}">Yes</a></td>
+                        <div th:replace="fragments :: modal"></div>
                     </tr>
                     </tbody>
 

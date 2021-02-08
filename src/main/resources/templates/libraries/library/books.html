@@ -40,6 +40,7 @@
     <header th:replace="fragments :: navbar"></header>
     <section class="glass">
         <table class="styled-table">
+            <caption>Choose Book</caption>
         <thead>
         <tr>
             <th scope="col">Title</th>
@@ -54,7 +55,7 @@
             <td th:text="${book.author.lastName}"></td>
             <td th:text="${book.author.firstName}"></td>
             <td>
-                <a  th:href="@{/loggedUser/{username}/books/{bookId}/libraries/{libraryId}
+                <a class="button-table" th:href="@{/loggedUser/{username}/books/{bookId}/libraries/{libraryId}
                     (username=${#authentication.name}, bookId = ${book.bookId}, libraryId = ${libraryId} )}">
                 Borrow</a>
             </td>
