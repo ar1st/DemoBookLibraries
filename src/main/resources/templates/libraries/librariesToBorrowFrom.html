@@ -29,7 +29,7 @@
             <tr th:each="library : ${libraries.data}" >
                 <td th:text="${library.name}"></td>
                 <td th:text="${library.city.name}"></td>
-                <td ><a th:href="@{/libraries/{id}(id= ${library.libraryId})}">Choose</a></td>
+                <td ><a class="button-table" th:href="@{/libraries/{id}(id= ${library.libraryId})}">Choose</a></td>
             </tr>
             </tbody>
         </table>
