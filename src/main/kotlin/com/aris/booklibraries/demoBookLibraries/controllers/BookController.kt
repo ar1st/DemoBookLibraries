@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
@@ -41,10 +42,11 @@ class BookController {
 
     //writtenBy = author
     @PostMapping("/books/add/writtenBy/{authorId}")
-    fun submitBook(@ModelAttribute("book") book: Book, model: Model,@PathVariable("authorId") authorId: Long): String {
-        val bookToAdd = Book(null,book.title, authorExecutor.getAuthorById(authorId,null).data,null,null,null,null)
+    fun submitBook(@ModelAttribute("book") book: Book, model: Model,
+                   @PathVariable("authorId") authorId: Long): String {
+        val bookToAdd = Book(null,book.title, authorExecutor.getAuthorById(authorId,null).data,book.summary,book.ISBN,null,null)
         val response =  bookExecutor.createBook(bookToAdd,null)
-        model.addAttribute("message",response.message)
+        model.addAttribute("message","Book added.")
 
         val email = SecurityContextHolder.getContext().authentication.name
         val librarian = librarianService.findLibrarianByAccountEmail(email)

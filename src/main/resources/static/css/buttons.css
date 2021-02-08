@@ -16,7 +16,8 @@
 }
 
 h1.login-header,
-h1.signup-header{
+h1.signup-header,
+h1.add-header{
     color: #426696;
     font-weight: 600;
     font-size: 55px;
@@ -24,7 +25,8 @@ h1.signup-header{
     margin-bottom: 1em;
 }
 
-.input-login {
+.input-login,
+.input-add{
     background: linear-gradient(
             to right,
             #c6e3e7,
@@ -112,3 +114,31 @@ h1.signup-header{
     margin-left: 75%;
     margin-top: 2em;
 }
+
+/*                                */
+
+.add-button {
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    width:130px;
+    background: linear-gradient(to right top, #65df84, #65dfc9);
+    margin-left: 2em
+}
+
+h3.h3-add {
+    margin: 1.5em
+}
+
+
+
+
+
+
+

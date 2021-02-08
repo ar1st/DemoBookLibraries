@@ -53,11 +53,12 @@ class TestService {
 //        userServiceOld.save(UserOld(userId= null, email = "elina@gmail.com","123", firstName = "elina", lastName = "oikonomou"))
 //        userServiceOld.save(UserOld(userId= null, email = "aris", "123", firstName = "aris", lastName = "tsach"))
 
-        authorService.save(Author(authorId= null, email = "petros@gmail.com", firstName = "Petros", lastName = "petrou") )
+        authorService.save(Author(authorId= null, email = "petros@gmail.com", firstName = "Petros", lastName = "Petrou") )
         authorService.save(Author(authorId= null, email = "nikoleta@gmail.com", firstName = "Nikoleta", lastName = "Nikoletou") )
         authorService.save(Author(authorId= null, email = "bunny@gmail.com", firstName = "Marios", lastName = "Papadopoulos") )
 
-        val summary = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam gravida tincidunt sagittis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Phasellus quam magna, venenatis vitae nisi nec, suscipit blandit ante. Nam vel neque euismod, ullamcorper urna vitae, varius lorem. Ut gravida urna orci, nec vestibulum magna faucibus a. Duis sed elementum tortor, vel consectetur nibh. Pellentesque vel pretium enim, eget iaculis neque. In feugiat accumsan varius. Proin volutpat nisi id massa finibus, sed lacinia dolor ullamcorper. Etiam est odio, sollicitudin nec turpis ut, bibendum ultrices felis. Suspendisse blandit leo sed erat sodales ullamcorper. Donec massa mauris, egestas eget enim non, vehicula iaculis mauris. "
+        val summary = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam gravida tincidunt sagittis. Interdum et malesuada fames ac ante ipsum primis in faucibus." +
+                " Phasellus quam magna, venenatis vitae nisi nec, suscipit blandit ante. Nam vel neque euismod, ullamcorper urna vitae, varius lorem. Ut gravida urna orci, nec vestibulum magna faucibus a. Duis sed elementum tortor, vel consectetur nibh. Pellentesque vel pretium enim, eget iaculis neque. In feugiat accumsan varius. Proin volutpat nisi id massa finibus, sed lacinia dolor ullamcorper. Etiam est odio, sollicitudin nec turpis ut, bibendum ultrices felis. Suspendisse blandit leo sed erat sodales ullamcorper. Donec massa mauris, egestas eget enim non, vehicula iaculis mauris. "
 
         bookService.addBook(Book(null,"Avatar",null,summary,"111-1-11-111111-1",2018,222),authorService.findById(1)!!)
         bookService.addBook(Book(null,"Star Wars",null,summary,"111-1-22-111111-2",2019,222),authorService.findById(1)!!)

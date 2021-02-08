@@ -7,6 +7,7 @@
     <link th:href = "@{/css/modal.css}" rel="stylesheet">
     <link th:href = "@{/css/styled-table.css}" rel="stylesheet">
     <link th:href = "@{/css/navbar.css}" rel="stylesheet">
+    <link th:href = "@{/css/add.css}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
     <!--Fonts-->
     <link rel="preconnect" href="https://fonts.gstatic.com" />
@@ -20,7 +21,8 @@
                 <div class="status">
                     <form action="#" th:action="@{/books/add/writtenBy/{authorId}
                             (authorId= ${author.data.authorId})}" th:object="${book}" method="post">
-
+<div>
+                        <h1 class="login-header">Add Book</h1>
                         <h3>
                             <label for="title">Title</label>:
                             <input class="inputlabel" type="text" id="title" name="title" th:field="*{title}" autofocus="autofocus" />
@@ -41,9 +43,10 @@
                             <label for="summary">Summary</label>:
                             <input class="inputlabel" type="text" id="summary" name="summary" th:field="*{summary}" />
                         </h3>
+    <input class="resetButton" type="reset" value="Reset" />
 
-                        <input class="navButton" type="submit" value="Submit" />
-                        <input class="navButton" type="reset" value="Reset" />
+                        <input class="signButton" type="submit" value="Submit" />
+</div>
                     </form>
                 </div>
             </div>
