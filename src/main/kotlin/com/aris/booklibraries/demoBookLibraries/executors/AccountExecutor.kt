@@ -82,7 +82,7 @@ class AccountExecutor {
             val saved = borrowsService.save(borrows)
             return ApiResponse(data = saved, message = "Book borrowed.")
         }
-        return ApiResponse(data = null, message = "The book is already borrowed by this user.")
+        return ApiResponse(data = null, message = "You already have this book.")
     }
 
     fun returnBook(data: HasBook,
