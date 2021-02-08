@@ -63,8 +63,8 @@ class UserController {
                    model: Model): String{
         val account = accountRepository.findByEmail(username)
         val hasBook = hasBookService.getById( hasBookId.toLong() )
-        val p = accountExecutor.returnBook(hasBook!!,null,account?.email!!)
-        model.addAttribute("message",p.message)
+        val response = accountExecutor.returnBook(hasBook!!,null,account?.email!!)
+        model.addAttribute("message",response.message)
 
         val listToReturn = bookExecutor.findBorrowedBooksByUser(username)
         model.addAttribute("borrows",if (listToReturn.size == 0) null else listToReturn)

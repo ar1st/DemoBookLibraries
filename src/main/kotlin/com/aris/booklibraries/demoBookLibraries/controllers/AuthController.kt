@@ -45,9 +45,9 @@ class AuthController {
 
     @RequestMapping("signup/confirm")
     fun confirm(@RequestParam("token") token: String,model: Model): String? {
-        val p = registrationExecutor.confirmToken(token)
-        if ( p.data == null) {
-            model.addAttribute("message",p.message)
+        val token = registrationExecutor.confirmToken(token)
+        if ( token.data == null) {
+            model.addAttribute("message",token.message)
         } else {
             model.addAttribute("message", "You can login now!")
         }

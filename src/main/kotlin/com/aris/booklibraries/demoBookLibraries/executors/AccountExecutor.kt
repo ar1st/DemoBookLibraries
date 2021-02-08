@@ -80,7 +80,7 @@ class AccountExecutor {
 
             val borrows = Borrows (null,accountToBorrow, bookExistsInLibrary, LocalDate.now(),null)
             val saved = borrowsService.save(borrows)
-            return ApiResponse(data = saved, message = "OK")
+            return ApiResponse(data = saved, message = "Book borrowed.")
         }
         return ApiResponse(data = null, message = "The book is already borrowed by this user.")
     }
@@ -98,7 +98,7 @@ class AccountExecutor {
 
         borrowsService.returnBook(borrows.borrowsId!!, LocalDate.of(2020,2,2))
         hasBookService.addQuantityByOne(data.library?.libraryId!!,data.book?.bookId!!)
-        return ApiResponse(data = null, message = "OK")
+        return ApiResponse(data = null, message = "Book returned.")
     }
 
     fun enableAccount(email: String?) {

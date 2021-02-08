@@ -71,7 +71,7 @@ class BookExecutor {
         return if (data.author != null) {
             val createdBook = bookService.addBook(bookData, data.author!!)
             response?.status = HttpStatus.ACCEPTED.value()
-            ApiResponse(data = createdBook, message = "OK")
+            ApiResponse(data = createdBook, message = "Book created.")
 
         } else {
             response?.status = HttpStatus.BAD_REQUEST.value()

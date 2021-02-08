@@ -52,7 +52,7 @@ class AuthorExecutor {
         }
 
         response?.status = HttpStatus.ACCEPTED.value()
-        return ApiResponse( data = authorService.save(data), message = "OK" )
+        return ApiResponse( data = authorService.save(data), message = "Author added." )
     }
 
     fun updateAuthor( response: HttpServletResponse,
@@ -69,7 +69,7 @@ class AuthorExecutor {
         }
 
         response.status = HttpStatus.ACCEPTED.value()
-        return ApiResponse(data = authorService.save(data), message = "OK" )
+        return ApiResponse(data = authorService.save(data), message = "Author updated." )
     }
 
     fun partiallyUpdateAuthor (response: HttpServletResponse,
